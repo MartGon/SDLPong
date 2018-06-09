@@ -4,15 +4,33 @@
     <Filter Include="MainGame">
       <UniqueIdentifier>{dcc6039e-03ec-47ab-9acd-d080807b5a20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{30953f84-068b-4075-aad4-ec43c8ad1acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{08fbd0b3-588a-4af2-b39c-879cc936389e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainGame\MainGameLoop.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
+    <ClCompile Include="MainGame\Resources\Texture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame\MainGameLoop.h">
       <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame\Resources\Texture.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

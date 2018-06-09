@@ -20,9 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainGame\MainGameLoop.cpp" />
+    <ClCompile Include="MainGame\Resources\Texture.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame\MainGameLoop.h" />
+    <ClInclude Include="MainGame\Resources\Texture.h" />
+    <ClInclude Include="Player\Player.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

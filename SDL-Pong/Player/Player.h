@@ -1,13 +1,13 @@
 #pragma once
 #include "../MainGame/Resources/Texture.h"
+#include "../GameObject.h"
 
-class Player{
+class Player : public GameObject{
 
 public:
+	Player();
 	Player(Texture texture);
-
-	// Sprite
-	Texture texture;
+	~Player();
 
 	// Movement
 	enum MoveDirection
@@ -16,17 +16,7 @@ public:
 		MOVE_DOWN
 	};
 
-	// Position
-
-	int xPos;
-	int yPos;
-
-	// Movement
-
-	int speed = 5;
-
 	// Methods
 
 	void move(MoveDirection direction);
-	void updatePosition();
 };

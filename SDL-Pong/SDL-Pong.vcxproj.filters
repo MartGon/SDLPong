@@ -10,6 +10,9 @@
     <Filter Include="Player">
       <UniqueIdentifier>{08fbd0b3-588a-4af2-b39c-879cc936389e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Ball">
+      <UniqueIdentifier>{f1d1042f-7230-4c7b-a735-f7ee114df185}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainGame\MainGameLoop.cpp">
@@ -21,6 +24,10 @@
     <ClCompile Include="Player\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Ball\Ball.cpp">
+      <Filter>Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame\MainGameLoop.h">
@@ -32,5 +39,9 @@
     <ClInclude Include="Player\Player.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Ball\Ball.h">
+      <Filter>Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h" />
   </ItemGroup>
 </Project>

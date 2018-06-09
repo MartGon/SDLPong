@@ -59,6 +59,17 @@ int main(int argc, char* args[])
 		playerTwo.xPos = WINDOW_WIDTH - 20 - playerTexture.mWidth;
 		playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTexture.mHeight / 2;
 
+		// Load ball sprite
+
+		const char* ballPath = "PongBall.png";
+		Texture ballTexture(ballPath, renderer);
+
+		Ball ball(ballTexture);
+		ball.xPos = WINDOW_WIDTH / 2 - ballTexture.mWidth / 2;
+		ball.yPos = WINDOW_HEIGHT / 2 - ballTexture.mHeight / 2;
+		ball.player = &player;
+		ball.playerTwo = &playerTwo;
+
 		SDL_Event e;
 
 		bool quit = false;
@@ -72,6 +83,13 @@ int main(int argc, char* args[])
 				if (e.type == SDL_QUIT)
 				{
 					quit = true;
+				}
+				else if (e.type == SDL_KEYDOWN)
+				{
+					if (e.key.keysym.sym == SDLK_n)
+					{
+						ball.move();
+					}
 				}
 			}
 
@@ -95,9 +113,10 @@ int main(int argc, char* args[])
 			}
 
 			backgroundTexture.render(0, 0);
-			//playerTexture.render(20, WINDOW_HEIGHT/2 - playerTexture.mHeight/2);
 			player.updatePosition();
 			playerTwo.updatePosition();
+			ball.move();
+			ball.updatePosition();
 			SDL_RenderPresent(renderer);
 		}
 	}

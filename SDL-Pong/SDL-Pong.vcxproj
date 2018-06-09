@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball\Ball.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MainGame\MainGameLoop.cpp" />
     <ClCompile Include="MainGame\Resources\Texture.cpp" />
     <ClCompile Include="Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball\Ball.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="MainGame\MainGameLoop.h" />
     <ClInclude Include="MainGame\Resources\Texture.h" />
     <ClInclude Include="Player\Player.h" />

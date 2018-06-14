@@ -2,6 +2,7 @@
 #include "../MainGame/Resources/Texture.h"
 #include "../Player/Player.h"
 #include "../Vector2.h"
+#include "..\MainGame\MainGameLoop.h"
 #pragma once
 
 class Ball : public GameObject
@@ -15,6 +16,9 @@ public:
 	// Players
 	Player *player;
 	Player *playerTwo;
+	// booles
+	bool bHasCollidedWithPlayer = false;
+	bool bHasCollidedWithPlayerTwo = false;
 
 	// Methods
 
@@ -35,7 +39,7 @@ public:
 	void checkCollisions();
 	WallCollision checkCollisionWithWalls();
 	bool checkCollisionWithPlayer(Player player);
-	void fixPositionAfterCollision(Vector2 offset);
+	void modifyDirectionFromCollisionWithPlayer(Player player);
 
 
 private:

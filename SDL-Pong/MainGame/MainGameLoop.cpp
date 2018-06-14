@@ -1,5 +1,7 @@
 #include "MainGameLoop.h"
-
+#include "../Ball/Ball.h"
+const int WINDOW_WIDTH = 640;
+const int WINDOW_HEIGHT = 480;
 
 bool initGameWindow(SDL_Window* &window, SDL_Renderer* &renderer)
 {
@@ -121,10 +123,20 @@ int main(int argc, char* args[])
 			// Render Player
 			player.updatePosition();
 			playerTwo.updatePosition();
+			//player.drawCollisionBoundaries(renderer);
+			//playerTwo.drawCollisionBoundaries(renderer);
+
+			// DEbug
+			Vector2 playerCentre = player.getCollisionCenter();
+			//SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);
 
 			// Render and move ball
 			ball.move();
 			ball.updatePosition();
+			//ball.drawCollisionBoundaries(renderer);
+
+			Vector2 ballCentre = ball.getCollisionCenter();
+			//SDL_RenderDrawLine(renderer, ball.boundaries.left, ballCentre.y, ball.boundaries.right, ballCentre.y);
 
 			// Render buffer
 			SDL_RenderPresent(renderer);

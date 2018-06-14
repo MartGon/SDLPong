@@ -1,5 +1,6 @@
 #pragma once
 #include "MainGame/Resources/Texture.h"
+#include "Vector2.h"
 
 class GameObject
 {
@@ -24,7 +25,7 @@ public:
 
 	// Boundaries
 
-	struct BallBoundaries
+	struct ColliderBoundaries
 	{
 	public:
 		int left;
@@ -33,7 +34,7 @@ public:
 		int bottom;
 	};
 
-	BallBoundaries boundaries;
+	ColliderBoundaries boundaries;
 
 	// Methods
 
@@ -42,5 +43,7 @@ public:
 
 	// Collisions
 	void computeBoundaries();
+	Vector2 getCollisionCenter();
+	void drawCollisionBoundaries(SDL_Renderer *renderer);
 };
 

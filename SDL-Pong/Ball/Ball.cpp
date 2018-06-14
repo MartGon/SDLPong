@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include <math.h>
 
 Ball::Ball()
 {
@@ -30,6 +31,9 @@ void Ball::move()
 
 void Ball::checkCollisions()
 {
+	bool collisionWithPlayer = checkCollisionWithPlayer(*player);
+	bool collisionWithPlayerTwo = checkCollisionWithPlayer(*playerTwo);
+
 	if (WallCollision collision = checkCollisionWithWalls())
 	{
 		switch (collision)
@@ -43,30 +47,27 @@ void Ball::checkCollisions()
 			case RIGTH_WALL_COLLISION:
 				direction.x = -direction.x;
 				// Hacer cosas con la puntuación
+				xPos = WINDOW_WIDTH / 2 - texture.mWidth / 2;
+				yPos = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
 				break;
 
 			default:
 				break;
 		}
 	}
-	// TODO - Limpiar esto
-	else if (checkCollisionWithPlayer(*player))
+	else if (collisionWithPlayer && !bHasCollidedWithPlayer)
 	{
-		direction.x = -direction.x;
-		float xDiff = (*player).boundaries.right - boundaries.left;
-		float yDiff = 0;
-		Vector2 offset(xDiff, yDiff);
-		fixPositionAfterCollision(offset);
+		bHasCollidedWithPlayer = true;
+		modifyDirectionFromCollisionWithPlayer(*player);
 	}
-	else if (checkCollisionWithPlayer(*playerTwo))
+	else if (collisionWithPlayerTwo && !bHasCollidedWithPlayerTwo)
 	{
-		float xDiff = (*playerTwo).boundaries.left - boundaries.right;
-		float yDiff = 0;
-		Vector2 offset(xDiff, yDiff);
-		fixPositionAfterCollision(offset);
+		bHasCollidedWithPlayerTwo = true;
+		modifyDirectionFromCollisionWithPlayer(*playerTwo);
+	}
 
-		direction.x = -direction.x;
-	}
+	bHasCollidedWithPlayer = collisionWithPlayer;
+	bHasCollidedWithPlayerTwo = collisionWithPlayerTwo;
 }
 
 bool Ball::checkCollisionWithPlayer(Player player)
@@ -110,14 +111,24 @@ Ball::WallCollision Ball::checkCollisionWithWalls()
 	return collision;
 }
 
-void Ball::fixPositionAfterCollision(Vector2 offset)
-{
-	xPos += offset.x;
-	yPos += offset.y;
-}
 
 void Ball::setDirection(Vector2 vector2)
 {
 	vector2.normalize();
 	direction = vector2;
+}
+
+void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
+{
+	Vector2 ballCenter = getCollisionCenter();
+	Vector2 padCenter = player.getCollisionCenter();
+
+	int ballRelativeYPos = ballCenter.y - padCenter.y;
+	float playerMaxValue = (player.mColliderBox.h / 2) + mColliderBox.h / 2;
+	float centerRate = ballRelativeYPos / playerMaxValue;
+
+	direction.x = -direction.x;
+	direction.y = centerRate;
+
+	direction.normalize();
 }

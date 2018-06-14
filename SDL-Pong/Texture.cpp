@@ -54,6 +54,7 @@ Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 
 Texture::~Texture()
 {
+	//free();
 }
 
 // Methods
@@ -62,4 +63,15 @@ void Texture::render(int x, int y)
 {
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 	SDL_RenderCopy(mRenderer, mTexture, NULL, &renderQuad);
+}
+
+void Texture::free()
+{
+	if (mTexture)
+	{
+		SDL_DestroyTexture(mTexture);
+		mTexture = NULL;
+		mWidth = 0;
+		mHeight = 0;
+	}
 }

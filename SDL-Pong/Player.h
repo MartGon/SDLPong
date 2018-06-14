@@ -1,6 +1,6 @@
 #pragma once
-#include "../MainGame/Resources/Texture.h"
-#include "../GameObject.h"
+#include "Texture.h"
+#include "GameObject.h"
 
 class Player : public GameObject{
 

@@ -1,5 +1,6 @@
 #include "MainGameLoop.h"
-#include "../Ball/Ball.h"
+#include "Ball.h"
+
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 
@@ -63,7 +64,6 @@ int main(int argc, char* args[])
 		playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTexture.mHeight / 2;
 
 		// Load ball sprite
-
 		const char* ballPath = "PongBall.png";
 		Texture ballTexture(ballPath, renderer);
 
@@ -88,13 +88,6 @@ int main(int argc, char* args[])
 				if (e.type == SDL_QUIT)
 				{
 					quit = true;
-				}
-				else if (e.type == SDL_KEYDOWN)
-				{
-					if (e.key.keysym.sym == SDLK_n)
-					{
-						ball.move();
-					}
 				}
 			}
 
@@ -141,7 +134,25 @@ int main(int argc, char* args[])
 			// Render buffer
 			SDL_RenderPresent(renderer);
 		}
+
+
 	}
 
 	return 0;
+}
+
+void closeGame()
+{
+	// Free all textures
+
+	/*Destroy window	
+	SDL_DestroyRenderer(*renderer);
+	SDL_DestroyWindow(gWindow);
+	gWindow = NULL;
+	gRenderer = NULL;
+	*/
+
+	//Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
 }

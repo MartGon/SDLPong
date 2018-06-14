@@ -24,5 +24,6 @@ public:
 	// Methods
 
 	void render(int x, int y);
+	void free();
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "MainGame/Resources/Texture.h"
+#include "Texture.h"
 #include "Vector2.h"
 
 class GameObject
@@ -24,7 +24,6 @@ public:
 	SDL_Rect mColliderBox;
 
 	// Boundaries
-
 	struct ColliderBoundaries
 	{
 	public:

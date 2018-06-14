@@ -1,8 +1,8 @@
-#include "../GameObject.h"
-#include "../MainGame/Resources/Texture.h"
-#include "../Player/Player.h"
-#include "../Vector2.h"
-#include "..\MainGame\MainGameLoop.h"
+#include "GameObject.h"
+#include "Texture.h"
+#include "Player.h"
+#include "Vector2.h"
+#include "MainGameLoop.h"
 #pragma once
 
 class Ball : public GameObject

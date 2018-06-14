@@ -111,7 +111,6 @@ Ball::WallCollision Ball::checkCollisionWithWalls()
 	return collision;
 }
 
-
 void Ball::setDirection(Vector2 vector2)
 {
 	vector2.normalize();

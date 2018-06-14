@@ -19,19 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ball\Ball.cpp" />
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="MainGame\MainGameLoop.cpp" />
-    <ClCompile Include="MainGame\Resources\Texture.cpp" />
-    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="MainGameLoop.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball\Ball.h" />
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="MainGame\MainGameLoop.h" />
-    <ClInclude Include="MainGame\Resources\Texture.h" />
-    <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="MainGameLoop.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

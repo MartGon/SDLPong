@@ -22,8 +22,25 @@ public:
 	// Collider 
 	SDL_Rect mColliderBox;
 
+	// Boundaries
+
+	struct BallBoundaries
+	{
+	public:
+		int left;
+		int right;
+		int top;
+		int bottom;
+	};
+
+	BallBoundaries boundaries;
+
 	// Methods
 
+	// Movement
 	void updatePosition();
+
+	// Collisions
+	void computeBoundaries();
 };
 

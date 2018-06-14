@@ -1,5 +1,6 @@
 #include "MainGameLoop.h"
 
+
 bool initGameWindow(SDL_Window* &window, SDL_Renderer* &renderer)
 {
 	if (SDL_Init(SDL_INIT_VIDEO))
@@ -67,6 +68,8 @@ int main(int argc, char* args[])
 		Ball ball(ballTexture);
 		ball.xPos = WINDOW_WIDTH / 2 - ballTexture.mWidth / 2;
 		ball.yPos = WINDOW_HEIGHT / 2 - ballTexture.mHeight / 2;
+		ball.setDirection(Vector2(1, 1));
+
 		ball.player = &player;
 		ball.playerTwo = &playerTwo;
 
@@ -112,11 +115,18 @@ int main(int argc, char* args[])
 				playerTwo.move(player.MOVE_DOWN);
 			}
 
+			// Render background
 			backgroundTexture.render(0, 0);
+
+			// Render Player
 			player.updatePosition();
 			playerTwo.updatePosition();
+
+			// Render and move ball
 			ball.move();
 			ball.updatePosition();
+
+			// Render buffer
 			SDL_RenderPresent(renderer);
 		}
 	}

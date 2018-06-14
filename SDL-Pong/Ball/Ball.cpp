@@ -7,7 +7,7 @@ Ball::Ball()
 Ball::Ball(Texture texture)
 {
 	this->texture = texture;
-	speed = 10;
+	speed = 8;
 
 	mColliderBox.w = 42;
 	mColliderBox.h = 42;
@@ -21,45 +21,103 @@ Ball::~Ball()
 
 void Ball::move()
 {
-	if(xPos > -texture.mWidth)
-		xPos -= speed;
+	// check collisions
+	checkCollisions();
 
-	if (checkCollisionWithPlayer(*player) || checkCollisionWithPlayer(*playerTwo))
-		speed = -speed;
-	else
-		return;
+	xPos += (direction.x * speed);
+	yPos += (direction.y * speed);
+}
+
+void Ball::checkCollisions()
+{
+	if (WallCollision collision = checkCollisionWithWalls())
+	{
+		switch (collision)
+		{
+			case TOP_WALL_COLLISION:
+			case BOTTOM_WALL_COLLISION:
+				direction.y = -direction.y;
+				break;
+
+			case LEFT_WALL_COLLISION:
+			case RIGTH_WALL_COLLISION:
+				direction.x = -direction.x;
+				// Hacer cosas con la puntuación
+				break;
+
+			default:
+				break;
+		}
+	}
+	// TODO - Limpiar esto
+	else if (checkCollisionWithPlayer(*player))
+	{
+		direction.x = -direction.x;
+		float xDiff = (*player).boundaries.right - boundaries.left;
+		float yDiff = 0;
+		Vector2 offset(xDiff, yDiff);
+		fixPositionAfterCollision(offset);
+	}
+	else if (checkCollisionWithPlayer(*playerTwo))
+	{
+		float xDiff = (*playerTwo).boundaries.left - boundaries.right;
+		float yDiff = 0;
+		Vector2 offset(xDiff, yDiff);
+		fixPositionAfterCollision(offset);
+
+		direction.x = -direction.x;
+	}
 }
 
 bool Ball::checkCollisionWithPlayer(Player player)
 {
-	printf("Comprobando colisiones\n");
-	int leftB, leftP;
-	int rightB, rightP;
-	int topB, topP;
-	int bottomB, bottomP;
-
-	leftB = xPos;
-	rightB = xPos + mColliderBox.w;
-	topB = yPos;
-	bottomB = yPos + mColliderBox.h;
-
-	printf("Leftb %i rigthb %i", leftB, rightB);
-
-	leftP = player.xPos;
-	rightP = player.xPos + player.mColliderBox.w;
-	topP = player.yPos;
-	bottomP = player.yPos + player.mColliderBox.h;
-
-	printf("LeftP %i rigthP %i", leftP, rightP);
-
-	if (rightB <= leftP)
+	
+	if (boundaries.right <= player.boundaries.left)
 		return false;
-	if (leftB >= rightP)
+
+	if (boundaries.left >= player.boundaries.right)
 		return false;
-	if (bottomB <= topP)
+
+	if (boundaries.bottom <= player.boundaries.top)
 		return false;
-	if (topB >= bottomP)
+
+	if (boundaries.top >= player.boundaries.bottom)
 		return false;
 
 	return true;
+}
+
+Ball::WallCollision Ball::checkCollisionWithWalls()
+{
+	WallCollision collision = NONE_WALL_COLLISION;
+
+	if (boundaries.top <= 0)
+		collision = TOP_WALL_COLLISION;
+
+	// Window Width
+	if (boundaries.bottom >= 480)
+		collision = BOTTOM_WALL_COLLISION;
+
+	// Window height
+	if (boundaries.right >= 640)
+		collision = RIGTH_WALL_COLLISION;
+
+	if (boundaries.left <= 0)
+		collision = LEFT_WALL_COLLISION;
+
+	//printf("La colision fue %i\n", collision);
+
+	return collision;
+}
+
+void Ball::fixPositionAfterCollision(Vector2 offset)
+{
+	xPos += offset.x;
+	yPos += offset.y;
+}
+
+void Ball::setDirection(Vector2 vector2)
+{
+	vector2.normalize();
+	direction = vector2;
 }

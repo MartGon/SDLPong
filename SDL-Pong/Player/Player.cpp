@@ -21,7 +21,6 @@ Player::~Player()
 
 }
 
-
 // Methods
 
 void Player::move(Player::MoveDirection direction) 

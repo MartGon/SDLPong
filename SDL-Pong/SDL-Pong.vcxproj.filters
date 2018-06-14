@@ -28,6 +28,7 @@
       <Filter>Ball</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame\MainGameLoop.h">
@@ -43,5 +44,6 @@
       <Filter>Ball</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
 </Project>

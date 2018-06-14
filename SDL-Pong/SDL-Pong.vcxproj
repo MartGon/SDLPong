@@ -24,6 +24,7 @@
     <ClCompile Include="MainGame\MainGameLoop.cpp" />
     <ClCompile Include="MainGame\Resources\Texture.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball\Ball.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="MainGame\MainGameLoop.h" />
     <ClInclude Include="MainGame\Resources\Texture.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

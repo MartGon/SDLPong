@@ -7,13 +7,9 @@ Player::Player()
 
 }
 
-Player::Player(Texture texture)
+Player::Player(Texture texture) : GameObject(texture)
 {
-	this->texture = texture;
 	speed = 5;
-
-	mColliderBox.w = texture.mWidth;
-	mColliderBox.h = texture.mHeight;
 }
 
 Player::~Player()

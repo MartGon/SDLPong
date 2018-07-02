@@ -1,13 +1,14 @@
 #include "Ball.h"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 Ball::Ball()
 {
 }
 
-Ball::Ball(Texture texture)
+Ball::Ball(Texture texture) : GameObject(texture)
 {
-	this->texture = texture;
 	speed = 8;
 
 	mColliderBox.w = 42;
@@ -45,10 +46,7 @@ void Ball::checkCollisions()
 
 			case LEFT_WALL_COLLISION:
 			case RIGTH_WALL_COLLISION:
-				direction.x = -direction.x;
-				// Hacer cosas con la puntuación
-				xPos = WINDOW_WIDTH / 2 - texture.mWidth / 2;
-				yPos = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
+				reset();
 				break;
 
 			default:
@@ -95,12 +93,12 @@ Ball::WallCollision Ball::checkCollisionWithWalls()
 	if (boundaries.top <= 0)
 		collision = TOP_WALL_COLLISION;
 
-	// Window Width
-	if (boundaries.bottom >= 480)
+	// Window Height
+	if (boundaries.bottom >= WINDOW_HEIGHT)
 		collision = BOTTOM_WALL_COLLISION;
 
-	// Window height
-	if (boundaries.right >= 640)
+	// Window Width
+	if (boundaries.right >= WINDOW_WIDTH)
 		collision = RIGTH_WALL_COLLISION;
 
 	if (boundaries.left <= 0)
@@ -130,4 +128,31 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	direction.y = centerRate;
 
 	direction.normalize();
+}
+
+void Ball::reset()
+{
+	//  Reset Speed
+	speed = 8;
+
+	// Set on the center
+	xPos = WINDOW_WIDTH / 2 - texture.mWidth / 2;
+	yPos = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
+
+	// Randomize direction
+	srand(time(NULL));
+	int x = rand() % 100 - 50;
+	int y = rand() % 100 - 50;
+	Vector2 direction(x, y);
+	direction.normalize();
+
+	printf("La direcsión fue x= %f e y = %f\n", direction.x, direction.y);
+
+	if (1 - fabs(direction.y) < 0.2 && fabs(direction.x) < 0.2)
+	{
+		direction.y = 0.5;
+		direction.x = 0.5;
+		direction.normalize();
+	}
+	setDirection(direction);
 }

@@ -1,5 +1,6 @@
 #include "MainGameLoop.h"
-#include "Ball.h"
+#include "MainMenu.h"
+#include "SceneManager.h"
 
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
@@ -47,37 +48,13 @@ int main(int argc, char* args[])
 	}
 	else
 	{
-		// Load background
-		const char* backgroundPath = "PongBackGround.png";
-		Texture backgroundTexture(backgroundPath, renderer);
-
-		// Load player sprite
-		const char* playerPath = "Player.png";
-		Texture playerTexture(playerPath, renderer);
-
-		Player player(playerTexture);
-		player.xPos = 20;
-		player.yPos = WINDOW_HEIGHT / 2 - playerTexture.mHeight / 2;
-
-		Player playerTwo(playerTexture);
-		playerTwo.xPos = WINDOW_WIDTH - 20 - playerTexture.mWidth;
-		playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTexture.mHeight / 2;
-
-		// Load ball sprite
-		const char* ballPath = "PongBall.png";
-		Texture ballTexture(ballPath, renderer);
-
-		Ball ball(ballTexture);
-		ball.xPos = WINDOW_WIDTH / 2 - ballTexture.mWidth / 2;
-		ball.yPos = WINDOW_HEIGHT / 2 - ballTexture.mHeight / 2;
-		ball.setDirection(Vector2(1, 1));
-
-		ball.player = &player;
-		ball.playerTwo = &playerTwo;
+		// Game initialization
+		Scene *scene = new MainMenu(renderer);
+		SceneManager::loadScene(*scene);
 
 		SDL_Event e;
-
 		bool quit = false;
+
 		//While application is running
 		while (!quit)
 		{
@@ -89,53 +66,16 @@ int main(int argc, char* args[])
 				{
 					quit = true;
 				}
+				else
+					SceneManager::scene->handleEvent(e);
 			}
 
-			const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-
-			if (currentKeyStates[SDL_SCANCODE_W])
-			{
-				player.move(player.MOVE_UP);
-			}
-			if (currentKeyStates[SDL_SCANCODE_S])
-			{
-				player.move(player.MOVE_DOWN);
-			}
-			if (currentKeyStates[SDL_SCANCODE_UP])
-			{
-				playerTwo.move(player.MOVE_UP);
-			}
-			if (currentKeyStates[SDL_SCANCODE_DOWN])
-			{
-				playerTwo.move(player.MOVE_DOWN);
-			}
-
-			// Render background
-			backgroundTexture.render(0, 0);
-
-			// Render Player
-			player.updatePosition();
-			playerTwo.updatePosition();
-			//player.drawCollisionBoundaries(renderer);
-			//playerTwo.drawCollisionBoundaries(renderer);
-
-			// DEbug
-			Vector2 playerCentre = player.getCollisionCenter();
-			//SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);
-
-			// Render and move ball
-			ball.move();
-			ball.updatePosition();
-			//ball.drawCollisionBoundaries(renderer);
-
-			Vector2 ballCentre = ball.getCollisionCenter();
-			//SDL_RenderDrawLine(renderer, ball.boundaries.left, ballCentre.y, ball.boundaries.right, ballCentre.y);
+			// Update scener
+			SceneManager::scene->update();
 
 			// Render buffer
 			SDL_RenderPresent(renderer);
 		}
-
-
 	}
 
 	return 0;

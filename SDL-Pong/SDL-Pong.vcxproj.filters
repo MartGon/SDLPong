@@ -7,6 +7,11 @@
     <ClCompile Include="MainGameLoop.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
@@ -15,5 +20,10 @@
     <ClInclude Include="MainGameLoop.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
 </Project>

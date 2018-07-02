@@ -9,6 +9,13 @@ GameObject::~GameObject()
 {
 }
 
+GameObject::GameObject(Texture texture)
+{
+	this->texture = texture;
+	mColliderBox.w = texture.mWidth;
+	mColliderBox.h = texture.mHeight;
+}
+
 void GameObject::updatePosition()
 {
 	computeBoundaries();

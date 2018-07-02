@@ -6,18 +6,17 @@ class GameObject
 {
 public:
 	GameObject();
+	GameObject(Texture texture);
 	~GameObject();
 
 	// Sprite
 	Texture texture;
 
 	// Position
-
 	int xPos;
 	int yPos;
 
 	// Movement
-
 	int speed = 5;
 
 	// Collider 

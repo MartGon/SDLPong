@@ -40,6 +40,7 @@ public:
 	WallCollision checkCollisionWithWalls();
 	bool checkCollisionWithPlayer(Player player);
 	void modifyDirectionFromCollisionWithPlayer(Player player);
+	void reset();
 
 
 private:

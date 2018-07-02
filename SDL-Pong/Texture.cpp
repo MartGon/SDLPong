@@ -46,6 +46,7 @@ Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 			mWidth = imgSurface->w;
 			mHeight = imgSurface->h;
 			mRenderer = renderer;
+			scale = Vector2(1, 1);
 		}
 
 		SDL_FreeSurface(imgSurface);
@@ -62,6 +63,9 @@ Texture::~Texture()
 void Texture::render(int x, int y)
 {
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	renderQuad.w *= scale.x;
+	renderQuad.h *= scale.y;
+
 	SDL_RenderCopy(mRenderer, mTexture, NULL, &renderQuad);
 }
 

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include "Vector2.h"
 
 class Texture
 {
@@ -20,6 +21,9 @@ public:
 	// Dimensions
 	int mWidth;
 	int mHeight;
+
+	// Scale
+	Vector2 scale;
 
 	// Methods
 

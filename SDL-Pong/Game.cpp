@@ -29,6 +29,9 @@ void Game::loadMedia()
 	const char* ballPath = "PongBall.png";
 	Texture ballTexture(ballPath, renderer);
 
+	scoreboardOne = ScoreBoard(renderer);
+	scoreboardTwo = ScoreBoard(renderer);
+
 	player = Player(playerTexture);
 	playerTwo = Player(playerTexture);
 	ball = Ball(ballTexture);
@@ -42,12 +45,20 @@ void Game::startNewGame()
 	playerTwo.xPos = WINDOW_WIDTH - 20 - playerTwo.texture.mWidth;
 	playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTwo.texture.mHeight / 2;
 
+	// Set scoreboards
+	scoreboardTwo.xPos = WINDOW_WIDTH / 2 + scoreboardOne.texture.mWidth / 2;
+	scoreboardTwo.yPos = scoreboardOne.texture.mHeight / 3;
+
+	scoreboardOne.xPos = WINDOW_WIDTH / 2 - 3 * scoreboardTwo.texture.mWidth / 2;
+	scoreboardOne.yPos = scoreboardTwo.texture.mHeight / 3;
+	
 	// Set up Ball
 	ball.player = &player;
 	ball.playerTwo = &playerTwo;
 
 	// ResetBall
 	ball.reset();
+	printf("Primer Reset\n");
 }
 
 void Game::start()
@@ -79,21 +90,27 @@ void Game::update()
 	// Render background
 	backgroundTexture.render(0, 0);
 
+	// Render scoreboard
+	scoreboardOne.setScore(player.score);
+	scoreboardTwo.setScore(playerTwo.score);
+	scoreboardOne.updatePosition();
+	scoreboardTwo.updatePosition();
+
 	// Render Player
 	player.updatePosition();
 	playerTwo.updatePosition();
-	//player.drawCollisionBoundaries(renderer);
-	//playerTwo.drawCollisionBoundaries(renderer);
-
-	// DEbug
-	Vector2 playerCentre = player.getCollisionCenter();
-	//SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);
 
 	// Render and move ball
-	ball.move();
 	ball.updatePosition();
-	//ball.drawCollisionBoundaries(renderer);
+	ball.move();
 
+	// Debug Colliders
+
+	/*Vector2 playerCentre = player.getCollisionCenter();
+	player.drawCollisionBoundaries(renderer);
+	playerTwo.drawCollisionBoundaries(renderer);
+	SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);
+	ball.drawCollisionBoundaries(renderer);
 	Vector2 ballCentre = ball.getCollisionCenter();
-	//SDL_RenderDrawLine(renderer, ball.boundaries.left, ballCentre.y, ball.boundaries.right, ballCentre.y);
+	SDL_RenderDrawLine(renderer, ball.boundaries.left, ballCentre.y, ball.boundaries.right, ballCentre.y);*/
 }

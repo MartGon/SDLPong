@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "ScoreBoard.h"
 
 class Player : public GameObject{
 
@@ -15,7 +16,11 @@ public:
 		MOVE_DOWN
 	};
 
+	// Player score
+	int score;
+
 	// Methods
 
 	void move(MoveDirection direction);
+	void addPoint();
 };

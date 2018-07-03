@@ -12,6 +12,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
@@ -25,5 +26,6 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScoreBoard.h" />
   </ItemGroup>
 </Project>

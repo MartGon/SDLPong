@@ -3,6 +3,7 @@
 #include "Ball.h"
 #include "Texture.h"
 #include "Scene.h"
+#include "ScoreBoard.h"
 #include <SDL.h>
 
 class Game : public Scene
@@ -21,6 +22,10 @@ public:
 
 	// BackGround Texture
 	Texture backgroundTexture;
+
+	// Scoreboard
+	ScoreBoard scoreboardOne;
+	ScoreBoard scoreboardTwo;
 
 	// Renderer
 	SDL_Renderer *renderer;

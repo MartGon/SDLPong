@@ -45,7 +45,11 @@ void Ball::checkCollisions()
 				break;
 
 			case LEFT_WALL_COLLISION:
+				playerTwo->addPoint();
+				reset();
+				break;
 			case RIGTH_WALL_COLLISION:
+				player->addPoint();
 				reset();
 				break;
 

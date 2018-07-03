@@ -34,7 +34,7 @@ void Button::handleEvent(SDL_Event *e)
 
 }
 
-bool Button::isWithinBoundaries(int mousePosX, int mousePosY)
+const bool Button::isWithinBoundaries(int mousePosX, int mousePosY)
 {
 	bool inside = false;
 

@@ -29,7 +29,7 @@ void MainMenu::loadMedia()
 	const char* titlePath = "PongTitle.png";
 	gameTitle = Texture(titlePath, renderer);
 
-	// Load button
+	// Load  newGame button
 	const char* buttonPath = "NewGameButton.png";
 	Texture newGameButtonTexture = Texture(buttonPath, renderer);
 	newGameButton = Button(newGameButtonTexture);
@@ -38,8 +38,18 @@ void MainMenu::loadMedia()
 
 	newGameButton.setOnClickListener(std::bind(&MainMenu::onClickNewGame, this));
 
-	// Add it to the list
+	// Load  exitGame button
+	const char* exitPath = "ExitButton.png";
+	Texture exitGameButtonTexture = Texture(exitPath, renderer);
+	exitButton = Button(exitGameButtonTexture);
+	exitButton.xPos = WINDOW_WIDTH / 2 - newGameButton.texture.mWidth / 2;
+	exitButton.yPos = WINDOW_HEIGHT / 2;
+
+	exitButton.setOnClickListener(std::bind(&MainMenu::onClickExit, this));
+
+	// Add them to the list
 	buttonList.push_back(&newGameButton);
+	buttonList.push_back(&exitButton);
 }
 
 void MainMenu::update()
@@ -48,7 +58,8 @@ void MainMenu::update()
 
 	gameTitle.render(WINDOW_WIDTH / 2 - gameTitle.mWidth / 2, WINDOW_HEIGHT / 64);
 
-	newGameButton.updatePosition();
+	for (auto button : buttonList)
+		button->updatePosition();
 }
 
 void MainMenu::handleEvent(SDL_Event event)
@@ -70,11 +81,12 @@ void MainMenu::handleClickEvent()
 	SDL_GetMouseState(&x, &y);
 
 	// Check if any button was pressed
-	for (auto button : buttonList)
+	for (auto const &button : buttonList)
 	{
 		if (button->isWithinBoundaries(x, y))
 		{
 			button->onClick();
+			break;
 		}
 	}
 }
@@ -85,3 +97,7 @@ void MainMenu::onClickNewGame()
 	SceneManager::loadScene(*scene);
 }
 
+void MainMenu::onClickExit()
+{
+	SceneManager::quitGame();
+}

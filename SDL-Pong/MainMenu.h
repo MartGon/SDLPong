@@ -16,6 +16,7 @@ public:
 
 	// Widgets
 	Button newGameButton;
+	Button exitButton;
 	std::vector<Button*> buttonList;
 
 	// Renderer
@@ -31,5 +32,6 @@ public:
 
 	// Button methods
 	void onClickNewGame();
+	void onClickExit();
 };
 

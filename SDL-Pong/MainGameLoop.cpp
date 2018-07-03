@@ -53,10 +53,10 @@ int main(int argc, char* args[])
 		SceneManager::loadScene(*scene);
 
 		SDL_Event e;
-		bool quit = false;
+		bool *quit = &SceneManager::quit;
 
 		//While application is running
-		while (!quit)
+		while (!(*quit))
 		{
 			//Handle events on queue
 			while (SDL_PollEvent(&e) != 0)
@@ -64,7 +64,7 @@ int main(int argc, char* args[])
 				//User requests quit
 				if (e.type == SDL_QUIT)
 				{
-					quit = true;
+					*quit = true;
 				}
 				else
 					SceneManager::scene->handleEvent(e);

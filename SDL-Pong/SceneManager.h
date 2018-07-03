@@ -9,6 +9,12 @@ public:
 
 	static Scene *scene;
 
+	// quit flag
+	static bool quit;
+
 	static void loadScene(Scene& s);
+
+	// methods
+	static void quitGame();
 };
 

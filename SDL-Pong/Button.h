@@ -13,7 +13,7 @@ public:
 	// Methods
 	void handleEvent(SDL_Event* e);
 
-	bool isWithinBoundaries(int mousePosX, int mousePosY);
+	const bool isWithinBoundaries(int mousePosX, int mousePosY);
 
 	// Listener
 	std::function<void()> onClick;

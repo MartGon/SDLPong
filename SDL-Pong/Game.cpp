@@ -1,5 +1,8 @@
 #include "Game.h"
 #include "Vector2.h"
+#include "SceneManager.h"
+#include "MainMenu.h"
+
 
 
 Game::Game()
@@ -9,6 +12,7 @@ Game::Game()
 Game::Game(SDL_Renderer * renderer)
 {
 	this->renderer = renderer;
+	gameMode = SINGLE_PLAYER;
 }
 
 Game::~Game()
@@ -33,7 +37,7 @@ void Game::loadMedia()
 	scoreboardTwo = ScoreBoard(renderer);
 
 	player = Player(playerTexture);
-	playerTwo = Player(playerTexture);
+	playerTwo = PlayerAI(playerTexture);
 	ball = Ball(ballTexture);
 }
 
@@ -78,13 +82,31 @@ void Game::update()
 	{
 		player.move(player.MOVE_DOWN);
 	}
-	if (currentKeyStates[SDL_SCANCODE_UP])
+	
+	if (gameMode == TWO_PLAYERS)
 	{
-		playerTwo.move(player.MOVE_UP);
+		if (currentKeyStates[SDL_SCANCODE_UP])
+		{
+			playerTwo.move(player.MOVE_UP);
+		}
+		if (currentKeyStates[SDL_SCANCODE_DOWN])
+		{
+			playerTwo.move(player.MOVE_DOWN);
+		}
 	}
-	if (currentKeyStates[SDL_SCANCODE_DOWN])
+	else
 	{
-		playerTwo.move(player.MOVE_DOWN);
+		Vector2 ballPosition(ball.xPos, ball.yPos);
+		Player::MoveDirection nextMove = playerTwo.getNextMoveDirection(ballPosition);
+		playerTwo.move(nextMove);
+	}
+	
+
+	if (player.score > 9 || playerTwo.score > 9)
+	{
+		Scene *menu = new MainMenu(renderer);
+		SceneManager::loadScene(*menu);
+		return;
 	}
 
 	// Render background

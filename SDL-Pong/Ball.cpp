@@ -132,6 +132,7 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	direction.y = centerRate;
 
 	direction.normalize();
+	speed += 1;
 }
 
 void Ball::reset()

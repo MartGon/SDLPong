@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Scene.h"
 #include "ScoreBoard.h"
+#include "PlayerAI.h"
 #include <SDL.h>
 
 class Game : public Scene
@@ -13,9 +14,18 @@ public:
 	Game(SDL_Renderer *renderer);
 	~Game();
 
+	// Game Mode
+
+	enum GameMode {
+		SINGLE_PLAYER,
+		TWO_PLAYERS
+	};
+
+	GameMode gameMode;
+
 	// Players
 	Player player;
-	Player playerTwo;
+	PlayerAI playerTwo;
 
 	// Ball
 	Ball ball;

@@ -34,8 +34,8 @@ public:
 	Texture backgroundTexture;
 
 	// Scoreboard
-	ScoreBoard scoreboardOne;
-	ScoreBoard scoreboardTwo;
+	ScoreBoard scoreBoardOne;
+	ScoreBoard scoreBoardTwo;
 
 	// Renderer
 	SDL_Renderer *renderer;

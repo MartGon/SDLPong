@@ -3,8 +3,6 @@
 #include "SceneManager.h"
 #include "MainMenu.h"
 
-
-
 Game::Game()
 {
 }
@@ -33,8 +31,9 @@ void Game::loadMedia()
 	const char* ballPath = "PongBall.png";
 	Texture ballTexture(ballPath, renderer);
 
-	scoreboardOne = ScoreBoard(renderer);
-	scoreboardTwo = ScoreBoard(renderer);
+	// Load ScoreBoard
+	scoreBoardOne = ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
+	scoreBoardTwo = ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
 
 	player = Player(playerTexture);
 	playerTwo = PlayerAI(playerTexture);
@@ -48,13 +47,6 @@ void Game::startNewGame()
 	player.yPos = WINDOW_HEIGHT / 2 - player.texture.mHeight / 2;
 	playerTwo.xPos = WINDOW_WIDTH - 20 - playerTwo.texture.mWidth;
 	playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTwo.texture.mHeight / 2;
-
-	// Set scoreboards
-	scoreboardTwo.xPos = WINDOW_WIDTH / 2 + scoreboardOne.texture.mWidth / 2;
-	scoreboardTwo.yPos = scoreboardOne.texture.mHeight / 3;
-
-	scoreboardOne.xPos = WINDOW_WIDTH / 2 - 3 * scoreboardTwo.texture.mWidth / 2;
-	scoreboardOne.yPos = scoreboardTwo.texture.mHeight / 3;
 	
 	// Set up Ball
 	ball.player = &player;
@@ -74,6 +66,7 @@ void Game::update()
 {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
+	// Player One movement
 	if (currentKeyStates[SDL_SCANCODE_W])
 	{
 		player.move(player.MOVE_UP);
@@ -82,7 +75,8 @@ void Game::update()
 	{
 		player.move(player.MOVE_DOWN);
 	}
-	
+
+	// Player Two movement
 	if (gameMode == TWO_PLAYERS)
 	{
 		if (currentKeyStates[SDL_SCANCODE_UP])
@@ -94,6 +88,7 @@ void Game::update()
 			playerTwo.move(player.MOVE_DOWN);
 		}
 	}
+	// PlayerAI movement
 	else
 	{
 		Vector2 ballPosition(ball.xPos, ball.yPos);
@@ -101,22 +96,24 @@ void Game::update()
 		playerTwo.move(nextMove);
 	}
 	
-
-	if (player.score > 9 || playerTwo.score > 9)
+	// Check if match has endend
+	if (player.score > 20 || playerTwo.score > 20)
 	{
 		Scene *menu = new MainMenu(renderer);
 		SceneManager::loadScene(*menu);
 		return;
 	}
 
+	// Update objects
+
 	// Render background
 	backgroundTexture.render(0, 0);
 
 	// Render scoreboard
-	scoreboardOne.setScore(player.score);
-	scoreboardTwo.setScore(playerTwo.score);
-	scoreboardOne.updatePosition();
-	scoreboardTwo.updatePosition();
+	scoreBoardOne.setScore(player.score);
+	scoreBoardTwo.setScore(playerTwo.score);
+	scoreBoardOne.update();
+	scoreBoardTwo.update();
 
 	// Render Player
 	player.updatePosition();

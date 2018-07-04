@@ -1,36 +1,32 @@
 #pragma once
-#include "GameObject.h"
-#include "Texture.h"
+#include "ScoreBoardNumberDisplay.h"
+#include "Vector2.h"
 #include <vector>
+#include <SDL.h>
 
-class ScoreBoard : public GameObject
+class ScoreBoard
 {
 public:
+	enum PlayerScoreBoard
+	{
+		PLAYER_ONE_SCOREBOARD,
+		PLAYER_TWO_SCOREBOARD
+	};
+
 	ScoreBoard();
-	ScoreBoard(Texture texture);
-	ScoreBoard(SDL_Renderer* renderer);
+	ScoreBoard(SDL_Renderer* renderer, PlayerScoreBoard scoreboardType);
 	~ScoreBoard();
 
-	// String vector
-	std::vector<const char*> texturePathVector;
-	std::vector<Texture> textureVector;
+	PlayerScoreBoard scoreboardType;
 
 	// Renderer
 	SDL_Renderer *renderer;
 
-	// Player's score
-	int* playerScore;
+	// Displays
+	std::vector<ScoreBoardNumberDisplay*> scoreBoardNumberDisplayVector;
 
 	// Methods
-
-	// Scoreboard
 	void setScore(int score);
-
-private:
-	// Load textures
-	void initTexturePathVector();
-	void loadMedia();
-
-
+	void update();
 };
 

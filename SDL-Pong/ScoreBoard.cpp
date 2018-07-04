@@ -1,69 +1,89 @@
 #include "ScoreBoard.h"
+#include "Utilities.h"
+#include "MainGameLoop.h"
 
-// Constructors
 
 ScoreBoard::ScoreBoard()
 {
 }
 
-ScoreBoard::ScoreBoard(Texture texture) : GameObject(texture)
+ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scoreboardType)
 {
+	// Set Object values
+	this->renderer;
+	this->scoreboardType = scoreboardType;
 
-}
+	// Create first display
+	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
+	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
+		displayOne->xPos = WINDOW_WIDTH / 2 - 3 * displayOne->texture.mWidth / 2;
+	else
+		displayOne->xPos = WINDOW_WIDTH / 2 + displayOne->texture.mWidth / 2;
+	
+	displayOne->yPos = displayOne->texture.mHeight / 3;
 
-ScoreBoard::ScoreBoard(SDL_Renderer* renderer)
-{
-	this->renderer = renderer;
-	loadMedia();
+	// Add to the list
+	scoreBoardNumberDisplayVector.push_back(displayOne);
 }
 
 ScoreBoard::~ScoreBoard()
 {
 }
 
-// Methods
-
-void ScoreBoard::initTexturePathVector()
-{
-	texturePathVector.push_back("ZeroScoreBoard.png");
-
-	texturePathVector.push_back("OneScoreBoard.png");
-	texturePathVector.push_back("TwoScoreBoard.png");
-	texturePathVector.push_back("ThreeScoreBoard.png");
-
-	texturePathVector.push_back("FourScoreBoard.png");
-	texturePathVector.push_back("FiveScoreBoard.png");
-	texturePathVector.push_back("SixScoreBoard.png");
-
-	texturePathVector.push_back("SevenScoreBoard.png");
-	texturePathVector.push_back("EightScoreBoard.png");
-	texturePathVector.push_back("NineScoreBoard.png");
-}
-
-void ScoreBoard::loadMedia()
-{
-	initTexturePathVector();
-
-	for (auto const &path : texturePathVector)
-	{
-		textureVector.push_back(Texture(path, renderer));
-	}
-	texture = textureVector.front();
-}
-
 void ScoreBoard::setScore(int score)
 {
-	if (score < 0)
-	{
-		printf("Can't set negative score value\n");
-		return;
-	}
-	if (score < textureVector.size())
-	{
-		texture = textureVector.at(score);
-	}
-	else
-	{
+	int displaysRequired = Utilities::getNumberOfDigits(score);
 
+	int nDisplayToCreate = displaysRequired - scoreBoardNumberDisplayVector.size();
+	
+	// It's necessary to create more displays
+	if (nDisplayToCreate > 0)
+	{
+		for (int i = 0; i < nDisplayToCreate; i++)
+		{
+			ScoreBoardNumberDisplay *scoreDisplay = new ScoreBoardNumberDisplay(renderer);
+			ScoreBoardNumberDisplay *previousDisplay;
+			previousDisplay = scoreBoardNumberDisplayVector.back();
+
+			int pXPos = previousDisplay->xPos;
+			int pYPos = previousDisplay->yPos;
+
+			if (scoreboardType == PLAYER_ONE_SCOREBOARD)
+			{
+				scoreDisplay->xPos = pXPos - (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);
+				scoreDisplay->yPos = pYPos;
+			}
+			else
+			{
+				// We put the new one where the front one used to be
+				scoreDisplay->xPos = pXPos;
+				scoreDisplay->yPos = pYPos;
+
+				// We offset all the other ones
+				
+				for (auto display : scoreBoardNumberDisplayVector)
+				{
+					display->xPos += (display->texture.mWidth + display->texture.mWidth / 4);
+				}
+				
+				//previousDisplay->xPos = pXPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);
+			}
+			scoreBoardNumberDisplayVector.push_back(scoreDisplay);
+		}
+	}
+
+	std::vector<int> digits = Utilities::getDigitsFromNumber(score);
+	for (int i = 0; i < digits.size(); i++)
+	{
+		ScoreBoardNumberDisplay *displayToModify = scoreBoardNumberDisplayVector.at(i);
+		displayToModify->setNumber(digits.at(i));
+	}
+}
+
+void ScoreBoard::update()
+{
+	for (auto display : scoreBoardNumberDisplayVector)
+	{
+		display->updatePosition();
 	}
 }

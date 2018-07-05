@@ -18,6 +18,7 @@ ScoreBoardNumberDisplay::ScoreBoardNumberDisplay(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
 	loadMedia();
+	calculateColliderBox();
 }
 
 ScoreBoardNumberDisplay::~ScoreBoardNumberDisplay()
@@ -47,12 +48,12 @@ void ScoreBoardNumberDisplay::loadMedia()
 {
 	if (textureVector.empty())
 	{
-		printf("Just once\n");
 		initTexturePathVector();
 
 		for (auto const &path : texturePathVector)
 		{
 			Texture texture(path, renderer);
+			texture.scale = Vector2(0.5f, 0.5f);
 			textureVector.push_back(texture);
 		}
 	}

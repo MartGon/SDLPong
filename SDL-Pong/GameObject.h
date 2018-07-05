@@ -40,8 +40,14 @@ public:
 	void updatePosition();
 
 	// Collisions
+	void calculateColliderBox();
 	void computeBoundaries();
 	Vector2 getCollisionCenter();
+
+	// Debug
 	void drawCollisionBoundaries(SDL_Renderer *renderer);
+
+	// Scale 
+	void setScale(Vector2 scale);
 };
 

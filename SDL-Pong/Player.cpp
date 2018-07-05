@@ -29,7 +29,7 @@ void Player::move(Player::MoveDirection direction)
 	}
 	else
 	{
-		if(yPos < 480 - texture.mHeight)
+		if(yPos < 480 - mColliderBox.h)
 			yPos += speed;
 	}
 }

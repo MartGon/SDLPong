@@ -12,8 +12,7 @@ GameObject::~GameObject()
 GameObject::GameObject(Texture texture)
 {
 	this->texture = texture;
-	mColliderBox.w = texture.mWidth;
-	mColliderBox.h = texture.mHeight;
+	calculateColliderBox();
 }
 
 void GameObject::updatePosition()
@@ -46,4 +45,17 @@ void GameObject::drawCollisionBoundaries(SDL_Renderer *renderer)
 	rect.y = boundaries.bottom;
 	rect.h = boundaries.top - boundaries.bottom;
 	SDL_RenderDrawRect(renderer, &rect);
+}
+
+void GameObject::setScale(Vector2 scale)
+{
+	texture.scale = scale;
+
+	calculateColliderBox();
+}
+
+void GameObject::calculateColliderBox()
+{
+	mColliderBox.w = texture.mWidth * texture.scale.x;
+	mColliderBox.h = texture.mHeight * texture.scale.y;
 }

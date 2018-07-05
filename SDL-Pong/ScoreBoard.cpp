@@ -15,10 +15,12 @@ ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scor
 
 	// Create first display
 	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
+	printf("El ancho es %i\n", displayOne->mColliderBox.w);
+
 	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
-		displayOne->xPos = WINDOW_WIDTH / 2 - 3 * displayOne->texture.mWidth / 2;
+		displayOne->xPos = WINDOW_WIDTH / 2 - 3 * displayOne->mColliderBox.w / 2;
 	else
-		displayOne->xPos = WINDOW_WIDTH / 2 + displayOne->texture.mWidth / 2;
+		displayOne->xPos = WINDOW_WIDTH / 2 + displayOne->mColliderBox.w / 2;
 	
 	displayOne->yPos = displayOne->texture.mHeight / 3;
 
@@ -42,15 +44,14 @@ void ScoreBoard::setScore(int score)
 		for (int i = 0; i < nDisplayToCreate; i++)
 		{
 			ScoreBoardNumberDisplay *scoreDisplay = new ScoreBoardNumberDisplay(renderer);
-			ScoreBoardNumberDisplay *previousDisplay;
-			previousDisplay = scoreBoardNumberDisplayVector.back();
+			ScoreBoardNumberDisplay *previousDisplay = scoreBoardNumberDisplayVector.back();
 
 			int pXPos = previousDisplay->xPos;
 			int pYPos = previousDisplay->yPos;
 
 			if (scoreboardType == PLAYER_ONE_SCOREBOARD)
 			{
-				scoreDisplay->xPos = pXPos - (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);
+				scoreDisplay->xPos = pXPos - (scoreDisplay->mColliderBox.w + scoreDisplay->mColliderBox.w / 4);
 				scoreDisplay->yPos = pYPos;
 			}
 			else
@@ -63,7 +64,7 @@ void ScoreBoard::setScore(int score)
 				
 				for (auto display : scoreBoardNumberDisplayVector)
 				{
-					display->xPos += (display->texture.mWidth + display->texture.mWidth / 4);
+					display->xPos += (display->mColliderBox.w + display->mColliderBox.w / 4);
 				}
 				
 				//previousDisplay->xPos = pXPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);

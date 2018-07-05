@@ -127,7 +127,8 @@ void Game::update()
 
 	// Debug Colliders
 
-	/*Vector2 playerCentre = player.getCollisionCenter();
+	/*
+	Vector2 playerCentre = player.getCollisionCenter();
 	player.drawCollisionBoundaries(renderer);
 	playerTwo.drawCollisionBoundaries(renderer);
 	SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);

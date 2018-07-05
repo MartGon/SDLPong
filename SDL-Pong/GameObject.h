@@ -40,7 +40,7 @@ public:
 	void updatePosition();
 
 	// Collisions
-	void calculateColliderBox();
+	virtual void calculateColliderBox();
 	void computeBoundaries();
 	Vector2 getCollisionCenter();
 

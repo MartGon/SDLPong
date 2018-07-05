@@ -42,6 +42,7 @@ public:
 	void modifyDirectionFromCollisionWithPlayer(Player player);
 	void reset();
 
+	virtual void calculateColliderBox();
 
 private:
 	

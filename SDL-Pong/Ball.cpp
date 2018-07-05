@@ -11,8 +11,7 @@ Ball::Ball(Texture texture) : GameObject(texture)
 {
 	speed = 8;
 
-	mColliderBox.w = 42;
-	mColliderBox.h = 42;
+	calculateColliderBox();
 }
 
 Ball::~Ball()
@@ -160,4 +159,10 @@ void Ball::reset()
 		direction.normalize();
 	}
 	setDirection(direction);
+}
+
+void Ball::calculateColliderBox()
+{
+	mColliderBox.w = 42 * texture.scale.x;
+	mColliderBox.h = 42 * texture.scale.y;
 }

@@ -23,16 +23,16 @@ void GameObject::updatePosition()
 
 void GameObject::computeBoundaries()
 {
-	boundaries.left = xPos + (texture.mWidth - mColliderBox.w) / 2;
-	boundaries.right = xPos + mColliderBox.w + (texture.mWidth - mColliderBox.w) / 2;
-	boundaries.top = yPos + (texture.mHeight - mColliderBox.h) / 2;
-	boundaries.bottom = yPos + mColliderBox.h + (texture.mHeight - mColliderBox.h) / 2;
+	boundaries.left = xPos + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
+	boundaries.right = xPos + mColliderBox.w + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
+	boundaries.top = yPos + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
+	boundaries.bottom = yPos + mColliderBox.h + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
 }
 
 Vector2 GameObject::getCollisionCenter()
 {
-	int x = (float)(boundaries.right - boundaries.left) / 2 + xPos + (texture.mWidth - mColliderBox.w) / 2;
-	int y = (float)(boundaries.bottom - boundaries.top) / 2 + yPos + (texture.mHeight - mColliderBox.h) / 2;
+	int x = (float)(boundaries.right - boundaries.left) / 2 + xPos + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
+	int y = (float)(boundaries.bottom - boundaries.top) / 2 + yPos + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
 
 	return Vector2(x, y);
 }

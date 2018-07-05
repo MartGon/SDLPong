@@ -19,6 +19,9 @@ public:
 	// Player score
 	int score;
 
+	// Player Scoreboard
+	ScoreBoard *scoreBoard;
+
 	// Methods
 
 	void move(MoveDirection direction);

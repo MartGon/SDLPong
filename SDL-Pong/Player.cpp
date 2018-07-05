@@ -37,4 +37,5 @@ void Player::move(Player::MoveDirection direction)
 void Player::addPoint()
 {
 	score++;
+	scoreBoard->setScore(score);
 }

@@ -32,12 +32,16 @@ void Game::loadMedia()
 	Texture ballTexture(ballPath, renderer);
 
 	// Load ScoreBoard
-	scoreBoardOne = ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
-	scoreBoardTwo = ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
+	scoreBoardOne = new ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
+	scoreBoardTwo = new ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
 
 	player = Player(playerTexture);
 	playerTwo = PlayerAI(playerTexture);
 	ball = Ball(ballTexture);
+
+	// Set scoreboard
+	player.scoreBoard = scoreBoardOne;
+	playerTwo.scoreBoard = scoreBoardTwo;
 }
 
 void Game::startNewGame()
@@ -54,7 +58,6 @@ void Game::startNewGame()
 
 	// ResetBall
 	ball.reset();
-	printf("Primer Reset\n");
 }
 
 void Game::start()
@@ -88,6 +91,7 @@ void Game::update()
 			playerTwo.move(player.MOVE_DOWN);
 		}
 	}
+
 	// PlayerAI movement
 	else
 	{
@@ -110,10 +114,8 @@ void Game::update()
 	backgroundTexture.render(0, 0);
 
 	// Render scoreboard
-	scoreBoardOne.setScore(player.score);
-	scoreBoardTwo.setScore(playerTwo.score);
-	scoreBoardOne.update();
-	scoreBoardTwo.update();
+	scoreBoardOne->update();
+	scoreBoardTwo->update();
 
 	// Render Player
 	player.updatePosition();

@@ -16,6 +16,7 @@
     <ClCompile Include="ScoreBoardNumberDisplay.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="WinAlert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
@@ -33,5 +34,6 @@
     <ClInclude Include="ScoreBoardNumberDisplay.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="WinAlert.h" />
   </ItemGroup>
 </Project>

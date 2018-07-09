@@ -34,6 +34,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="WinAlert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WinAlert.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

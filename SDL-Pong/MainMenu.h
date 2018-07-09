@@ -1,6 +1,6 @@
 #pragma once
 #include "Button.h"
-#include "Scene.h"
+#include "Game.h"
 #include <vector>
 
 class MainMenu : public Scene
@@ -17,6 +17,7 @@ public:
 	// Widgets
 	Button newGameButton;
 	Button exitButton;
+	Button twoPlayersButton;
 	std::vector<Button*> buttonList;
 
 	// Renderer
@@ -29,9 +30,11 @@ public:
 
 	// Own methods
 	void handleClickEvent();
+	void createGame(Game::GameMode mode);
 
 	// Button methods
 	void onClickNewGame();
 	void onClickExit();
+	void onClickTwoPlayers();
 };
 

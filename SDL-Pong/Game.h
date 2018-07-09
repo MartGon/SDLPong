@@ -10,9 +10,6 @@
 class Game : public Scene
 {
 public:
-	Game();
-	Game(SDL_Renderer *renderer);
-	~Game();
 
 	// Game Mode
 
@@ -20,6 +17,10 @@ public:
 		SINGLE_PLAYER,
 		TWO_PLAYERS
 	};
+
+	Game();
+	Game(SDL_Renderer *renderer, GameMode mode = SINGLE_PLAYER);
+	~Game();
 
 	GameMode gameMode;
 

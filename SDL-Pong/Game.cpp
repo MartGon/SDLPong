@@ -7,10 +7,10 @@ Game::Game()
 {
 }
 
-Game::Game(SDL_Renderer * renderer)
+Game::Game(SDL_Renderer * renderer, GameMode mode)
 {
 	this->renderer = renderer;
-	gameMode = SINGLE_PLAYER;
+	this->gameMode = mode;
 }
 
 Game::~Game()

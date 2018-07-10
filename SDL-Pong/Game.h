@@ -67,5 +67,6 @@ public:
 	void handlePlayersMovement();
 	void updateGameObjects();
 	void loadMainMenu();
+	void reloadGame();
 };
 

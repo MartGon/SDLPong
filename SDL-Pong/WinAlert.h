@@ -14,6 +14,8 @@ public:
 	Texture playerMessage;
 	Texture playerNumberMessage;
 	Texture winsMessage;
+	Texture promptMessage;
+	Texture rematchPromptMessage;
 
 	// Vector with player texture numbers
 	std::vector<Texture*> playerNumbers;
@@ -26,5 +28,10 @@ public:
 	void setPlayerNumber(int number);
 	void update();
 	void setRelativePosition(Vector2 vector);
+
+	// Animating
+	bool decrementing;
+	void updatePrompt();
+	void updateAlpha(Texture &texture, Uint8 step);
 };
 

@@ -150,7 +150,7 @@ void Ball::reset()
 	Vector2 direction(x, y);
 	direction.normalize();
 
-	printf("La direcsión fue x= %f e y = %f\n", direction.x, direction.y);
+	//printf("La direcsión fue x= %f e y = %f\n", direction.x, direction.y);
 
 	if (1 - fabs(direction.y) < 0.2 && fabs(direction.x) < 0.2)
 	{

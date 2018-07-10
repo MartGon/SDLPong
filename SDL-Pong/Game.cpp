@@ -29,7 +29,7 @@ void Game::loadMedia()
 	Texture playerTexture(playerPath, renderer);
 
 	// Load ball sprite
-	const char* ballPath = "PongBall.png";
+	const char* ballPath = "PongBallYellow.png";
 	Texture ballTexture(ballPath, renderer);
 
 	// Load ScoreBoard
@@ -73,6 +73,9 @@ void Game::start()
 
 void Game::update()
 {
+	// Update objects
+	updateGameObjects();
+
 	// Check if match has endend
 	if (isGameFinished())
 	{
@@ -80,12 +83,13 @@ void Game::update()
 	}
 	else
 	{
+		// Ball Movement
+		ball.move();
+
 		// Handle movement
 		handlePlayersMovement();
-
-		// Update objects
-		updateGameObjects();
 	}
+
 	// Debug Colliders
 
 	/*
@@ -164,9 +168,6 @@ void Game::updateGameObjects()
 	// Render and move ball
 	ball.updatePosition();
 
-	// Ball Movement
-	ball.move();
-
 	// Render scoreboard
 	scoreBoardOne->update();
 	scoreBoardTwo->update();
@@ -189,6 +190,10 @@ void Game::handleEvent(SDL_Event event)
 					loadMainMenu();
 				break;
 
+			case SDLK_r:
+				if (gameState == GAME_FINISHED)
+					reloadGame();
+
 			default:
 				break;
 		}
@@ -199,4 +204,10 @@ void Game::loadMainMenu()
 {
 	Scene *menu = new MainMenu(renderer);
 	SceneManager::loadScene(*menu);
+}
+
+void Game::reloadGame()
+{
+	Scene *game = new Game(renderer, gameMode);
+	SceneManager::loadScene(*game);
 }

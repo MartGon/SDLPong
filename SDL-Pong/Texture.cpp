@@ -69,6 +69,19 @@ void Texture::render(int x, int y)
 	SDL_RenderCopy(mRenderer, mTexture, NULL, &renderQuad);
 }
 
+void Texture::setAlpha(Uint8 alpha)
+{
+	SDL_SetTextureAlphaMod(mTexture, alpha);
+}
+
+Uint8 Texture::getAlpha()
+{
+	Uint8 alpha;
+	SDL_GetTextureAlphaMod(mTexture, &alpha);
+
+	return alpha;
+}
+
 void Texture::free()
 {
 	if (mTexture)

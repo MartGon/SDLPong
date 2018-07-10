@@ -75,6 +75,7 @@ int main(int argc, char* args[])
 
 			// Render buffer
 			SDL_RenderPresent(renderer);
+			SDL_RenderClear(renderer);
 		}
 	}
 

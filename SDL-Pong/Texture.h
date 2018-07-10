@@ -28,6 +28,8 @@ public:
 	// Methods
 
 	void render(int x, int y);
+	void setAlpha(Uint8 alpha);
+	Uint8 getAlpha();
 	void free();
 };
 

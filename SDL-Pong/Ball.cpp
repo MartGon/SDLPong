@@ -9,7 +9,7 @@ Ball::Ball()
 
 Ball::Ball(Texture texture) : GameObject(texture)
 {
-	speed = 8;
+	speed = 5;
 
 	calculateColliderBox();
 }
@@ -140,7 +140,7 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 void Ball::reset()
 {
 	//  Reset Speed
-	speed = 8;
+	speed = 6;
 
 	// Reset Motion Blur
 	motionBlurPositions.clear();

@@ -37,6 +37,7 @@ public:
 	// Methods
 
 	// Movement
+	virtual void updatePositionExtra();
 	void updatePosition();
 
 	// Collisions

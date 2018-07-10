@@ -15,7 +15,6 @@ ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scor
 
 	// Create first display
 	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
-	printf("El ancho es %i\n", displayOne->mColliderBox.w);
 
 	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
 		displayOne->xPos = WINDOW_WIDTH / 2 - 3 * displayOne->mColliderBox.w / 2;

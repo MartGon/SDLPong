@@ -19,6 +19,7 @@ void GameObject::updatePosition()
 {
 	computeBoundaries();
 	texture.render(xPos, yPos);
+	updatePositionExtra();
 }
 
 void GameObject::computeBoundaries()
@@ -58,4 +59,9 @@ void GameObject::calculateColliderBox()
 {
 	mColliderBox.w = texture.mWidth * texture.scale.x;
 	mColliderBox.h = texture.mHeight * texture.scale.y;
+}
+
+void GameObject::updatePositionExtra()
+{
+
 }

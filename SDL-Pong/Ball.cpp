@@ -27,6 +27,9 @@ void Ball::move()
 
 	xPos += (direction.x * speed);
 	yPos += (direction.y * speed);
+
+	// Add to motion blur vector
+	addMotionBlurPosition(Vector2(xPos, yPos));
 }
 
 void Ball::checkCollisions()
@@ -139,6 +142,9 @@ void Ball::reset()
 	//  Reset Speed
 	speed = 8;
 
+	// Reset Motion Blur
+	motionBlurPositions.clear();
+
 	// Set on the center
 	xPos = WINDOW_WIDTH / 2 - texture.mWidth / 2;
 	yPos = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
@@ -165,4 +171,32 @@ void Ball::calculateColliderBox()
 {
 	mColliderBox.w = 42 * texture.scale.x;
 	mColliderBox.h = 42 * texture.scale.y;
+}
+
+// Motion Blur
+
+void Ball::addMotionBlurPosition(Vector2 pos)
+{
+	motionBlurPositions.push_back(pos);
+	// We want just five positions to render 
+	if (motionBlurPositions.size() > speed)
+		motionBlurPositions.erase(motionBlurPositions.begin());
+}
+
+void Ball::updatePositionExtra()
+{
+	renderMotionBlur();
+}
+
+void Ball::renderMotionBlur()
+{
+	int factor = 128 / (motionBlurPositions.size() + 1);
+
+	for (int i = 0; i < motionBlurPositions.size(); i++)
+	{
+		Vector2 pos = motionBlurPositions.at(i);
+		texture.setAlpha(i * factor);
+		texture.render(pos.x, pos.y);
+	}
+	texture.setAlpha(255);
 }

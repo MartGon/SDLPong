@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Vector2.h"
 #include "MainGameLoop.h"
+#include <vector>
 #pragma once
 
 class Ball : public GameObject
@@ -36,13 +37,21 @@ public:
 		RIGTH_WALL_COLLISION
 	};
 
+	// Methods
 	void checkCollisions();
 	WallCollision checkCollisionWithWalls();
 	bool checkCollisionWithPlayer(Player player);
 	void modifyDirectionFromCollisionWithPlayer(Player player);
 	void reset();
 
+	// Upper Methods
 	virtual void calculateColliderBox();
+	virtual void updatePositionExtra();
+
+	// Motion Blur
+	std::vector<Vector2> motionBlurPositions;
+	void renderMotionBlur();
+	void addMotionBlurPosition(Vector2 pos);
 
 private:
 	

@@ -19,56 +19,58 @@ MainMenu::~MainMenu()
 void MainMenu::loadMedia()
 {
 	printf("Laoding media\n");
-
+	
 	// Load background
 	const char* backgroundPath = "MenuBackGround.png";
 	backgroundTexture = Texture(backgroundPath, renderer);
+	GameObject *background = new GameObject(backgroundTexture);
+	background->xPos = 0;
+	background->yPos = 0;
 
 	// Load title
 	const char* titlePath = "PongTitle.png";
 	gameTitle = Texture(titlePath, renderer);
+	GameObject *title = new GameObject(gameTitle);
+	title->xPos = WINDOW_WIDTH / 2 - gameTitle.mWidth / 2;
+	title->yPos = WINDOW_HEIGHT / 64;
 
+	
 	// Load  newGame button
 	const char* buttonPath = "NewGameButton.png";
 	Texture newGameButtonTexture = Texture(buttonPath, renderer);
-	newGameButton = Button(newGameButtonTexture);
-	newGameButton.xPos = WINDOW_WIDTH / 2 - newGameButton.texture.mWidth / 2;
-	newGameButton.yPos = WINDOW_HEIGHT / 3;
+	newGameButton = new Button(newGameButtonTexture);
+	newGameButton->xPos = WINDOW_WIDTH / 2 - newGameButton->texture.mWidth / 2;
+	newGameButton->yPos = WINDOW_HEIGHT / 3;
 
-	newGameButton.setOnClickListener(std::bind(&MainMenu::onClickNewGame, this));
+	newGameButton->setOnClickListener(std::bind(&MainMenu::onClickNewGame, this));
 
 	// Load  exitGame button
 	const char* exitPath = "ExitButton.png";
 	Texture exitGameButtonTexture = Texture(exitPath, renderer);
-	exitButton = Button(exitGameButtonTexture);
-	exitButton.xPos = WINDOW_WIDTH / 2 - exitButton.texture.mWidth / 2;
-	exitButton.yPos = WINDOW_HEIGHT / 1.5f;
+	exitButton = new Button(exitGameButtonTexture);
+	exitButton->xPos = WINDOW_WIDTH / 2 - exitButton->texture.mWidth / 2;
+	exitButton->yPos = WINDOW_HEIGHT / 1.5f;
 
-	exitButton.setOnClickListener(std::bind(&MainMenu::onClickExit, this));
+	exitButton->setOnClickListener(std::bind(&MainMenu::onClickExit, this));
 
 	// Load TwoPlayers Button
 	const char* twoPlayersPath = "TwoPlayers.png";
 	Texture twoPlayersButtonTexture = Texture(twoPlayersPath, renderer);
-	twoPlayersButton = Button(twoPlayersButtonTexture);
-	twoPlayersButton.xPos = WINDOW_WIDTH / 2 - twoPlayersButton.texture.mWidth / 2;
-	twoPlayersButton.yPos = WINDOW_HEIGHT / 2;
+	twoPlayersButton = new Button(twoPlayersButtonTexture);
+	twoPlayersButton->xPos = WINDOW_WIDTH / 2 - twoPlayersButton->texture.mWidth / 2;
+	twoPlayersButton->yPos = WINDOW_HEIGHT / 2;
 
-	twoPlayersButton.setOnClickListener(std::bind(&MainMenu::onClickTwoPlayers, this));
+	twoPlayersButton->setOnClickListener(std::bind(&MainMenu::onClickTwoPlayers, this));
 
 	// Add them to the list
-	buttonList.push_back(&newGameButton);
-	buttonList.push_back(&twoPlayersButton);
-	buttonList.push_back(&exitButton);
+	buttonList.push_back(newGameButton);
+	buttonList.push_back(twoPlayersButton);
+	buttonList.push_back(exitButton);
 }
 
-void MainMenu::update()
+void MainMenu::onUpdate()
 {
-	backgroundTexture.render(0, 0);
 
-	gameTitle.render(WINDOW_WIDTH / 2 - gameTitle.mWidth / 2, WINDOW_HEIGHT / 64);
-
-	for (auto button : buttonList)
-		button->updatePosition();
 }
 
 void MainMenu::handleEvent(SDL_Event event)

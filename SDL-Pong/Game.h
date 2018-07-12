@@ -43,11 +43,11 @@ public:
 	Counter counter;
 
 	// Players
-	Player player;
-	PlayerAI playerTwo;
+	Player *player;
+	PlayerAI *playerTwo;
 
 	// Ball
-	Ball ball;
+	Ball *ball;
 
 	// BackGround Texture
 	Texture backgroundTexture;
@@ -63,13 +63,12 @@ public:
 	virtual void loadMedia();
 	virtual void start();
 	virtual void startNewGame();
-	virtual void update();
+	virtual void onUpdate();
 	virtual void handleEvent(SDL_Event event);
 
 	// OwnMethods
 	bool isGameFinished();
 	void handlePlayersMovement();
-	void updateGameObjects();
 	void loadMainMenu();
 	void reloadGame();
 };

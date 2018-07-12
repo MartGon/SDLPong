@@ -16,7 +16,7 @@ Scene::~Scene()
 {
 }
 
-// Methods
+// Virtual Methods
 
 void Scene::loadMedia() 
 {
@@ -28,7 +28,7 @@ void Scene::start()
 
 }
 
-void Scene::update()
+void Scene::onUpdate()
 {
 
 }
@@ -41,4 +41,20 @@ void Scene::destroy()
 void Scene::handleEvent(SDL_Event event)
 {
 
+}
+
+// Methods
+
+void Scene::addGameObject(GameObject *gameObject)
+{
+	gameObjectList.push_back(gameObject);
+}
+
+void Scene::update()
+{
+	for (auto gameObject : gameObjectList)
+		if(gameObject->isActive)
+			gameObject->update();
+
+	onUpdate();
 }

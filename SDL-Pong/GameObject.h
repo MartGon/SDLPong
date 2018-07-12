@@ -9,6 +9,15 @@ public:
 	GameObject(Texture texture);
 	~GameObject();
 
+	// Active
+	bool isActive = true;
+
+	// Render
+	bool renderEnabled = true;
+
+	// Collider
+	bool colliderEnabled = true;
+
 	// Sprite
 	Texture texture;
 
@@ -37,8 +46,8 @@ public:
 	// Methods
 
 	// Movement
-	virtual void updatePositionExtra();
-	void updatePosition();
+	virtual void onUpdate();
+	void update();
 
 	// Collisions
 	virtual void calculateColliderBox();

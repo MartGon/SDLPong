@@ -23,9 +23,10 @@ void Game::loadMedia()
 	// Load background
 	const char* backgroundPath = "PongBackGround.png";
 	backgroundTexture = Texture(backgroundPath, renderer);
+	GameObject *background = new GameObject(backgroundTexture);
 
 	// Load player sprite
-	const char* playerPath = "Player.png";
+	const char* playerPath = "player.png";
 	Texture playerTexture(playerPath, renderer);
 
 	// Load ball sprite
@@ -47,33 +48,33 @@ void Game::loadMedia()
 	counter.setRelativePosition(position);
 
 	// Create GameObjects
-	player = Player(playerTexture);
-	playerTwo = PlayerAI(playerTexture);
-	ball = Ball(ballTexture);
+	player = new Player(playerTexture);
+	playerTwo = new PlayerAI(playerTexture);
+	ball = new Ball(ballTexture);
 
 	// Set up Ball
-	ball.player = &player;
-	ball.playerTwo = &playerTwo;
-	ball.game = this;
+	ball->player = player;
+	ball->playerTwo = playerTwo;
+	ball->game = this;
 
 	// Set scoreboard
-	player.scoreBoard = scoreBoardOne;
-	playerTwo.scoreBoard = scoreBoardTwo;
+	player->scoreBoard = scoreBoardOne;
+	playerTwo->scoreBoard = scoreBoardTwo;
 }
 
 void Game::startNewGame()
 {
 	// Set player positions
-	player.xPos = 20;
-	player.yPos = WINDOW_HEIGHT / 2 - player.texture.mHeight / 2;
-	playerTwo.xPos = WINDOW_WIDTH - 20 - playerTwo.texture.mWidth;
-	playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTwo.texture.mHeight / 2;
+	player->xPos = 20;
+	player->yPos = WINDOW_HEIGHT / 2 - player->texture.mHeight / 2;
+	playerTwo->xPos = WINDOW_WIDTH - 20 - playerTwo->texture.mWidth;
+	playerTwo->yPos = WINDOW_HEIGHT / 2 - playerTwo->texture.mHeight / 2;
 
 	// Start Counter
 	counter.initCycle();
 
 	// ResetBall
-	ball.reset();
+	ball->reset();
 }
 
 void Game::start()
@@ -81,11 +82,8 @@ void Game::start()
 	startNewGame();
 }
 
-void Game::update()
+void Game::onUpdate()
 {
-	// Update objects
-	updateGameObjects();
-
 	// Check if match has endend
 	if (isGameFinished())
 	{
@@ -93,29 +91,30 @@ void Game::update()
 	}
 	else
 	{
+		// Has counter animation finished
 		if (counter.hasAnimationFinished())
 		{
 			// Ball Movement
-			ball.move();
+			ball->move();
 
 			// Handle movement
 			handlePlayersMovement();
 		}
-	}
 
-	// Update counter
-	counter.update();
+		// Update counter
+		counter.update();
+	}
 
 	// Debug Colliders
 
 	/*
-	Vector2 playerCentre = player.getCollisionCenter();
-	player.drawCollisionBoundaries(renderer);
-	playerTwo.drawCollisionBoundaries(renderer);
-	SDL_RenderDrawLine(renderer, player.boundaries.left, playerCentre.y, player.boundaries.right, playerCentre.y);
-	ball.drawCollisionBoundaries(renderer);
-	Vector2 ballCentre = ball.getCollisionCenter();
-	SDL_RenderDrawLine(renderer, ball.boundaries.left, ballCentre.y, ball.boundaries.right, ballCentre.y);*/
+	Vector2 playerCentre = player->getCollisionCenter();
+	player->drawCollisionBoundaries(renderer);
+	playerTwo->drawCollisionBoundaries(renderer);
+	SDL_RenderDrawLine(renderer, player->boundaries.left, playerCentre.y, player->boundaries.right, playerCentre.y);
+	ball->drawCollisionBoundaries(renderer);
+	Vector2 ballCentre = ball->getCollisionCenter();
+	SDL_RenderDrawLine(renderer, ball->boundaries.left, ballCentre.y, ball->boundaries.right, ballCentre.y);*/
 }
 
 bool Game::isGameFinished()
@@ -125,9 +124,9 @@ bool Game::isGameFinished()
 
 	bool isFinished = false;
 
-	if (isFinished = player.score > 2)
+	if (isFinished = player->score > 2)
 		winAlert.setPlayerNumber(0);
-	else if (isFinished = playerTwo.score > 2)
+	else if (isFinished = playerTwo->score > 2)
 		winAlert.setPlayerNumber(1);
 
 	if (isFinished)
@@ -143,11 +142,11 @@ void Game::handlePlayersMovement()
 	// Player One movement
 	if (currentKeyStates[SDL_SCANCODE_W])
 	{
-		player.move(player.MOVE_UP);
+		player->move(player->MOVE_UP);
 	}
 	if (currentKeyStates[SDL_SCANCODE_S])
 	{
-		player.move(player.MOVE_DOWN);
+		player->move(player->MOVE_DOWN);
 	}
 
 	// Player Two movement
@@ -155,38 +154,21 @@ void Game::handlePlayersMovement()
 	{
 		if (currentKeyStates[SDL_SCANCODE_UP])
 		{
-			playerTwo.move(player.MOVE_UP);
+			playerTwo->move(player->MOVE_UP);
 		}
 		if (currentKeyStates[SDL_SCANCODE_DOWN])
 		{
-			playerTwo.move(player.MOVE_DOWN);
+			playerTwo->move(player->MOVE_DOWN);
 		}
 	}
 
 	// PlayerAI movement
 	else
 	{
-		Vector2 ballPosition(ball.xPos, ball.yPos);
-		Player::MoveDirection nextMove = playerTwo.getNextMoveDirection(ballPosition);
-		playerTwo.move(nextMove);
+		Vector2 ballPosition(ball->xPos, ball->yPos);
+		Player::MoveDirection nextMove = playerTwo->getNextMoveDirection(ballPosition);
+		playerTwo->move(nextMove);
 	}
-}
-
-void Game::updateGameObjects()
-{
-	// Render background
-	backgroundTexture.render(0, 0);
-
-	// Render Player
-	player.updatePosition();
-	playerTwo.updatePosition();
-
-	// Render and move ball
-	ball.updatePosition();
-
-	// Render scoreboard
-	scoreBoardOne->update();
-	scoreBoardTwo->update();
 }
 
 void Game::handleEvent(SDL_Event event)

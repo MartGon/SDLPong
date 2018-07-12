@@ -32,6 +32,13 @@ void Ball::move()
 	addMotionBlurPosition(Vector2(xPos, yPos));
 }
 
+void Ball::setDirection(Vector2 vector2)
+{
+	vector2.normalize();
+	direction = vector2;
+}
+
+
 void Ball::checkCollisions()
 {
 	bool collisionWithPlayer = checkCollisionWithPlayer(*player);
@@ -48,13 +55,11 @@ void Ball::checkCollisions()
 
 			case LEFT_WALL_COLLISION:
 				playerTwo->addPoint();
-				if(!game->isGameFinished())
-					game->startNewGame();
+				game->startNewGame();
 				break;
 			case RIGTH_WALL_COLLISION:
 				player->addPoint();
-				if (!game->isGameFinished())
-					game->startNewGame();
+				game->startNewGame();
 				break;
 
 			default:
@@ -117,12 +122,6 @@ Ball::WallCollision Ball::checkCollisionWithWalls()
 	return collision;
 }
 
-void Ball::setDirection(Vector2 vector2)
-{
-	vector2.normalize();
-	direction = vector2;
-}
-
 void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 {
 	Vector2 ballCenter = getCollisionCenter();
@@ -175,19 +174,18 @@ void Ball::calculateColliderBox()
 	mColliderBox.h = 42 * texture.scale.y;
 }
 
-// Motion Blur
+void Ball::onUpdate()
+{
+	renderMotionBlur();
+}
 
+// Motion Blur
 void Ball::addMotionBlurPosition(Vector2 pos)
 {
 	motionBlurPositions.push_back(pos);
 	// We want just five positions to render 
 	if (motionBlurPositions.size() > speed)
 		motionBlurPositions.erase(motionBlurPositions.begin());
-}
-
-void Ball::updatePositionExtra()
-{
-	renderMotionBlur();
 }
 
 void Ball::renderMotionBlur()

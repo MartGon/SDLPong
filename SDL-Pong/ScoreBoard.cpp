@@ -7,11 +7,15 @@ ScoreBoard::ScoreBoard()
 {
 }
 
-ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scoreboardType)
+ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scoreboardType) : GameObject()
 {
 	// Set Object values
 	this->renderer;
 	this->scoreboardType = scoreboardType;
+
+	// Set flags
+	renderEnabled = false;
+	colliderEnabled = false;
 
 	// Create first display
 	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
@@ -80,10 +84,10 @@ void ScoreBoard::setScore(int score)
 	}
 }
 
-void ScoreBoard::update()
+void ScoreBoard::onUpdate()
 {
 	for (auto display : scoreBoardNumberDisplayVector)
 	{
-		display->updatePosition();
+		display->update();
 	}
 }

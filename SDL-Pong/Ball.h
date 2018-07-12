@@ -10,9 +10,21 @@ class Game;
 class Ball : public GameObject
 {
 public:
+
+	// Collisions
+	enum WallCollision
+	{
+		NONE_WALL_COLLISION,
+		TOP_WALL_COLLISION,
+		BOTTOM_WALL_COLLISION,
+		LEFT_WALL_COLLISION,
+		RIGTH_WALL_COLLISION
+	};
+
+	// Constructors
+
 	Ball();
 	Ball(Texture texture);
-
 	~Ball();
 
 	// Game
@@ -28,30 +40,22 @@ public:
 
 	// Methods
 
-		// Movement
+	// Movement
 	void move();
 	void setDirection(Vector2 vector2);
 
-		// Collisions
-	enum WallCollision
-	{
-		NONE_WALL_COLLISION,
-		TOP_WALL_COLLISION,
-		BOTTOM_WALL_COLLISION,
-		LEFT_WALL_COLLISION,
-		RIGTH_WALL_COLLISION
-	};
-
-	// Methods
+	// Collisions
 	void checkCollisions();
-	WallCollision checkCollisionWithWalls();
 	bool checkCollisionWithPlayer(Player player);
+	WallCollision checkCollisionWithWalls();
 	void modifyDirectionFromCollisionWithPlayer(Player player);
+
+	// Reset
 	void reset();
 
 	// Upper Methods
 	virtual void calculateColliderBox();
-	virtual void updatePositionExtra();
+	virtual void onUpdate();
 
 	// Motion Blur
 	std::vector<Vector2> motionBlurPositions;

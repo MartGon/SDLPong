@@ -15,9 +15,9 @@ public:
 	Texture gameTitle;
 
 	// Widgets
-	Button newGameButton;
-	Button exitButton;
-	Button twoPlayersButton;
+	Button *newGameButton;
+	Button *exitButton;
+	Button *twoPlayersButton;
 	std::vector<Button*> buttonList;
 
 	// Renderer
@@ -25,7 +25,7 @@ public:
 
 	// Methods
 	virtual void loadMedia();
-	virtual void update();
+	virtual void onUpdate();
 	virtual void handleEvent(SDL_Event event);
 
 	// Own methods

@@ -12,7 +12,6 @@ public:
 
 	// Methods
 	void handleEvent(SDL_Event* e);
-
 	const bool isWithinBoundaries(int mousePosX, int mousePosY);
 
 	// Listener

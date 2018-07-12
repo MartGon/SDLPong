@@ -4,7 +4,7 @@
 #include <vector>
 #include <SDL.h>
 
-class ScoreBoard
+class ScoreBoard : public GameObject
 {
 public:
 	enum PlayerScoreBoard
@@ -27,6 +27,6 @@ public:
 
 	// Methods
 	void setScore(int score);
-	void update();
+	virtual void onUpdate();
 };
 

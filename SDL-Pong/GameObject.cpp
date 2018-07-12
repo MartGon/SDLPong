@@ -1,8 +1,10 @@
 #include "GameObject.h"
+#include "SceneManager.h"
 
 
 GameObject::GameObject()
 {
+	SceneManager::scene->addGameObject(this);
 }
 
 GameObject::~GameObject()
@@ -13,13 +15,21 @@ GameObject::GameObject(Texture texture)
 {
 	this->texture = texture;
 	calculateColliderBox();
+
+	SceneManager::scene->addGameObject(this);
 }
 
-void GameObject::updatePosition()
+void GameObject::update()
 {
+	// Calculate collision boundaries
 	computeBoundaries();
-	texture.render(xPos, yPos);
-	updatePositionExtra();
+
+	// Render default texture if enabled
+	if(renderEnabled)
+		texture.render(xPos, yPos);
+
+	// Hook for gameObject updates
+	onUpdate();
 }
 
 void GameObject::computeBoundaries()
@@ -61,7 +71,7 @@ void GameObject::calculateColliderBox()
 	mColliderBox.h = texture.mHeight * texture.scale.y;
 }
 
-void GameObject::updatePositionExtra()
+void GameObject::onUpdate()
 {
 
 }

@@ -1,9 +1,10 @@
 #pragma once
 #include "Texture.h"
 #include "Vector2.h"
+#include "GameObject.h"
 #include <vector>
 
-class WinAlert
+class WinAlert : public GameObject
 {
 public:
 	WinAlert();
@@ -20,18 +21,17 @@ public:
 	// Vector with player texture numbers
 	std::vector<Texture*> playerNumbers;
 
-	// Current position of the whole message
-	Vector2 position;
-
 	// Methods
 	void loadPlayerNumbersTextures(SDL_Renderer* renderer);
 	void setPlayerNumber(int number);
-	void update();
 	void setRelativePosition(Vector2 vector);
 
 	// Animating
 	bool decrementing;
 	void updatePrompt();
 	void updateAlpha(Texture &texture, Uint8 step);
+
+	// Upper methods
+	void onUpdate();
 };
 

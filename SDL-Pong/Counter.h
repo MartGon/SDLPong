@@ -1,8 +1,9 @@
 #pragma once
 #include "Texture.h"
 #include "Vector2.h"
+#include "GameObject.h"
 
-class Counter
+class Counter : public GameObject
 {
 public:
 	Counter();
@@ -36,14 +37,15 @@ public:
 	// Position
 	Vector2 pos;
 
-	// Loading
+	// Methods
 	void loadTextures();
-	void update();
 	void setRelativePosition(Vector2 pos);
 	void initCycle();
 	void updateAlpha(Texture &texture, Uint8 step);
 	void changeToNextState();
-
 	bool hasAnimationFinished();
+
+	// Upper Methods
+	virtual void onUpdate();
 };
 

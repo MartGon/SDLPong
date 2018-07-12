@@ -37,10 +37,10 @@ public:
 	GameState gameState;
 
 	// Win alert
-	WinAlert winAlert;
+	WinAlert *winAlert;
 
 	// Counter
-	Counter counter;
+	Counter *counter;
 
 	// Players
 	Player *player;
@@ -68,6 +68,7 @@ public:
 
 	// OwnMethods
 	bool isGameFinished();
+	void handleFinishedGame();
 	void handlePlayersMovement();
 	void loadMainMenu();
 	void reloadGame();

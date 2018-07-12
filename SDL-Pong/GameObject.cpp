@@ -22,7 +22,8 @@ GameObject::GameObject(Texture texture)
 void GameObject::update()
 {
 	// Calculate collision boundaries
-	computeBoundaries();
+	if(colliderEnabled)
+		computeBoundaries();
 
 	// Render default texture if enabled
 	if(renderEnabled)

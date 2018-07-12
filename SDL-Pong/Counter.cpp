@@ -4,10 +4,17 @@ Counter::Counter()
 {
 }
 
-Counter::Counter(SDL_Renderer *renderer) 
+Counter::Counter(SDL_Renderer *renderer) : GameObject()
 {
 	this->renderer = renderer;
+	// Load
 	loadTextures();
+
+	// Set Flags
+	colliderEnabled = false;
+	renderEnabled = false;
+
+	// Init
 	initCycle();
 }
 
@@ -38,11 +45,8 @@ void Counter::setRelativePosition(Vector2 pos)
 	this->pos.y = pos.y - oneCounter.mHeight * 3;
 }
 
-void Counter::update()
+void Counter::onUpdate()
 {
-	if (hasAnimationFinished())
-		return;
-
 	updateAlpha(toRender, 6);
 	toRender.scale = Vector2(2, 2);
 	toRender.render(pos.x, pos.y);
@@ -56,6 +60,8 @@ void Counter::initCycle()
 	threeCounter.setAlpha(255);
 	goCounter.setAlpha(255);
 
+	// Reset state
+	isActive = true;
 	toRender = threeCounter;
 	state = COUNTER_THREE;
 }
@@ -95,6 +101,7 @@ void Counter::changeToNextState()
 	case Counter::COUNTER_GO:
 		pos.x = pos.x + goCounter.mWidth - oneCounter.mWidth;
 		state = COUNTER_FINISHED;
+		isActive = false;
 		break;
 	default:
 		break;

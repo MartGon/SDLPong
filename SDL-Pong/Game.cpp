@@ -37,16 +37,6 @@ void Game::loadMedia()
 	scoreBoardOne = new ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
 	scoreBoardTwo = new ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
 
-	// Load WinAlert
-	winAlert = WinAlert(renderer);
-	Vector2 position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-	winAlert.setRelativePosition(position);
-
-	// Load Counter Animation
-	counter = Counter(renderer);
-	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-	counter.setRelativePosition(position);
-
 	// Create GameObjects
 	player = new Player(playerTexture);
 	playerTwo = new PlayerAI(playerTexture);
@@ -56,6 +46,17 @@ void Game::loadMedia()
 	ball->player = player;
 	ball->playerTwo = playerTwo;
 	ball->game = this;
+
+	// Load WinAlert
+	winAlert = new WinAlert(renderer);
+	Vector2 position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	winAlert->setRelativePosition(position);
+	winAlert->isActive = false;
+
+	// Load Counter Animation
+	counter = new Counter(renderer);
+	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	counter->setRelativePosition(position);
 
 	// Set scoreboard
 	player->scoreBoard = scoreBoardOne;
@@ -71,7 +72,7 @@ void Game::startNewGame()
 	playerTwo->yPos = WINDOW_HEIGHT / 2 - playerTwo->texture.mHeight / 2;
 
 	// Start Counter
-	counter.initCycle();
+	counter->initCycle();
 
 	// ResetBall
 	ball->reset();
@@ -85,14 +86,10 @@ void Game::start()
 void Game::onUpdate()
 {
 	// Check if match has endend
-	if (isGameFinished())
-	{
-		winAlert.update();
-	}
-	else
+	if(!isGameFinished())
 	{
 		// Has counter animation finished
-		if (counter.hasAnimationFinished())
+		if (counter->hasAnimationFinished())
 		{
 			// Ball Movement
 			ball->move();
@@ -100,9 +97,6 @@ void Game::onUpdate()
 			// Handle movement
 			handlePlayersMovement();
 		}
-
-		// Update counter
-		counter.update();
 	}
 
 	// Debug Colliders
@@ -125,14 +119,21 @@ bool Game::isGameFinished()
 	bool isFinished = false;
 
 	if (isFinished = player->score > 2)
-		winAlert.setPlayerNumber(0);
+		winAlert->setPlayerNumber(0);
 	else if (isFinished = playerTwo->score > 2)
-		winAlert.setPlayerNumber(1);
+		winAlert->setPlayerNumber(1);
 
 	if (isFinished)
-		gameState = GAME_FINISHED;
+		handleFinishedGame();
 
 	return isFinished;
+}
+
+void Game::handleFinishedGame()
+{
+	gameState = GAME_FINISHED;
+	winAlert->isActive = true;
+	counter->isActive = false;
 }
 
 void Game::handlePlayersMovement()
@@ -189,7 +190,6 @@ void Game::handleEvent(SDL_Event event)
 			case SDLK_r:
 				if (gameState == GAME_FINISHED)
 					reloadGame();
-
 			default:
 				break;
 		}

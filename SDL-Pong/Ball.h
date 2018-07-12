@@ -6,6 +6,7 @@
 #include <vector>
 #pragma once
 
+class Game;
 class Ball : public GameObject
 {
 public:
@@ -14,9 +15,13 @@ public:
 
 	~Ball();
 
+	// Game
+	Game* game;
+
 	// Players
 	Player *player;
 	Player *playerTwo;
+
 	// booles
 	bool bHasCollidedWithPlayer = false;
 	bool bHasCollidedWithPlayerTwo = false;

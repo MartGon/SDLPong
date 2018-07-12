@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include "Game.h"
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
@@ -10,7 +11,6 @@ Ball::Ball()
 Ball::Ball(Texture texture) : GameObject(texture)
 {
 	speed = 5;
-
 	calculateColliderBox();
 }
 
@@ -48,11 +48,13 @@ void Ball::checkCollisions()
 
 			case LEFT_WALL_COLLISION:
 				playerTwo->addPoint();
-				reset();
+				if(!game->isGameFinished())
+					game->startNewGame();
 				break;
 			case RIGTH_WALL_COLLISION:
 				player->addPoint();
-				reset();
+				if (!game->isGameFinished())
+					game->startNewGame();
 				break;
 
 			default:

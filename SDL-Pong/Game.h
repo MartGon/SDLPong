@@ -6,6 +6,7 @@
 #include "ScoreBoard.h"
 #include "PlayerAI.h"
 #include "WinAlert.h"
+#include "Counter.h"
 #include <SDL.h>
 
 class Game : public Scene
@@ -37,6 +38,9 @@ public:
 
 	// Win alert
 	WinAlert winAlert;
+
+	// Counter
+	Counter counter;
 
 	// Players
 	Player player;

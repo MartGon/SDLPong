@@ -41,9 +41,20 @@ void Game::loadMedia()
 	Vector2 position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	winAlert.setRelativePosition(position);
 
+	// Load Counter Animation
+	counter = Counter(renderer);
+	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	counter.setRelativePosition(position);
+
+	// Create GameObjects
 	player = Player(playerTexture);
 	playerTwo = PlayerAI(playerTexture);
 	ball = Ball(ballTexture);
+
+	// Set up Ball
+	ball.player = &player;
+	ball.playerTwo = &playerTwo;
+	ball.game = this;
 
 	// Set scoreboard
 	player.scoreBoard = scoreBoardOne;
@@ -57,10 +68,9 @@ void Game::startNewGame()
 	player.yPos = WINDOW_HEIGHT / 2 - player.texture.mHeight / 2;
 	playerTwo.xPos = WINDOW_WIDTH - 20 - playerTwo.texture.mWidth;
 	playerTwo.yPos = WINDOW_HEIGHT / 2 - playerTwo.texture.mHeight / 2;
-	
-	// Set up Ball
-	ball.player = &player;
-	ball.playerTwo = &playerTwo;
+
+	// Start Counter
+	counter.initCycle();
 
 	// ResetBall
 	ball.reset();
@@ -83,12 +93,18 @@ void Game::update()
 	}
 	else
 	{
-		// Ball Movement
-		ball.move();
+		if (counter.hasAnimationFinished())
+		{
+			// Ball Movement
+			ball.move();
 
-		// Handle movement
-		handlePlayersMovement();
+			// Handle movement
+			handlePlayersMovement();
+		}
 	}
+
+	// Update counter
+	counter.update();
 
 	// Debug Colliders
 

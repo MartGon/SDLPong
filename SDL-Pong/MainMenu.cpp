@@ -49,7 +49,7 @@ void MainMenu::loadMedia()
 	Texture exitGameButtonTexture = Texture(exitPath, renderer);
 	exitButton = new Button(exitGameButtonTexture);
 	exitButton->xPos = WINDOW_WIDTH / 2 - exitButton->texture.mWidth / 2;
-	exitButton->yPos = WINDOW_HEIGHT / 1.5f;
+	exitButton->yPos = WINDOW_HEIGHT / 1.2f;
 
 	exitButton->setOnClickListener(std::bind(&MainMenu::onClickExit, this));
 
@@ -62,15 +62,74 @@ void MainMenu::loadMedia()
 
 	twoPlayersButton->setOnClickListener(std::bind(&MainMenu::onClickTwoPlayers, this));
 
+	// Load Online Button
+	const char* onlineButtonPath = "OnlineButton.png";
+	Texture onlineButtonTexture = Texture(onlineButtonPath, renderer);
+	onlineButton = new Button(onlineButtonTexture);
+	onlineButton->xPos = WINDOW_WIDTH / 2 - onlineButton->texture.mWidth / 2;
+	onlineButton->yPos = WINDOW_HEIGHT / 1.5f;
+
+	onlineButton->setOnClickListener(std::bind(&MainMenu::onClickOnline, this));
+
+	// Load server Button
+	const char* serverButtonPath = "ServerButton.png";
+	Texture serverButtonTexture = Texture(serverButtonPath, renderer);
+	serverButton = new Button(serverButtonTexture);
+	serverButton->xPos = WINDOW_WIDTH / 2 - serverButton->texture.mWidth / 2;
+	serverButton->yPos = WINDOW_HEIGHT / 3;
+	serverButton->layer = 1;
+	serverButton->isActive = false;
+
+	serverButton->setOnClickListener(std::bind(&MainMenu::onClickServer, this));
+
+	// Load client Button
+	const char* clientButtonPath = "ClientButton.png";
+	Texture clientButtonTexture = Texture(clientButtonPath, renderer);
+	clientButton = new Button(clientButtonTexture);
+	clientButton->xPos = WINDOW_WIDTH / 2 - clientButton->texture.mWidth / 2;
+	clientButton->yPos = WINDOW_HEIGHT / 2;
+	clientButton->layer = 1;
+	clientButton->isActive = false;
+
+	clientButton->setOnClickListener(std::bind(&MainMenu::onClickClient, this));
+
+	// Load back button
+	const char* backButtonPath = "BackButton.png";
+	Texture backButtonTexture = Texture(backButtonPath, renderer);
+	backButton = new Button(backButtonTexture);
+	backButton->xPos = WINDOW_WIDTH / 2 - backButton->texture.mWidth / 2;
+	backButton->yPos = WINDOW_HEIGHT / 1.5f;
+	backButton->layer = 1;
+	backButton->isActive = false;
+
+	backButton->setOnClickListener(std::bind(&MainMenu::onClickBack, this));
+
 	// Add them to the list
 	buttonList.push_back(newGameButton);
 	buttonList.push_back(twoPlayersButton);
 	buttonList.push_back(exitButton);
+	buttonList.push_back(onlineButton);
+
+	// Layer 2
+	buttonList.push_back(serverButton);
+	buttonList.push_back(clientButton);
+	buttonList.push_back(backButton);
 }
 
 void MainMenu::onUpdate()
 {
 
+}
+
+void MainMenu::activateButtonLayer(Uint8 layer)
+{
+	for (auto const &button : buttonList)
+	{
+		if (button->layer == layer)
+			button->isActive = true;
+		else
+			button->isActive = false;
+	}
 }
 
 void MainMenu::handleEvent(SDL_Event event)
@@ -94,6 +153,9 @@ void MainMenu::handleClickEvent()
 	// Check if any button was pressed
 	for (auto const &button : buttonList)
 	{
+		if (!button->isActive)
+			continue;
+
 		if (button->isWithinBoundaries(x, y))
 		{
 			button->onClick();
@@ -121,4 +183,24 @@ void MainMenu::onClickExit()
 void MainMenu::onClickTwoPlayers()
 {
 	createGame(Game::TWO_PLAYERS);
+}
+
+void MainMenu::onClickOnline()
+{
+	activateButtonLayer(1);
+}
+
+void MainMenu::onClickServer()
+{
+	printf("You have chosen server Mode\n");
+}
+
+void MainMenu::onClickClient()
+{
+	printf("You have chosen client Mode\n");
+}
+
+void MainMenu::onClickBack()
+{
+	activateButtonLayer(0);
 }

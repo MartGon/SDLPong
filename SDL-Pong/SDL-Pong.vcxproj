@@ -108,8 +108,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Proyectos\Libs\SDL2_image-2.0.3\include;D:\Proyectos\Libs\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Proyectos\Libs\SDL2_image-2.0.3\lib\x86;D:\Proyectos\Libs\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Proyectos\Libs\SDL2_net-2.0.1\include;D:\Proyectos\Libs\SDL2_image-2.0.3\include;D:\Proyectos\Libs\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Proyectos\Libs\SDL2_net-2.0.1\lib\x86;D:\Proyectos\Libs\SDL2_image-2.0.3\lib\x86;D:\Proyectos\Libs\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,7 +119,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

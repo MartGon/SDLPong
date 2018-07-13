@@ -18,6 +18,15 @@ public:
 	Button *newGameButton;
 	Button *exitButton;
 	Button *twoPlayersButton;
+	Button *onlineButton;
+
+	// Layer 2 Widgets
+
+	Button *serverButton;
+	Button *clientButton;
+	Button *backButton;
+
+	// Widget list
 	std::vector<Button*> buttonList;
 
 	// Renderer
@@ -29,6 +38,7 @@ public:
 	virtual void handleEvent(SDL_Event event);
 
 	// Own methods
+	void activateButtonLayer(Uint8 layer);
 	void handleClickEvent();
 	void createGame(Game::GameMode mode);
 
@@ -36,5 +46,11 @@ public:
 	void onClickNewGame();
 	void onClickExit();
 	void onClickTwoPlayers();
+	void onClickOnline();
+
+	// Layer 2 Button Methods
+	void onClickServer();
+	void onClickClient();
+	void onClickBack();
 };
 

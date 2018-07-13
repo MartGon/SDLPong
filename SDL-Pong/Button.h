@@ -10,6 +10,9 @@ public:
 	Button(Texture texture);
 	~Button();
 
+	// Attributes
+	Uint8 layer;
+
 	// Methods
 	void handleEvent(SDL_Event* e);
 	const bool isWithinBoundaries(int mousePosX, int mousePosY);

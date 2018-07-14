@@ -18,6 +18,7 @@
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="WinAlert.cpp" />
     <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
@@ -37,5 +38,6 @@
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="WinAlert.h" />
     <ClInclude Include="Counter.h" />
+    <ClInclude Include="NetworkManager.h" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include "PlayerAI.h"
 #include "WinAlert.h"
 #include "Counter.h"
+#include "NetworkManager.h"
 #include <SDL.h>
 
 class Game : public Scene
@@ -15,20 +16,23 @@ public:
 
 	enum GameMode {
 		SINGLE_PLAYER,
-		TWO_PLAYERS
+		TWO_PLAYERS,
+		ONLINE_CLIENT,
+		ONLINE_SERVER
 	};
 
 	enum GameState {
 		GAME_RUNNING,
-		GAME_FINISHED,
-		GAME_WAITiNG
+		GAME_FINISHED
 	};
 
 	// Constructors
-
 	Game();
 	Game(SDL_Renderer *renderer, GameMode mode = SINGLE_PLAYER);
 	~Game();
+
+	// NetworkManager
+	NetworkManager * networkManager;
 
 	// Game Mode
 	GameMode gameMode;

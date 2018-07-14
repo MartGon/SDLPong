@@ -12,6 +12,15 @@ Game::Game(SDL_Renderer * renderer, GameMode mode)
 	this->renderer = renderer;
 	this->gameMode = mode;
 	gameState = GAME_RUNNING;
+
+	if (gameMode == ONLINE_SERVER)
+	{
+		networkManager = new NetworkManager(NetworkManager::NETWORK_SERVER);
+	}
+	else if(gameMode == ONLINE_CLIENT)
+	{
+		networkManager = new NetworkManager(NetworkManager::NETWORK_CLIENT);
+	}
 }
 
 Game::~Game()
@@ -85,6 +94,17 @@ void Game::start()
 
 void Game::onUpdate()
 {
+	if (gameMode == ONLINE_SERVER)
+	{
+		networkManager->update();
+		return;
+	}
+	else if (gameMode == ONLINE_CLIENT)
+	{
+		networkManager->update();
+		return;
+	}
+
 	// Check if match has endend
 	if(!isGameFinished())
 	{

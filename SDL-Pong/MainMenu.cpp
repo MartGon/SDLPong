@@ -193,11 +193,13 @@ void MainMenu::onClickOnline()
 void MainMenu::onClickServer()
 {
 	printf("You have chosen server Mode\n");
+	createGame(Game::ONLINE_SERVER);
 }
 
 void MainMenu::onClickClient()
 {
 	printf("You have chosen client Mode\n");
+	createGame(Game::ONLINE_CLIENT);
 }
 
 void MainMenu::onClickBack()

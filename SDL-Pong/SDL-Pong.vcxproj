@@ -26,6 +26,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MainGameLoop.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAI.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MainGameLoop.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAI.h" />
     <ClInclude Include="Scene.h" />

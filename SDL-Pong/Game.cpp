@@ -289,7 +289,9 @@ void Game::sendPlayerPositionPacket()
 
 void Game::sendBallDirection()
 {
-	PongPacket* ballPacket = new PongPacket(PongPacket::PACKET_BALL_POSITION, ball->getDirection());
+	Vector2 ballPos(ball->xPos, ball->yPos);
+	PongPacket* ballPacket = new PongPacket(PongPacket::PACKET_BALL_POSITION, ballPos);
+	ballPacket->direction = ball->getDirection();
 	networkAgent->sendPacket(ballPacket);
 }
 
@@ -310,7 +312,9 @@ void Game::handlePacket(PongPacket* packet)
 	{
 	case PongPacket::PACKET_BALL_POSITION:
 		std::cout << "Handling ball direction\n";
-		ball->setDirection(packet->position);
+		ball->setDirection(packet->direction);
+		ball->xPos = packet->position.x;
+		ball->yPos = packet->position.y;
 		break;
 	case PongPacket::PACKET_PLAYER_1_POSITION:
 		std::cout << "Handling Player 1 position\n";

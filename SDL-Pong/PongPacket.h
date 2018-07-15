@@ -23,6 +23,7 @@ public:
 	// Packet data
 	PacketType packetType;
 	Vector2 position;
+	Vector2 direction;
 
 	std::string data;
 };

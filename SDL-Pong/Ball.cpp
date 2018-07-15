@@ -200,3 +200,8 @@ void Ball::renderMotionBlur()
 	}
 	texture.setAlpha(255);
 }
+
+Vector2 Ball::getDirection()
+{
+	return direction;
+}

@@ -43,6 +43,7 @@ public:
 	// Movement
 	void move();
 	void setDirection(Vector2 vector2);
+	Vector2 getDirection();
 
 	// Collisions
 	void checkCollisions();

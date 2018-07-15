@@ -84,6 +84,7 @@ bool NetworkManager::openServerSocket()
 	}
 
 	std::cout << "TCP Read Port " << serverPort << " Opened Successfully! \n";
+	return true;
 }
 
 bool NetworkManager::openClientSocket()
@@ -104,6 +105,7 @@ bool NetworkManager::openClientSocket()
 	}
 
 	std::cout << "TCP Write Port " << clientPort << " Opened Successfully! \n";
+	return true;
 }
 
 bool NetworkManager::sendPairPacket()

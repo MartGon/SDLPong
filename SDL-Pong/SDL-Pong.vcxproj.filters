@@ -19,6 +19,10 @@
     <ClCompile Include="WinAlert.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NetworkAgent.cpp" />
+    <ClCompile Include="NetworkServer.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="PongPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
@@ -39,5 +43,9 @@
     <ClInclude Include="WinAlert.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkAgent.h" />
+    <ClInclude Include="NetworkServer.h" />
+    <ClInclude Include="NetworkClient.h" />
+    <ClInclude Include="PongPacket.h" />
   </ItemGroup>
 </Project>

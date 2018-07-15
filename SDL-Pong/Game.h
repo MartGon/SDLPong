@@ -7,7 +7,8 @@
 #include "PlayerAI.h"
 #include "WinAlert.h"
 #include "Counter.h"
-#include "NetworkManager.h"
+#include "NetworkAgent.h"
+#include "PongPacket.h"
 #include <SDL.h>
 
 class Game : public Scene
@@ -32,10 +33,11 @@ public:
 	~Game();
 
 	// NetworkManager
-	NetworkManager * networkManager;
+	NetworkAgent * networkAgent;
 
 	// Game Mode
 	GameMode gameMode;
+	bool connectionEstablished = false;
 
 	// Game State
 	GameState gameState;
@@ -71,10 +73,19 @@ public:
 	virtual void handleEvent(SDL_Event event);
 
 	// OwnMethods
+	void activateGameObjects();
 	bool isGameFinished();
 	void handleFinishedGame();
 	void handlePlayersMovement();
 	void loadMainMenu();
 	void reloadGame();
+	bool isOnline();
+
+	// Network
+	void sendPlayerPositionPacket();
+	void sendBallDirection();
+	void sendServerData();
+	void sendClientData();
+	void handlePacket(PongPacket *packet);
 };
 

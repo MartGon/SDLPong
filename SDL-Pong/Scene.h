@@ -10,6 +10,9 @@ public:
 	Scene(SDL_Renderer* renderer);
 	~Scene();
 
+	// Scene state
+	bool isPaused = false;
+
 	// Renderer
 	SDL_Renderer *renderer;
 
@@ -25,5 +28,7 @@ public:
 
 	void addGameObject(GameObject *gameObject);
 	void update();
+	void deactivateAllGameObjects();
+	void activateAllGameObjects();
 };
 

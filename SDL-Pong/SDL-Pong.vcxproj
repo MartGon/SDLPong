@@ -26,9 +26,13 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MainGameLoop.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="NetworkAgent.cpp" />
+    <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NetworkServer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAI.cpp" />
+    <ClCompile Include="PongPacket.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
@@ -46,9 +50,13 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MainGameLoop.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NetworkAgent.h" />
+    <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkServer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAI.h" />
+    <ClInclude Include="PongPacket.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScoreBoard.h" />

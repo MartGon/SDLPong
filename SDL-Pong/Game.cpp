@@ -2,6 +2,8 @@
 #include "Vector2.h"
 #include "SceneManager.h"
 #include "MainMenu.h"
+#include "NetworkServer.h"
+#include "NetworkClient.h"
 
 Game::Game()
 {
@@ -14,13 +16,9 @@ Game::Game(SDL_Renderer * renderer, GameMode mode)
 	gameState = GAME_RUNNING;
 
 	if (gameMode == ONLINE_SERVER)
-	{
-		networkManager = new NetworkManager(NetworkManager::NETWORK_SERVER);
-	}
+		networkAgent = new NetworkServer();
 	else if(gameMode == ONLINE_CLIENT)
-	{
-		networkManager = new NetworkManager(NetworkManager::NETWORK_CLIENT);
-	}
+		networkAgent = new NetworkClient();
 }
 
 Game::~Game()
@@ -66,6 +64,7 @@ void Game::loadMedia()
 	counter = new Counter(renderer);
 	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	counter->setRelativePosition(position);
+	counter->isActive = false;
 
 	// Set scoreboard
 	player->scoreBoard = scoreBoardOne;
@@ -80,11 +79,19 @@ void Game::startNewGame()
 	playerTwo->xPos = WINDOW_WIDTH - 20 - playerTwo->texture.mWidth;
 	playerTwo->yPos = WINDOW_HEIGHT / 2 - playerTwo->texture.mHeight / 2;
 
-	// Start Counter
-	counter->initCycle();
-
 	// ResetBall
 	ball->reset();
+
+	// Start Counter
+	if (isOnline())
+	{
+		if (connectionEstablished)
+		{
+			counter->initCycle();
+		}
+	}
+	else
+		counter->initCycle();
 }
 
 void Game::start()
@@ -94,28 +101,29 @@ void Game::start()
 
 void Game::onUpdate()
 {
-	if (gameMode == ONLINE_SERVER)
+	// Check if connection is established, in case of online game
+	if (isOnline() && !connectionEstablished)
 	{
-		networkManager->update();
-		return;
-	}
-	else if (gameMode == ONLINE_CLIENT)
-	{
-		networkManager->update();
-		return;
-	}
-
-	// Check if match has endend
-	if(!isGameFinished())
-	{
-		// Has counter animation finished
-		if (counter->hasAnimationFinished())
+		if (connectionEstablished = networkAgent->establishConnection())
 		{
-			// Ball Movement
-			ball->move();
+			// Start match
+			startNewGame();
+		}
+	}
+	else
+	{
+		// Check if match has endend
+		if (!isGameFinished())
+		{
+			// Has counter animation finished
+			if (counter->hasAnimationFinished())
+			{
+				// Ball Movement
+				ball->move();
 
-			// Handle movement
-			handlePlayersMovement();
+				// Handle movement
+				handlePlayersMovement();
+			}
 		}
 	}
 
@@ -133,10 +141,10 @@ void Game::onUpdate()
 
 bool Game::isGameFinished()
 {
+	bool isFinished = false;
+
 	if (gameState == GAME_FINISHED)
 		return true;
-
-	bool isFinished = false;
 
 	if (isFinished = player->score > 2)
 		winAlert->setPlayerNumber(0);
@@ -161,34 +169,52 @@ void Game::handlePlayersMovement()
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
 	// Player One movement
-	if (currentKeyStates[SDL_SCANCODE_W])
+	if (gameMode != ONLINE_CLIENT)
 	{
-		player->move(player->MOVE_UP);
+		if (currentKeyStates[SDL_SCANCODE_W])
+		{
+			player->move(player->MOVE_UP);
+		}
+		if (currentKeyStates[SDL_SCANCODE_S])
+		{
+			player->move(player->MOVE_DOWN);
+		}
 	}
-	if (currentKeyStates[SDL_SCANCODE_S])
+	// If Online client
+	else
 	{
-		player->move(player->MOVE_DOWN);
-	}
-
-	// Player Two movement
-	if (gameMode == TWO_PLAYERS)
-	{
-		if (currentKeyStates[SDL_SCANCODE_UP])
+		if (currentKeyStates[SDL_SCANCODE_W])
 		{
 			playerTwo->move(player->MOVE_UP);
 		}
-		if (currentKeyStates[SDL_SCANCODE_DOWN])
+		if (currentKeyStates[SDL_SCANCODE_S])
 		{
 			playerTwo->move(player->MOVE_DOWN);
 		}
 	}
 
-	// PlayerAI movement
-	else
+	switch (gameMode)
 	{
+	case TWO_PLAYERS:
+		if (currentKeyStates[SDL_SCANCODE_UP])
+			playerTwo->move(player->MOVE_UP);
+		if (currentKeyStates[SDL_SCANCODE_DOWN])
+			playerTwo->move(player->MOVE_DOWN);
+		break;
+	case ONLINE_CLIENT:
+		sendClientData();
+		handlePacket(networkAgent->recvPacket());
+		handlePacket(networkAgent->recvPacket());
+		break;
+	case ONLINE_SERVER:
+		sendServerData();
+		handlePacket(networkAgent->recvPacket());
+		break;
+	default:
 		Vector2 ballPosition(ball->xPos, ball->yPos);
 		Player::MoveDirection nextMove = playerTwo->getNextMoveDirection(ballPosition);
 		playerTwo->move(nextMove);
+		break;
 	}
 }
 
@@ -226,4 +252,74 @@ void Game::reloadGame()
 {
 	Scene *game = new Game(renderer, gameMode);
 	SceneManager::loadScene(*game);
+}
+
+bool Game::isOnline()
+{
+	return gameMode == ONLINE_SERVER || gameMode == ONLINE_CLIENT;
+}
+
+void Game::activateGameObjects()
+{
+	activateAllGameObjects();
+	winAlert->isActive = false;
+}
+
+// Networking
+
+void Game::sendPlayerPositionPacket()
+{
+	PongPacket::PacketType type;
+	Vector2 playerPos;
+
+	if (gameMode == ONLINE_SERVER)
+	{
+		type = PongPacket::PACKET_PLAYER_1_POSITION;
+		playerPos = Vector2(player->xPos, player->yPos);
+	}
+	else
+	{
+		type = PongPacket::PACKET_PLAYER_2_POSITION;
+		playerPos = Vector2(playerTwo->xPos, playerTwo->yPos);
+	}
+
+	PongPacket* playerPacket = new PongPacket(type, playerPos);
+	networkAgent->sendPacket(playerPacket);
+}
+
+void Game::sendBallDirection()
+{
+	PongPacket* ballPacket = new PongPacket(PongPacket::PACKET_BALL_POSITION, ball->getDirection());
+	networkAgent->sendPacket(ballPacket);
+}
+
+void Game::sendServerData()
+{
+	sendPlayerPositionPacket();
+	sendBallDirection();
+}
+
+void Game::sendClientData()
+{
+	sendPlayerPositionPacket();
+}
+
+void Game::handlePacket(PongPacket* packet)
+{
+	switch (packet->packetType)
+	{
+	case PongPacket::PACKET_BALL_POSITION:
+		std::cout << "Handling ball direction\n";
+		ball->setDirection(packet->position);
+		break;
+	case PongPacket::PACKET_PLAYER_1_POSITION:
+		std::cout << "Handling Player 1 position\n";
+		player->yPos = packet->position.y;
+		break;
+	case PongPacket::PACKET_PLAYER_2_POSITION:
+		std::cout << "Handling Player 2 position\n";
+		playerTwo->yPos = packet->position.y;
+	default:
+		break;
+	}
 }

@@ -52,9 +52,27 @@ void Scene::addGameObject(GameObject *gameObject)
 
 void Scene::update()
 {
+	// Return if paused
+	if (isPaused)
+		return;
+
+	// Update every object
 	for (auto gameObject : gameObjectList)
 		if(gameObject->isActive)
 			gameObject->update();
 
+	// Update hook
 	onUpdate();
+}
+
+void Scene::deactivateAllGameObjects()
+{
+	for (auto gameObject : gameObjectList)
+			gameObject->isActive = false;
+}
+
+void Scene::activateAllGameObjects()
+{
+	for (auto gameObject : gameObjectList)
+		gameObject->isActive = true;
 }

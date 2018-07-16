@@ -107,3 +107,19 @@ void WinAlert::updateAlpha(Texture &texture, Uint8 step)
 
 	texture.setAlpha(alpha);
 }
+
+void WinAlert::destroy()
+{
+	GameObject::destroy();
+
+	playerMessage.free();
+	playerNumberMessage.free();
+	winsMessage.free();
+	promptMessage.free();
+	rematchPromptMessage.free();
+
+	for (auto &texture : playerNumbers)
+		texture->free();
+
+	playerNumbers.clear();
+}

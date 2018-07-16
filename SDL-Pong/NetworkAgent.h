@@ -13,7 +13,7 @@ public:
 
 	// Methods
 		// Initializing
-	static bool networkEnabled;
+	//static bool networkEnabled;
 	static void initNetworking();
 
 		// Configuration
@@ -24,6 +24,10 @@ public:
 	// Communication
 	virtual bool sendPacket(PongPacket* packet);
 	virtual PongPacket* recvPacket();
+
+	// Other
+	void destroy();
+	virtual void beforeDestroy();
 
 protected:
 		// Communication

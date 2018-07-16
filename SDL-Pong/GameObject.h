@@ -59,5 +59,8 @@ public:
 
 	// Scale 
 	void setScale(Vector2 scale);
+
+	// Cleaning
+	virtual void destroy();
 };
 

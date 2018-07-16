@@ -70,6 +70,7 @@ public:
 	virtual void start();
 	virtual void startNewGame();
 	virtual void onUpdate();
+	virtual void destroy();
 	virtual void handleEvent(SDL_Event event);
 
 	// OwnMethods

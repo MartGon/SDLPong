@@ -44,5 +44,8 @@ public:
 		// Communication
 	virtual bool sendPacket(PongPacket* packet);
 	virtual PongPacket* recvPacket();
+
+	// Other
+	virtual void beforeDestroy();
 };
 

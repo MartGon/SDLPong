@@ -25,6 +25,9 @@ public:
 	// Scale
 	Vector2 scale;
 
+	// Other
+	char* path;
+
 	// Methods
 
 	void render(int x, int y);

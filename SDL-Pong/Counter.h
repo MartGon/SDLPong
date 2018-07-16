@@ -47,5 +47,6 @@ public:
 
 	// Upper Methods
 	virtual void onUpdate();
+	virtual void destroy();
 };
 

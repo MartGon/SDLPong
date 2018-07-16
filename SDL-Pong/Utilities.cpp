@@ -11,6 +11,9 @@ Utilities::~Utilities()
 
 int Utilities::getNumberOfDigits(int number)
 {
+	if (!number)
+		return 1;
+
 	int n = 0;
 	float fNumber = number;
 

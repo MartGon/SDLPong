@@ -33,5 +33,6 @@ public:
 
 	// Upper methods
 	void onUpdate();
+	virtual void destroy();
 };
 

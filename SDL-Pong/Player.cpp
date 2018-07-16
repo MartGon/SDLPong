@@ -39,3 +39,9 @@ void Player::addPoint()
 	score++;
 	scoreBoard->setScore(score);
 }
+
+void Player::resetScore()
+{
+	score = 0;
+	scoreBoard->setScore(score);
+}

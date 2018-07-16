@@ -1,13 +1,13 @@
 #include "NetworkAgent.h"
 
 // Attributes
-bool NetworkAgent::networkEnabled = false;
+//bool NetworkAgent::networkEnabled = false;
 
 // Constructors
 
 NetworkAgent::NetworkAgent()
 {
-	if (!networkEnabled)
+		std::cout << "Inicializando networking\n";
 		initNetworking();
 }
 
@@ -25,7 +25,7 @@ void NetworkAgent::initNetworking()
 		return;
 	}
 
-	networkEnabled = true;
+	//networkEnabled = true;
 }
 
 bool NetworkAgent::readConfigFile()
@@ -66,7 +66,7 @@ PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
 	if (!socket)
 	{
 		std::cout << "Can't receive packet, socket is not opened \n";
-		return false;
+		return nullptr;
 	}
 
 	PongPacket *packet = new PongPacket();
@@ -77,7 +77,7 @@ PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
 	if (result <= 0)
 	{
 		std::cout << "SDLNet_TCP_Recv: " << SDLNet_GetError() << "\n";
-		return false;
+		return nullptr;
 	}
 
 	//std::cout << "Pair packet: " << len << " recv succesfully \n";
@@ -92,4 +92,25 @@ bool NetworkAgent::sendPacket(PongPacket *packet)
 PongPacket* NetworkAgent::recvPacket()
 {
 	return nullptr;
+}
+
+void NetworkAgent::destroy()
+{
+	// Virtual hook
+	beforeDestroy();
+
+	// Reset flag
+	printf("Destroying network agent\n");
+	//networkEnabled = false;
+
+	// Calling SDL
+	SDLNet_Quit();
+
+	// Destroying pointer
+	this->~NetworkAgent();
+}
+
+void NetworkAgent::beforeDestroy()
+{
+	printf("Parent method");
 }

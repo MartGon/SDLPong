@@ -27,6 +27,7 @@ Texture::Texture(const char* resourcePath, SDL_Surface* screenSurface)
 
 Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 {
+	path = (char *)resourcePath;
 
 	SDL_Surface *imgSurface = IMG_Load(resourcePath);
 	if (!imgSurface)
@@ -66,7 +67,12 @@ void Texture::render(int x, int y)
 	renderQuad.w *= scale.x;
 	renderQuad.h *= scale.y;
 
-	SDL_RenderCopy(mRenderer, mTexture, NULL, &renderQuad);
+	if (0 > SDL_RenderCopy(mRenderer, mTexture, NULL, &renderQuad))
+	{
+		printf("SDL_RenderCopy: %s\n", SDL_GetError());
+		return;
+	}
+
 }
 
 void Texture::setAlpha(Uint8 alpha)
@@ -84,6 +90,7 @@ Uint8 Texture::getAlpha()
 
 void Texture::free()
 {
+	//printf("Freeing texture %s\n", path);
 	if (mTexture)
 	{
 		SDL_DestroyTexture(mTexture);

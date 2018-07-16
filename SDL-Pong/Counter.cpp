@@ -112,3 +112,14 @@ bool Counter::hasAnimationFinished()
 {
 	return state == COUNTER_FINISHED;
 }
+
+void Counter::destroy()
+{
+	GameObject::destroy();
+
+	threeCounter.free();
+	twoCounter.free();
+	oneCounter.free();
+	goCounter.free();
+	toRender.free();
+}

@@ -162,6 +162,10 @@ void Game::handleFinishedGame()
 	gameState = GAME_FINISHED;
 	winAlert->isActive = true;
 	counter->isActive = false;
+
+	// Killing networkAgent for avoiding issues when replay is pressed
+	if(isOnline())
+		networkAgent->destroy();
 }
 
 void Game::handlePlayersMovement()
@@ -311,19 +315,21 @@ void Game::handlePacket(PongPacket* packet)
 	switch (packet->packetType)
 	{
 	case PongPacket::PACKET_BALL_POSITION:
-		std::cout << "Handling ball direction\n";
 		ball->setDirection(packet->direction);
 		ball->xPos = packet->position.x;
 		ball->yPos = packet->position.y;
 		break;
 	case PongPacket::PACKET_PLAYER_1_POSITION:
-		std::cout << "Handling Player 1 position\n";
 		player->yPos = packet->position.y;
 		break;
 	case PongPacket::PACKET_PLAYER_2_POSITION:
-		std::cout << "Handling Player 2 position\n";
 		playerTwo->yPos = packet->position.y;
 	default:
 		break;
 	}
+}
+
+void Game::destroy()
+{
+	Scene::destroy();
 }

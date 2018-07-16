@@ -97,3 +97,8 @@ PongPacket* NetworkClient::recvPacket()
 {
 	return NetworkAgent::recvPacket(clientSocket);
 }
+
+void NetworkClient::beforeDestroy()
+{
+	SDLNet_TCP_Close(clientSocket);
+}

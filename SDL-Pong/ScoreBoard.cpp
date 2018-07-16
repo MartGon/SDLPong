@@ -91,3 +91,11 @@ void ScoreBoard::onUpdate()
 		display->update();
 	}
 }
+
+void ScoreBoard::destroy()
+{
+	GameObject::destroy();
+
+	for (auto &display : scoreBoardNumberDisplayVector)
+		display->destroy();
+}

@@ -26,4 +26,5 @@ public:
 
 	void move(MoveDirection direction);
 	void addPoint();
+	void resetScore();
 };

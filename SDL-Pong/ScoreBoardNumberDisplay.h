@@ -22,6 +22,7 @@ public:
 
 	// Scoreboard
 	void setNumber(int score);
+	virtual void destroy();
 
 private:
 	// Load textures

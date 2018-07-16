@@ -69,10 +69,21 @@ void ScoreBoardNumberDisplay::setNumber(int score)
 	}
 	if (score < textureVector.size())
 	{
+		//printf("Setting score to %i\n", score);
 		texture = textureVector.at(score);
 	}
 	else
 	{
 		printf("Can't set a score value bigger than 9\n");
 	}
+}
+
+void ScoreBoardNumberDisplay::destroy()
+{
+	GameObject::destroy();
+
+	for (auto &texture : textureVector)
+		texture.free();
+
+	textureVector.clear();
 }

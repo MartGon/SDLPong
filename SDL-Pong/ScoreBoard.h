@@ -28,5 +28,6 @@ public:
 	// Methods
 	void setScore(int score);
 	virtual void onUpdate();
+	virtual void destroy();
 };
 

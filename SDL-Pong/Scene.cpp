@@ -35,7 +35,11 @@ void Scene::onUpdate()
 
 void Scene::destroy()
 {
+	printf("Destroying scene\n");
+	for (auto &gameObject : gameObjectList)
+		gameObject->destroy();
 
+	this->~Scene();
 }
 
 void Scene::handleEvent(SDL_Event event)

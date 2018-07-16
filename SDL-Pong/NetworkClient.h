@@ -37,11 +37,14 @@ public:
 	virtual bool readConfigFile();
 	virtual bool establishConnection();
 
+			// Communication
+	virtual bool sendPacket(PongPacket* packet);
+	virtual PongPacket* recvPacket();
+
 		// Own
 	bool openClientSocket();
 		
-		// Communication
-	virtual bool sendPacket(PongPacket* packet);
-	virtual PongPacket* recvPacket();
+	// Other
+	virtual void beforeDestroy();
 };
 

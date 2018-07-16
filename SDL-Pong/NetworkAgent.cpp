@@ -1,7 +1,7 @@
 #include "NetworkAgent.h"
 
 // Attributes
-//bool NetworkAgent::networkEnabled = false;
+
 
 // Constructors
 
@@ -25,7 +25,6 @@ void NetworkAgent::initNetworking()
 		return;
 	}
 
-	//networkEnabled = true;
 }
 
 bool NetworkAgent::readConfigFile()
@@ -101,7 +100,6 @@ void NetworkAgent::destroy()
 
 	// Reset flag
 	printf("Destroying network agent\n");
-	//networkEnabled = false;
 
 	// Calling SDL
 	SDLNet_Quit();
@@ -112,5 +110,5 @@ void NetworkAgent::destroy()
 
 void NetworkAgent::beforeDestroy()
 {
-	printf("Parent method");
+	printf("Parent method\n");
 }

@@ -9,16 +9,11 @@ Game::Game()
 {
 }
 
-Game::Game(SDL_Renderer * renderer, GameMode mode)
+Game::Game(SDL_Renderer *renderer, GameMode mode)
 {
 	this->renderer = renderer;
 	this->gameMode = mode;
 	gameState = GAME_RUNNING;
-
-	if (gameMode == ONLINE_SERVER)
-		networkAgent = new NetworkServer();
-	else if(gameMode == ONLINE_CLIENT)
-		networkAgent = new NetworkClient();
 }
 
 Game::~Game()
@@ -69,6 +64,12 @@ void Game::loadMedia()
 	// Set scoreboard
 	player->scoreBoard = scoreBoardOne;
 	playerTwo->scoreBoard = scoreBoardTwo;
+
+	// Creating networkAgents
+	if (gameMode == ONLINE_SERVER)
+		networkAgent = new NetworkServer();
+	else if (gameMode == ONLINE_CLIENT)
+		networkAgent = new NetworkClient();
 }
 
 void Game::startNewGame()
@@ -176,25 +177,17 @@ void Game::handlePlayersMovement()
 	if (gameMode != ONLINE_CLIENT)
 	{
 		if (currentKeyStates[SDL_SCANCODE_W])
-		{
 			player->move(player->MOVE_UP);
-		}
-		if (currentKeyStates[SDL_SCANCODE_S])
-		{
+		else if (currentKeyStates[SDL_SCANCODE_S])
 			player->move(player->MOVE_DOWN);
-		}
 	}
 	// If Online client
 	else
 	{
 		if (currentKeyStates[SDL_SCANCODE_W])
-		{
 			playerTwo->move(player->MOVE_UP);
-		}
-		if (currentKeyStates[SDL_SCANCODE_S])
-		{
+		else if (currentKeyStates[SDL_SCANCODE_S])
 			playerTwo->move(player->MOVE_DOWN);
-		}
 	}
 
 	switch (gameMode)
@@ -202,7 +195,7 @@ void Game::handlePlayersMovement()
 	case TWO_PLAYERS:
 		if (currentKeyStates[SDL_SCANCODE_UP])
 			playerTwo->move(player->MOVE_UP);
-		if (currentKeyStates[SDL_SCANCODE_DOWN])
+		else if (currentKeyStates[SDL_SCANCODE_DOWN])
 			playerTwo->move(player->MOVE_DOWN);
 		break;
 	case ONLINE_CLIENT:
@@ -312,6 +305,13 @@ void Game::sendClientData()
 
 void Game::handlePacket(PongPacket* packet)
 {
+	if (!packet)
+	{
+		std::cout << "Se perdió la conexión con el otro jugador\n";
+		loadMainMenu();
+		return;
+	}
+
 	switch (packet->packetType)
 	{
 	case PongPacket::PACKET_BALL_POSITION:
@@ -331,5 +331,8 @@ void Game::handlePacket(PongPacket* packet)
 
 void Game::destroy()
 {
+	if (isOnline())
+		networkAgent->destroy();
+
 	Scene::destroy();
 }

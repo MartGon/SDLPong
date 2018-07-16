@@ -13,7 +13,6 @@ public:
 
 	// Methods
 		// Initializing
-	//static bool networkEnabled;
 	static void initNetworking();
 
 		// Configuration

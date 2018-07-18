@@ -9,7 +9,10 @@
 #include "Counter.h"
 #include "NetworkAgent.h"
 #include "PongPacket.h"
+#include <SDL_thread.h>
 #include <SDL.h>
+
+int threadFunction(void *data);
 
 class Game : public Scene
 {
@@ -24,7 +27,8 @@ public:
 
 	enum GameState {
 		GAME_RUNNING,
-		GAME_FINISHED
+		GAME_FINISHED,
+		GAME_NETWORK_ERROR
 	};
 
 	// Constructors
@@ -65,6 +69,10 @@ public:
 	// Renderer
 	SDL_Renderer *renderer;
 
+	// Thread
+	SDL_Thread *thread;
+	SDL_sem* sem;
+
 	// Methods
 	virtual void loadMedia();
 	virtual void start();
@@ -81,12 +89,15 @@ public:
 	void loadMainMenu();
 	void reloadGame();
 	bool isOnline();
+	void destroyNetworkAgent();
 
 	// Network
 	void sendPlayerPositionPacket();
 	void sendBallDirection();
 	void sendServerData();
 	void sendClientData();
-	void handlePacket(PongPacket *packet);
+	bool handlePacket(PongPacket *packet);
+	void disconnect();
+	bool isDisconnected();
 };
 

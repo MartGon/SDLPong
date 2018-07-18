@@ -65,11 +65,20 @@ void Game::loadMedia()
 	player->scoreBoard = scoreBoardOne;
 	playerTwo->scoreBoard = scoreBoardTwo;
 
-	// Creating networkAgents
-	if (gameMode == ONLINE_SERVER)
-		networkAgent = new NetworkServer();
-	else if (gameMode == ONLINE_CLIENT)
-		networkAgent = new NetworkClient();
+	// Online measures
+	if (isOnline())
+	{
+		// Creating networkAgents
+		if (gameMode == ONLINE_SERVER)
+			networkAgent = new NetworkServer();
+		else if (gameMode == ONLINE_CLIENT)
+			networkAgent = new NetworkClient();
+
+		// Threading
+		sem = SDL_CreateSemaphore(1);
+		thread = SDL_CreateThread(threadFunction, "defu", this);
+		SDL_DetachThread(thread);
+	}
 }
 
 void Game::startNewGame()
@@ -120,10 +129,16 @@ void Game::onUpdate()
 			if (counter->hasAnimationFinished())
 			{
 				// Ball Movement
+				SDL_SemWait(sem);
+
+				if (isDisconnected())
+					loadMainMenu();
+
 				ball->move();
 
 				// Handle movement
 				handlePlayersMovement();
+				SDL_SemPost(sem);
 			}
 		}
 	}
@@ -165,8 +180,7 @@ void Game::handleFinishedGame()
 	counter->isActive = false;
 
 	// Killing networkAgent for avoiding issues when replay is pressed
-	if(isOnline())
-		networkAgent->destroy();
+	destroyNetworkAgent();
 }
 
 void Game::handlePlayersMovement()
@@ -200,12 +214,9 @@ void Game::handlePlayersMovement()
 		break;
 	case ONLINE_CLIENT:
 		sendClientData();
-		handlePacket(networkAgent->recvPacket());
-		handlePacket(networkAgent->recvPacket());
 		break;
 	case ONLINE_SERVER:
 		sendServerData();
-		handlePacket(networkAgent->recvPacket());
 		break;
 	default:
 		Vector2 ballPosition(ball->xPos, ball->yPos);
@@ -222,6 +233,7 @@ void Game::handleEvent(SDL_Event event)
 		switch (event.key.keysym.sym)
 		{
 			case SDLK_ESCAPE:
+				disconnect();
 				loadMainMenu();
 				break;
 
@@ -303,14 +315,12 @@ void Game::sendClientData()
 	sendPlayerPositionPacket();
 }
 
-void Game::handlePacket(PongPacket* packet)
+bool Game::handlePacket(PongPacket* packet)
 {
 	if (!packet)
-	{
-		std::cout << "Se perdió la conexión con el otro jugador\n";
-		loadMainMenu();
-		return;
-	}
+		return false;
+
+	//std::cout << "Handling packet\n";
 
 	switch (packet->packetType)
 	{
@@ -327,12 +337,87 @@ void Game::handlePacket(PongPacket* packet)
 	default:
 		break;
 	}
+
+	return true;
 }
 
 void Game::destroy()
 {
-	if (isOnline())
-		networkAgent->destroy();
+	destroyNetworkAgent();
 
 	Scene::destroy();
+}
+
+int threadFunction(void* data)
+{
+	Game *game = (Game*)data;
+	PongPacket *packet = nullptr;
+	bool valid = false;
+
+	while (true)
+	{
+		if (!game->connectionEstablished)
+			continue;
+
+		if (game->isGameFinished() || game->isDisconnected())
+			break;
+
+		// Receive data
+		packet = game->networkAgent->recvPacket();
+
+		SDL_SemWait(game->sem);
+
+		if (!packet)
+		{
+			game->disconnect();
+			SDL_SemPost(game->sem);
+			break;
+		}
+
+		valid = game->handlePacket(packet);
+
+		if (!valid)
+		{
+			game->disconnect();
+			SDL_SemPost(game->sem);
+			break;
+		}
+
+		SDL_SemPost(game->sem);
+
+		//printf("Main Thread\n", game->player->score);
+	}
+
+	return 0;
+}
+
+void Game::destroyNetworkAgent()
+{
+	if (!isOnline())
+		return;
+
+	if (sem)
+	{
+		SDL_DestroySemaphore(sem);
+		sem = nullptr;
+	}
+
+	networkAgent->destroy();
+}
+
+void Game::disconnect()
+{
+	if (!isOnline())
+		return;
+
+	std::cout << "Se perdió la conexión con el otro jugador\n";
+	gameState = Game::GAME_NETWORK_ERROR;
+}
+
+bool Game::isDisconnected()
+{
+	if (!isOnline())
+		return false;
+
+	return gameState == GAME_NETWORK_ERROR;
 }

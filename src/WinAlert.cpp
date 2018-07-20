@@ -29,6 +29,8 @@ WinAlert::WinAlert(SDL_Renderer* renderer)
 	// Set Flags
 	colliderEnabled = false;
 	renderEnabled = false;
+
+	texture = Texture(rPrMpath, renderer);
 }
 
 WinAlert::~WinAlert()
@@ -46,6 +48,7 @@ void WinAlert::loadPlayerNumbersTextures(SDL_Renderer* renderer)
 		Texture *texture = new Texture(path, renderer);
 		playerNumbers.push_back(texture);
 	}
+	playerNumberMessage = *playerNumbers.front();
 }
 
 void WinAlert::setPlayerNumber(int number)

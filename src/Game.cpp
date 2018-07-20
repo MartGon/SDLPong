@@ -129,6 +129,7 @@ void Game::onUpdate()
 			if (counter->hasAnimationFinished())
 			{
 				// Ball Movement
+				if(isOnline())
 				SDL_SemWait(sem);
 
 				if (isDisconnected())
@@ -138,6 +139,7 @@ void Game::onUpdate()
 
 				// Handle movement
 				handlePlayersMovement();
+				if(isOnline())
 				SDL_SemPost(sem);
 			}
 		}
@@ -356,11 +358,11 @@ int threadFunction(void* data)
 
 	while (true)
 	{
-		if (!game->connectionEstablished)
-			continue;
-
 		if (game->isGameFinished() || game->isDisconnected())
 			break;
+
+		if (!game->connectionEstablished)
+			continue;
 
 		// Receive data
 		packet = game->networkAgent->recvPacket();

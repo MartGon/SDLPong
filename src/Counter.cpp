@@ -115,7 +115,7 @@ bool Counter::hasAnimationFinished()
 
 void Counter::destroy()
 {
-	GameObject::destroy();
+	//GameObject::destroy();
 
 	threeCounter.free();
 	twoCounter.free();

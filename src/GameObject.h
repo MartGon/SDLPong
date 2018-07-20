@@ -22,8 +22,8 @@ public:
 	Texture texture;
 
 	// Position
-	int xPos;
-	int yPos;
+	int xPos = 0;
+	int yPos = 0;
 
 	// Movement
 	int speed = 5;

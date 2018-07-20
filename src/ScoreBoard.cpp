@@ -94,7 +94,7 @@ void ScoreBoard::onUpdate()
 
 void ScoreBoard::destroy()
 {
-	GameObject::destroy();
+	//GameObject::destroy();
 
 	for (auto &display : scoreBoardNumberDisplayVector)
 		display->destroy();

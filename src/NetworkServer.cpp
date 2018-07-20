@@ -126,6 +126,10 @@ PongPacket* NetworkServer::recvPacket()
 
 void NetworkServer::beforeDestroy()
 {
-	SDLNet_TCP_Close(clientSocket);
 	SDLNet_TCP_Close(serverSocket);
+
+	if (state == SERVER_STATE_CONNECTION_ESTABLISHED)
+	{
+		SDLNet_TCP_Close(clientSocket);
+	}
 }

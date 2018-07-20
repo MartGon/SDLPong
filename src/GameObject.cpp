@@ -79,6 +79,6 @@ void GameObject::onUpdate()
 
 void GameObject::destroy()
 {
-	texture.free();
+		texture.free();
 	this->~GameObject();
 }

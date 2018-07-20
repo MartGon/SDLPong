@@ -84,10 +84,10 @@ void Game::loadMedia()
 void Game::startNewGame()
 {
 	// Set player positions
-	player->xPos = 20;
-	player->yPos = WINDOW_HEIGHT / 2 - player->texture.mHeight / 2;
-	playerTwo->xPos = WINDOW_WIDTH - 20 - playerTwo->texture.mWidth;
-	playerTwo->yPos = WINDOW_HEIGHT / 2 - playerTwo->texture.mHeight / 2;
+	player->position.x = 20;
+	player->position.y = WINDOW_HEIGHT / 2 - player->texture.mHeight / 2;
+	playerTwo->position.x = WINDOW_WIDTH - 20 - playerTwo->texture.mWidth;
+	playerTwo->position.y = WINDOW_HEIGHT / 2 - playerTwo->texture.mHeight / 2;
 
 	// ResetBall
 	ball->reset();
@@ -164,9 +164,9 @@ bool Game::isGameFinished()
 	if (gameState == GAME_FINISHED)
 		return true;
 
-	if (isFinished = player->score > 2)
+	if (isFinished = player->score > 0)
 		winAlert->setPlayerNumber(0);
-	else if (isFinished = playerTwo->score > 2)
+	else if (isFinished = playerTwo->score > 0)
 		winAlert->setPlayerNumber(1);
 
 	if (isFinished)
@@ -221,7 +221,7 @@ void Game::handlePlayersMovement()
 		sendServerData();
 		break;
 	default:
-		Vector2 ballPosition(ball->xPos, ball->yPos);
+		Vector2 ballPosition(ball->position.x, ball->position.y);
 		Player::MoveDirection nextMove = playerTwo->getNextMoveDirection(ballPosition);
 		playerTwo->move(nextMove);
 		break;
@@ -286,12 +286,12 @@ void Game::sendPlayerPositionPacket()
 	if (gameMode == ONLINE_SERVER)
 	{
 		type = PongPacket::PACKET_PLAYER_1_POSITION;
-		playerPos = Vector2(player->xPos, player->yPos);
+		playerPos = Vector2(player->position.x, player->position.y);
 	}
 	else
 	{
 		type = PongPacket::PACKET_PLAYER_2_POSITION;
-		playerPos = Vector2(playerTwo->xPos, playerTwo->yPos);
+		playerPos = Vector2(playerTwo->position.x, playerTwo->position.y);
 	}
 
 	PongPacket* playerPacket = new PongPacket(type, playerPos);
@@ -300,7 +300,7 @@ void Game::sendPlayerPositionPacket()
 
 void Game::sendBallDirection()
 {
-	Vector2 ballPos(ball->xPos, ball->yPos);
+	Vector2 ballPos(ball->position.x, ball->position.y);
 	PongPacket* ballPacket = new PongPacket(PongPacket::PACKET_BALL_POSITION, ballPos);
 	ballPacket->direction = ball->getDirection();
 	networkAgent->sendPacket(ballPacket);
@@ -328,14 +328,14 @@ bool Game::handlePacket(PongPacket* packet)
 	{
 	case PongPacket::PACKET_BALL_POSITION:
 		ball->setDirection(packet->direction);
-		ball->xPos = packet->position.x;
-		ball->yPos = packet->position.y;
+		ball->position.x = packet->position.x;
+		ball->position.y = packet->position.y;
 		break;
 	case PongPacket::PACKET_PLAYER_1_POSITION:
-		player->yPos = packet->position.y;
+		player->position.y = packet->position.y;
 		break;
 	case PongPacket::PACKET_PLAYER_2_POSITION:
-		playerTwo->yPos = packet->position.y;
+		playerTwo->position.y = packet->position.y;
 	default:
 		break;
 	}

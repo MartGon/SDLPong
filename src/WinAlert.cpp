@@ -63,22 +63,22 @@ void WinAlert::setPlayerNumber(int number)
 
 void WinAlert::onUpdate()
 {
-	playerMessage.render(xPos, yPos);
-	winsMessage.render(xPos, yPos + winsMessage.mHeight);
-	playerNumberMessage.render(xPos, yPos);
+	playerMessage.render(position.x, position.y);
+	winsMessage.render(position.x, position.y + winsMessage.mHeight);
+	playerNumberMessage.render(position.x, position.y);
 	updatePrompt();
 }
 
 void WinAlert::setRelativePosition(Vector2 position)
 {
-	xPos = position.x - playerMessage.mWidth / 2;
-	yPos = position.y - playerMessage.mHeight - winsMessage.mHeight;
+	this->position.x = position.x - playerMessage.mWidth / 2;
+	this->position.y = position.y - playerMessage.mHeight - winsMessage.mHeight;
 }
 
 void WinAlert::updatePrompt()
 {
-	promptMessage.render(xPos, yPos + winsMessage.mHeight + promptMessage.mHeight * 2);
-	rematchPromptMessage.render(xPos, yPos + winsMessage.mHeight + promptMessage.mHeight * 3);
+	promptMessage.render(position.x, position.y + winsMessage.mHeight + promptMessage.mHeight * 2);
+	rematchPromptMessage.render(position.x, position.y + winsMessage.mHeight + promptMessage.mHeight * 3);
 	updateAlpha(promptMessage, 3);
 	updateAlpha(rematchPromptMessage, 3);
 }

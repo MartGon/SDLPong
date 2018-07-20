@@ -25,11 +25,11 @@ void Ball::move()
 	// check collisions
 	checkCollisions();
 
-	xPos += (direction.x * speed);
-	yPos += (direction.y * speed);
+	position.x += (direction.x * speed);
+	position.y += (direction.y * speed);
 
 	// Add to motion blur vector
-	addMotionBlurPosition(Vector2(xPos, yPos));
+	addMotionBlurPosition(Vector2(position.x, position.y));
 }
 
 void Ball::setDirection(Vector2 vector2)
@@ -127,9 +127,9 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	Vector2 ballCenter = getCollisionCenter();
 	Vector2 padCenter = player.getCollisionCenter();
 
-	int ballRelativeYPos = ballCenter.y - padCenter.y;
+	int ballRelativeYpos = ballCenter.y - padCenter.y;
 	float playerMaxValue = (player.mColliderBox.h / 2) + mColliderBox.h / 2;
-	float centerRate = ballRelativeYPos / playerMaxValue;
+	float centerRate = ballRelativeYpos / playerMaxValue;
 
 	direction.x = -direction.x;
 	direction.y = centerRate;
@@ -147,8 +147,8 @@ void Ball::reset()
 	motionBlurPositions.clear();
 
 	// Set on the center
-	xPos = WINDOW_WIDTH / 2 - texture.mWidth / 2;
-	yPos = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
+	position.x = WINDOW_WIDTH / 2 - texture.mWidth / 2;
+	position.y = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
 
 	// Randomize direction
 	srand(time(NULL));

@@ -21,11 +21,11 @@ ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scor
 	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
 
 	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
-		displayOne->xPos = WINDOW_WIDTH / 2 - 3 * displayOne->mColliderBox.w / 2;
+		displayOne->position.x = WINDOW_WIDTH / 2 - 3 * displayOne->mColliderBox.w / 2;
 	else
-		displayOne->xPos = WINDOW_WIDTH / 2 + displayOne->mColliderBox.w / 2;
+		displayOne->position.x = WINDOW_WIDTH / 2 + displayOne->mColliderBox.w / 2;
 	
-	displayOne->yPos = displayOne->texture.mHeight / 3;
+	displayOne->position.y = displayOne->texture.mHeight / 3;
 
 	// Add to the list
 	scoreBoardNumberDisplayVector.push_back(displayOne);
@@ -49,28 +49,28 @@ void ScoreBoard::setScore(int score)
 			ScoreBoardNumberDisplay *scoreDisplay = new ScoreBoardNumberDisplay(renderer);
 			ScoreBoardNumberDisplay *previousDisplay = scoreBoardNumberDisplayVector.back();
 
-			int pXPos = previousDisplay->xPos;
-			int pYPos = previousDisplay->yPos;
+			int xPos = previousDisplay->position.x;
+			int yPos = previousDisplay->position.y;
 
 			if (scoreboardType == PLAYER_ONE_SCOREBOARD)
 			{
-				scoreDisplay->xPos = pXPos - (scoreDisplay->mColliderBox.w + scoreDisplay->mColliderBox.w / 4);
-				scoreDisplay->yPos = pYPos;
+				scoreDisplay->position.x = xPos - (scoreDisplay->mColliderBox.w + scoreDisplay->mColliderBox.w / 4);
+				scoreDisplay->position.y = yPos;
 			}
 			else
 			{
 				// We put the new one where the front one used to be
-				scoreDisplay->xPos = pXPos;
-				scoreDisplay->yPos = pYPos;
+				scoreDisplay->position.x = xPos;
+				scoreDisplay->position.y = yPos;
 
 				// We offset all the other ones
 				
 				for (auto display : scoreBoardNumberDisplayVector)
 				{
-					display->xPos += (display->mColliderBox.w + display->mColliderBox.w / 4);
+					display->position.x += (display->mColliderBox.w + display->mColliderBox.w / 4);
 				}
 				
-				//previousDisplay->xPos = pXPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);
+				//previousDisplay->position.x = xPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);
 			}
 			scoreBoardNumberDisplayVector.push_back(scoreDisplay);
 		}

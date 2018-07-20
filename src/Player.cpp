@@ -24,13 +24,13 @@ void Player::move(Player::MoveDirection direction)
 {
 	if (direction == Player::MoveDirection::MOVE_UP)
 	{
-		if(yPos > 0)
-			yPos -= speed;
+		if(position.y > 0)
+			position.y -= speed;
 	}
 	else
 	{
-		if(yPos < 480 - mColliderBox.h)
-			yPos += speed;
+		if(position.y < 480 - mColliderBox.h)
+			position.y += speed;
 	}
 }
 

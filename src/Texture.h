@@ -14,19 +14,19 @@ public:
 	~Texture();
 	
 	// SDL Stuff
-	SDL_Texture *mTexture;
-	SDL_Surface *optimizedSurface;
-	SDL_Renderer *mRenderer;
+	SDL_Texture *mTexture = nullptr;
+	SDL_Surface *optimizedSurface = nullptr;
+	SDL_Renderer *mRenderer = nullptr;
 
 	// Dimensions
-	int mWidth;
-	int mHeight;
+	int mWidth = 0;
+	int mHeight = 0;
 
 	// Scale
 	Vector2 scale;
 
 	// Other
-	char* path;
+	char* path = nullptr;
 
 	// Methods
 

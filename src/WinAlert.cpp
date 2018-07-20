@@ -30,7 +30,7 @@ WinAlert::WinAlert(SDL_Renderer* renderer)
 	colliderEnabled = false;
 	renderEnabled = false;
 
-	texture = Texture(rPrMpath, renderer);
+	//texture = Texture(rPrMpath, renderer);
 }
 
 WinAlert::~WinAlert()

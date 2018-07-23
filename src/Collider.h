@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Vector2.h"
+#include "Texture.h"
 #include <vector>
 
 class Collider : public Component
@@ -8,6 +9,7 @@ class Collider : public Component
 public:
 	Collider();
 	Collider(int width, int height);
+	Collider(Texture texture);
 
 	// MeanWhile
 	static std::vector<Collider*> gColliders;

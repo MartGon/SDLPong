@@ -10,10 +10,6 @@ public:
 	MainMenu(SDL_Renderer *renderer);
 	~MainMenu();
 
-	// Textures
-	Texture backgroundTexture;
-	Texture gameTitle;
-
 	// Widgets
 	Button *newGameButton;
 	Button *exitButton;

@@ -9,14 +9,15 @@ Collider::Collider() : Component()
 
 }
 
+Collider::Collider(Texture texture) : Collider(texture.mWidth, texture.mHeight)
+{
+}
+
 Collider::Collider(int width, int height) : Component()
 {
 	// Set values
 	cWidth = width;
 	cHeight = height;
-
-	// Calculate box
-	calculateColliderBox();
 
 	// Add to static list
 	gColliders.push_back(this);
@@ -30,6 +31,9 @@ void Collider::calculateColliderBox()
 
 void Collider::calculateColliderBoundaries()
 {
+	// Calculate box
+	calculateColliderBox();
+
 	Vector2 position = gameObject->transform.position;
 
 	cLeft = position.x + offset.x;

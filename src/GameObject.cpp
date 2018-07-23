@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "SceneManager.h"
-
+#include "TextureRenderer.h"
 
 GameObject::GameObject()
 {
@@ -16,44 +16,27 @@ GameObject::~GameObject()
 {
 }
 
-GameObject::GameObject(Texture texture)
+GameObject::GameObject(Texture texture) : GameObject()
 {
-	this->texture = texture;
-	calculateColliderBox();
-
-	SceneManager::scene->addGameObject(this);
+	setComponent(new TextureRenderer(texture));
 }
 
 void GameObject::update()
 {
-	// Calculate collision boundaries
-	if(colliderEnabled)
-		computeBoundaries();
+	// Hook for initializing
+	if (!isInitialized)
+		start();
 
-	// Render default texture if enabled
-	if(renderEnabled)
-		texture.render(position.x, position.y);
+	// Update every component
+	for (auto &component : components)
+		if(component->isEnabled)
+			component->update();
 
 	// Hook for gameObject updates
 	onUpdate();
 }
 
-void GameObject::computeBoundaries()
-{
-	boundaries.left = position.x + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
-	boundaries.right = position.x + mColliderBox.w + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
-	boundaries.top = position.y + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
-	boundaries.bottom = position.y + mColliderBox.h + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
-}
-
-Vector2 GameObject::getCollisionCenter()
-{
-	int x = (float)(boundaries.right - boundaries.left) / 2 + position.x + (texture.mWidth * texture.scale.x - mColliderBox.w) / 2;
-	int y = (float)(boundaries.bottom - boundaries.top) / 2 + position.y + (texture.mHeight * texture.scale.y - mColliderBox.h) / 2;
-
-	return Vector2(x, y);
-}
-
+/*
 void GameObject::drawCollisionBoundaries(SDL_Renderer *renderer)
 {
 	SDL_Rect rect;
@@ -62,19 +45,28 @@ void GameObject::drawCollisionBoundaries(SDL_Renderer *renderer)
 	rect.y = boundaries.bottom;
 	rect.h = boundaries.top - boundaries.bottom;
 	SDL_RenderDrawRect(renderer, &rect);
+}*/
+
+void GameObject::setRelativePosition(Vector2 pos)
+{
+
 }
 
 void GameObject::setScale(Vector2 scale)
 {
-	texture.scale = scale;
-
-	calculateColliderBox();
+	//texture.scale = scale;
 }
 
-void GameObject::calculateColliderBox()
+void GameObject::start()
 {
-	mColliderBox.w = texture.mWidth * texture.scale.x;
-	mColliderBox.h = texture.mHeight * texture.scale.y;
+	onStart();
+
+	isInitialized = true;
+}
+
+void GameObject::onStart()
+{
+
 }
 
 void GameObject::onUpdate()
@@ -84,13 +76,8 @@ void GameObject::onUpdate()
 
 void GameObject::destroy()
 {
-	texture.free();
+	//texture.free();
 	this->~GameObject();
-}
-
-void GameObject::setRelativePosition(Vector2 pos)
-{
-
 }
 
 void GameObject::setComponent(Component *component)

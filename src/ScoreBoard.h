@@ -19,6 +19,8 @@ public:
 
 	PlayerScoreBoard scoreboardType;
 
+	// Collider
+
 	// Renderer
 	SDL_Renderer *renderer;
 
@@ -27,6 +29,7 @@ public:
 
 	// Methods
 	void setScore(int score);
+	void onStart() override;
 	virtual void onUpdate();
 	virtual void destroy();
 };

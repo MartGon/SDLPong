@@ -1,6 +1,7 @@
 #include "MainGameLoop.h"
 #include "MainMenu.h"
 #include "SceneManager.h"
+#include "RendererManager.h"
 
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
@@ -45,10 +46,13 @@ int main(int argc, char* args[])
 	if (!initGameWindow(window, renderer))
 	{
 		printf("Failed to init");
+		return 0;
 	}
 	else
 	{
 		// Game initialization
+		RendererManager::renderer = renderer;
+
 		Scene *scene = new MainMenu(renderer);
 		SceneManager::loadScene(*scene);
 

@@ -10,29 +10,28 @@ ScoreBoard::ScoreBoard()
 ScoreBoard::ScoreBoard(SDL_Renderer* renderer, ScoreBoard::PlayerScoreBoard scoreboardType) : GameObject()
 {
 	// Set Object values
-	this->renderer;
+	this->renderer = renderer;
 	this->scoreboardType = scoreboardType;
-
-	// Set flags
-	renderEnabled = false;
-	colliderEnabled = false;
-
-	// Create first display
-	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
-
-	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
-		displayOne->position.x = WINDOW_WIDTH / 2 - 3 * displayOne->mColliderBox.w / 2;
-	else
-		displayOne->position.x = WINDOW_WIDTH / 2 + displayOne->mColliderBox.w / 2;
-	
-	displayOne->position.y = displayOne->texture.mHeight / 3;
-
-	// Add to the list
-	scoreBoardNumberDisplayVector.push_back(displayOne);
 }
 
 ScoreBoard::~ScoreBoard()
 {
+}
+
+void ScoreBoard::onStart()
+{
+	// Create first display
+	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
+
+	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
+		displayOne->transform.position.x = WINDOW_WIDTH / 2 - 3 * displayOne->collider->cWidth / 2;
+	else
+		displayOne->transform.position.x = WINDOW_WIDTH / 2 + displayOne->collider->cWidth / 2;
+
+	displayOne->transform.position.y = displayOne->collider->cHeight / 3;
+
+	// Add to the list
+	scoreBoardNumberDisplayVector.push_back(displayOne);
 }
 
 void ScoreBoard::setScore(int score)
@@ -49,25 +48,25 @@ void ScoreBoard::setScore(int score)
 			ScoreBoardNumberDisplay *scoreDisplay = new ScoreBoardNumberDisplay(renderer);
 			ScoreBoardNumberDisplay *previousDisplay = scoreBoardNumberDisplayVector.back();
 
-			int xPos = previousDisplay->position.x;
-			int yPos = previousDisplay->position.y;
+			int xPos = previousDisplay->transform.position.x;
+			int yPos = previousDisplay->transform.position.y;
 
 			if (scoreboardType == PLAYER_ONE_SCOREBOARD)
 			{
-				scoreDisplay->position.x = xPos - (scoreDisplay->mColliderBox.w + scoreDisplay->mColliderBox.w / 4);
-				scoreDisplay->position.y = yPos;
+				scoreDisplay->transform.position.x = xPos - (scoreDisplay->collider->cWidth + scoreDisplay->collider->cWidth / 4);
+				scoreDisplay->transform.position.y = yPos;
 			}
 			else
 			{
 				// We put the new one where the front one used to be
-				scoreDisplay->position.x = xPos;
-				scoreDisplay->position.y = yPos;
+				scoreDisplay->transform.position.x = xPos;
+				scoreDisplay->transform.position.y = yPos;
 
 				// We offset all the other ones
 				
 				for (auto display : scoreBoardNumberDisplayVector)
 				{
-					display->position.x += (display->mColliderBox.w + display->mColliderBox.w / 4);
+					display->transform.position.x += (display->collider->cWidth + display->collider->cWidth / 4);
 				}
 				
 				//previousDisplay->position.x = xPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);

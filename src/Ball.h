@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "Texture.h"
 #include "Player.h"
 #include "Vector2.h"
 #include "MainGameLoop.h"
@@ -7,6 +6,8 @@
 #pragma once
 
 class Game;
+class TextureRenderer;
+
 class Ball : public GameObject
 {
 public:
@@ -46,19 +47,22 @@ public:
 	Vector2 getDirection();
 
 	// Collisions
-	void checkCollisions();
-	bool checkCollisionWithPlayer(Player player);
+	Collider *collider = nullptr;
+	//void checkCollisions();
 	WallCollision checkCollisionWithWalls();
+	void handlePossibleWallCollision();
 	void modifyDirectionFromCollisionWithPlayer(Player player);
+	void onColliderEnter(Collider *collider);
 
 	// Reset
 	void reset();
 
 	// Upper Methods
-	virtual void calculateColliderBox();
+	void onStart() override;
 	virtual void onUpdate();
 
 	// Motion Blur
+	TextureRenderer *tRenderer = nullptr;
 	std::vector<Vector2> motionBlurPositions;
 	void renderMotionBlur();
 	void addMotionBlurPosition(Vector2 pos);

@@ -22,25 +22,25 @@ void MainMenu::loadMedia()
 	
 	// Load background
 	const char* backgroundPath = "MenuBackGround.png";
-	backgroundTexture = Texture(backgroundPath, renderer);
+	Texture backgroundTexture = Texture(backgroundPath, renderer);
 	GameObject *background = new GameObject(backgroundTexture);
-	background->position.x = 0;
-	background->position.y = 0;
+	background->transform.position.x = 0;
+	background->transform.position.y = 0;
 
 	// Load title
 	const char* titlePath = "PongTitle.png";
-	gameTitle = Texture(titlePath, renderer);
-	GameObject *title = new GameObject(gameTitle);
-	title->position.x = WINDOW_WIDTH / 2 - gameTitle.mWidth / 2;
-	title->position.y = WINDOW_HEIGHT / 64;
+	Texture titleTexture = Texture(titlePath, renderer);
+	GameObject *title = new GameObject(titleTexture);
+	title->transform.position.x = WINDOW_WIDTH / 2 - titleTexture.mWidth / 2;
+	title->transform.position.y = WINDOW_HEIGHT / 64;
 
 	
 	// Load  newGame button
 	const char* buttonPath = "NewGameButton.png";
 	Texture newGameButtonTexture = Texture(buttonPath, renderer);
 	newGameButton = new Button(newGameButtonTexture);
-	newGameButton->position.x = WINDOW_WIDTH / 2 - newGameButton->texture.mWidth / 2;
-	newGameButton->position.y = WINDOW_HEIGHT / 3;
+	newGameButton->transform.position.x = WINDOW_WIDTH / 2 - newGameButtonTexture.mWidth / 2;
+	newGameButton->transform.position.y = WINDOW_HEIGHT / 3;
 
 	newGameButton->setOnClickListener(std::bind(&MainMenu::onClickNewGame, this));
 
@@ -48,8 +48,8 @@ void MainMenu::loadMedia()
 	const char* exitPath = "ExitButton.png";
 	Texture exitGameButtonTexture = Texture(exitPath, renderer);
 	exitButton = new Button(exitGameButtonTexture);
-	exitButton->position.x = WINDOW_WIDTH / 2 - exitButton->texture.mWidth / 2;
-	exitButton->position.y = WINDOW_HEIGHT / 1.2f;
+	exitButton->transform.position.x = WINDOW_WIDTH / 2 - exitGameButtonTexture.mWidth / 2;
+	exitButton->transform.position.y = WINDOW_HEIGHT / 1.2f;
 
 	exitButton->setOnClickListener(std::bind(&MainMenu::onClickExit, this));
 
@@ -57,8 +57,8 @@ void MainMenu::loadMedia()
 	const char* twoPlayersPath = "TwoPlayers.png";
 	Texture twoPlayersButtonTexture = Texture(twoPlayersPath, renderer);
 	twoPlayersButton = new Button(twoPlayersButtonTexture);
-	twoPlayersButton->position.x = WINDOW_WIDTH / 2 - twoPlayersButton->texture.mWidth / 2;
-	twoPlayersButton->position.y = WINDOW_HEIGHT / 2;
+	twoPlayersButton->transform.position.x = WINDOW_WIDTH / 2 - twoPlayersButtonTexture.mWidth / 2;
+	twoPlayersButton->transform.position.y = WINDOW_HEIGHT / 2;
 
 	twoPlayersButton->setOnClickListener(std::bind(&MainMenu::onClickTwoPlayers, this));
 
@@ -66,8 +66,8 @@ void MainMenu::loadMedia()
 	const char* onlineButtonPath = "OnlineButton.png";
 	Texture onlineButtonTexture = Texture(onlineButtonPath, renderer);
 	onlineButton = new Button(onlineButtonTexture);
-	onlineButton->position.x = WINDOW_WIDTH / 2 - onlineButton->texture.mWidth / 2;
-	onlineButton->position.y = WINDOW_HEIGHT / 1.5f;
+	onlineButton->transform.position.x = WINDOW_WIDTH / 2 - onlineButtonTexture.mWidth / 2;
+	onlineButton->transform.position.y = WINDOW_HEIGHT / 1.5f;
 
 	onlineButton->setOnClickListener(std::bind(&MainMenu::onClickOnline, this));
 
@@ -75,8 +75,8 @@ void MainMenu::loadMedia()
 	const char* serverButtonPath = "ServerButton.png";
 	Texture serverButtonTexture = Texture(serverButtonPath, renderer);
 	serverButton = new Button(serverButtonTexture);
-	serverButton->position.x = WINDOW_WIDTH / 2 - serverButton->texture.mWidth / 2;
-	serverButton->position.y = WINDOW_HEIGHT / 3;
+	serverButton->transform.position.x = WINDOW_WIDTH / 2 - serverButtonTexture.mWidth / 2;
+	serverButton->transform.position.y = WINDOW_HEIGHT / 3;
 	serverButton->layer = 1;
 	serverButton->isActive = false;
 
@@ -86,8 +86,8 @@ void MainMenu::loadMedia()
 	const char* clientButtonPath = "ClientButton.png";
 	Texture clientButtonTexture = Texture(clientButtonPath, renderer);
 	clientButton = new Button(clientButtonTexture);
-	clientButton->position.x = WINDOW_WIDTH / 2 - clientButton->texture.mWidth / 2;
-	clientButton->position.y = WINDOW_HEIGHT / 2;
+	clientButton->transform.position.x = WINDOW_WIDTH / 2 - clientButtonTexture.mWidth / 2;
+	clientButton->transform.position.y = WINDOW_HEIGHT / 2;
 	clientButton->layer = 1;
 	clientButton->isActive = false;
 
@@ -97,8 +97,8 @@ void MainMenu::loadMedia()
 	const char* backButtonPath = "BackButton.png";
 	Texture backButtonTexture = Texture(backButtonPath, renderer);
 	backButton = new Button(backButtonTexture);
-	backButton->position.x = WINDOW_WIDTH / 2 - backButton->texture.mWidth / 2;
-	backButton->position.y = WINDOW_HEIGHT / 1.5f;
+	backButton->transform.position.x = WINDOW_WIDTH / 2 - backButtonTexture.mWidth / 2;
+	backButton->transform.position.y = WINDOW_HEIGHT / 1.5f;
 	backButton->layer = 1;
 	backButton->isActive = false;
 

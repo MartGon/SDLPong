@@ -26,10 +26,6 @@ WinAlert::WinAlert(SDL_Renderer* renderer)
 	const char* rPrMpath = "PromptMessageRematch.png";
 	rematchPromptMessage = Texture(rPrMpath, renderer);
 
-	// Set Flags
-	colliderEnabled = false;
-	renderEnabled = false;
-
 	//texture = Texture(rPrMpath, renderer);
 }
 
@@ -63,22 +59,22 @@ void WinAlert::setPlayerNumber(int number)
 
 void WinAlert::onUpdate()
 {
-	playerMessage.render(position.x, position.y);
-	winsMessage.render(position.x, position.y + winsMessage.mHeight);
-	playerNumberMessage.render(position.x, position.y);
+	playerMessage.render(transform.position.x, transform.position.y);
+	winsMessage.render(transform.position.x, transform.position.y + winsMessage.mHeight);
+	playerNumberMessage.render(transform.position.x, transform.position.y);
 	updatePrompt();
 }
 
 void WinAlert::setRelativePosition(Vector2 position)
 {
-	this->position.x = position.x - playerMessage.mWidth / 2;
-	this->position.y = position.y - playerMessage.mHeight - winsMessage.mHeight;
+	this->transform.position.x = position.x - playerMessage.mWidth / 2;
+	this->transform.position.y = position.y - playerMessage.mHeight - winsMessage.mHeight;
 }
 
 void WinAlert::updatePrompt()
 {
-	promptMessage.render(position.x, position.y + winsMessage.mHeight + promptMessage.mHeight * 2);
-	rematchPromptMessage.render(position.x, position.y + winsMessage.mHeight + promptMessage.mHeight * 3);
+	promptMessage.render(transform.position.x, transform.position.y + winsMessage.mHeight + promptMessage.mHeight * 2);
+	rematchPromptMessage.render(transform.position.x, transform.position.y + winsMessage.mHeight + promptMessage.mHeight * 3);
 	updateAlpha(promptMessage, 3);
 	updateAlpha(rematchPromptMessage, 3);
 }

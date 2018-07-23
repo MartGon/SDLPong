@@ -19,37 +19,14 @@ public:
 	// Transform
 	Transform transform;
 
-	// Render
-	bool renderEnabled = true;
-
-	// Collider
-	bool colliderEnabled = true;
-
-	// Sprite
-	Texture texture;
-
-	// Position
-	Vector2 position;
-
 	// Movement
 	int speed = 5;
 
-	// Collider 
-	SDL_Rect mColliderBox;
-
-	// Boundaries
-	struct ColliderBoundaries
-	{
-	public:
-		int left;
-		int right;
-		int top;
-		int bottom;
-	};
-
-	ColliderBoundaries boundaries;
-
 	// Methods
+
+	// Init
+	void start();
+	virtual void onStart();
 
 	// setComponent
 	void setComponent(Component *component);
@@ -72,14 +49,11 @@ public:
 	// Position
 	void setRelativePosition(Vector2 pos);
 
-	// Movement
+	// Update
 	virtual void onUpdate();
 	void update() override;
 
 	// Collisions
-	virtual void calculateColliderBox();
-	void computeBoundaries();
-	Vector2 getCollisionCenter();
 	virtual void onColliderEnter(Collider *collider);
 
 	// Debug
@@ -96,5 +70,7 @@ private:
 	// Components
 	std::vector<Component*> components;
 
+	// Bool
+	bool isInitialized = false;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Texture.h"
+#include "TextureRenderer.h";
 #include <vector>
 
 class ScoreBoardNumberDisplay : public GameObject
@@ -15,10 +15,17 @@ public:
 	static std::vector<const char*> texturePathVector;
 	static std::vector<Texture> textureVector;
 
+	// Attributes
+	TextureRenderer *tRenderer = nullptr;
+
+	// Colllider
+	Collider *collider = nullptr;
+
 	// Renderer
 	SDL_Renderer *renderer;
 
 	// Methods
+	void onStart() override;
 
 	// Scoreboard
 	void setNumber(int score);

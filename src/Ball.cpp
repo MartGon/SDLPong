@@ -1,5 +1,7 @@
 #include "Ball.h"
 #include "Game.h"
+#include "Collider.h"
+#include "TextureRenderer.h"
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
@@ -11,7 +13,9 @@ Ball::Ball()
 Ball::Ball(Texture texture) : GameObject(texture)
 {
 	speed = 5;
-	calculateColliderBox();
+	collider = new Collider(texture);
+	setComponent(collider);
+	tRenderer = getComponent<TextureRenderer>();
 }
 
 Ball::~Ball()
@@ -20,16 +24,23 @@ Ball::~Ball()
 
 // Methods
 
+// Movement
+
 void Ball::move()
 {
 	// check collisions
-	checkCollisions();
+	// checkCollisions();
 
-	position.x += (direction.x * speed);
-	position.y += (direction.y * speed);
+	transform.position.x += (direction.x * speed);
+	transform.position.y += (direction.y * speed);
 
 	// Add to motion blur vector
-	addMotionBlurPosition(Vector2(position.x, position.y));
+	addMotionBlurPosition(Vector2(transform.position.x, transform.position.y));
+}
+
+Vector2 Ball::getDirection()
+{
+	return direction;
 }
 
 void Ball::setDirection(Vector2 vector2)
@@ -38,7 +49,8 @@ void Ball::setDirection(Vector2 vector2)
 	direction = vector2;
 }
 
-
+// Collisions
+/*
 void Ball::checkCollisions()
 {
 	bool collisionWithPlayer = checkCollisionWithPlayer(*player);
@@ -80,41 +92,24 @@ void Ball::checkCollisions()
 	bHasCollidedWithPlayer = collisionWithPlayer;
 	bHasCollidedWithPlayerTwo = collisionWithPlayerTwo;
 }
-
-bool Ball::checkCollisionWithPlayer(Player player)
-{
-	
-	if (boundaries.right <= player.boundaries.left)
-		return false;
-
-	if (boundaries.left >= player.boundaries.right)
-		return false;
-
-	if (boundaries.bottom <= player.boundaries.top)
-		return false;
-
-	if (boundaries.top >= player.boundaries.bottom)
-		return false;
-
-	return true;
-}
+*/
 
 Ball::WallCollision Ball::checkCollisionWithWalls()
 {
 	WallCollision collision = NONE_WALL_COLLISION;
 
-	if (boundaries.top <= 0)
+	if (collider->cTop <= 0)
 		collision = TOP_WALL_COLLISION;
 
 	// Window Height
-	if (boundaries.bottom >= WINDOW_HEIGHT)
+	if (collider->cBottom >= WINDOW_HEIGHT)
 		collision = BOTTOM_WALL_COLLISION;
 
 	// Window Width
-	if (boundaries.right >= WINDOW_WIDTH)
+	if (collider->cRight >= WINDOW_WIDTH)
 		collision = RIGTH_WALL_COLLISION;
 
-	if (boundaries.left <= 0)
+	if (collider->cLeft <= 0)
 		collision = LEFT_WALL_COLLISION;
 
 	//printf("La colision fue %i\n", collision);
@@ -122,13 +117,39 @@ Ball::WallCollision Ball::checkCollisionWithWalls()
 	return collision;
 }
 
+void Ball::handlePossibleWallCollision()
+{
+	if (WallCollision collision = checkCollisionWithWalls())
+	{
+		switch (collision)
+		{
+		case TOP_WALL_COLLISION:
+		case BOTTOM_WALL_COLLISION:
+			direction.y = -direction.y;
+			break;
+
+		case LEFT_WALL_COLLISION:
+			playerTwo->addPoint();
+			game->startNewGame();
+			break;
+		case RIGTH_WALL_COLLISION:
+			player->addPoint();
+			game->startNewGame();
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
 void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 {
-	Vector2 ballCenter = getCollisionCenter();
-	Vector2 padCenter = player.getCollisionCenter();
+	Vector2 ballCenter = collider->getCollisionCenter();
+	Vector2 padCenter = player.collider->getCollisionCenter();
 
 	int ballRelativeYpos = ballCenter.y - padCenter.y;
-	float playerMaxValue = (player.mColliderBox.h / 2) + mColliderBox.h / 2;
+	float playerMaxValue = (player.collider->cHeight / 2) + collider->cHeight / 2;
 	float centerRate = ballRelativeYpos / playerMaxValue;
 
 	direction.x = -direction.x;
@@ -137,6 +158,29 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	direction.normalize();
 	speed += 1;
 }
+
+void Ball::onColliderEnter(Collider *collider)
+{
+	if (Player *player = dynamic_cast<Player*>(collider->gameObject))
+	{
+		modifyDirectionFromCollisionWithPlayer(*player);
+	}
+	else
+	{
+		printf("El collider no era de player\n");
+		return;
+	}
+}
+
+/*
+void Ball::calculateColliderBox()
+{
+mColliderBox.w = 42 * texture.scale.x;
+mColliderBox.h = 42 * texture.scale.y;
+}
+*/
+
+// Initializing and stuff
 
 void Ball::reset()
 {
@@ -147,8 +191,8 @@ void Ball::reset()
 	motionBlurPositions.clear();
 
 	// Set on the center
-	position.x = WINDOW_WIDTH / 2 - texture.mWidth / 2;
-	position.y = WINDOW_HEIGHT / 2 - texture.mHeight / 2;
+	transform.position.x = WINDOW_WIDTH / 2 - tRenderer->texture.mWidth / 2;
+	transform.position.y = WINDOW_HEIGHT / 2 - tRenderer->texture.mHeight / 2;
 
 	// Randomize direction
 	srand(time(NULL));
@@ -168,21 +212,24 @@ void Ball::reset()
 	setDirection(direction);
 }
 
-void Ball::calculateColliderBox()
+void Ball::onStart()
 {
-	mColliderBox.w = 42 * texture.scale.x;
-	mColliderBox.h = 42 * texture.scale.y;
+	collider = getComponent<Collider>();
+	tRenderer = getComponent<TextureRenderer>();
 }
 
 void Ball::onUpdate()
 {
+	handlePossibleWallCollision();
 	renderMotionBlur();
 }
 
 // Motion Blur
+
 void Ball::addMotionBlurPosition(Vector2 pos)
 {
 	motionBlurPositions.push_back(pos);
+
 	// We want just five positions to render 
 	if (motionBlurPositions.size() > speed)
 		motionBlurPositions.erase(motionBlurPositions.begin());
@@ -195,13 +242,8 @@ void Ball::renderMotionBlur()
 	for (int i = 0; i < motionBlurPositions.size(); i++)
 	{
 		Vector2 pos = motionBlurPositions.at(i);
-		texture.setAlpha(i * factor);
-		texture.render(pos.x, pos.y);
+		tRenderer->texture.setAlpha(i * factor);
+		tRenderer->texture.render(pos.x, pos.y);
 	}
-	texture.setAlpha(255);
-}
-
-Vector2 Ball::getDirection()
-{
-	return direction;
+	tRenderer->texture.setAlpha(255);
 }

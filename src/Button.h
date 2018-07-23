@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "TextureRenderer.h"
 #include <functional>
 
 class Button : public GameObject
@@ -13,9 +14,13 @@ public:
 	// Attributes
 	Uint8 layer;
 
+	Collider *collider = nullptr;
+	TextureRenderer *tRenderer = nullptr;
+
 	// Methods
 	void handleEvent(SDL_Event* e);
 	const bool isWithinBoundaries(int mousePosX, int mousePosY);
+	void onStart() override;
 
 	// Listener
 	std::function<void()> onClick;

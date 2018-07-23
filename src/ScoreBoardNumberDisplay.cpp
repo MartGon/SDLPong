@@ -18,7 +18,6 @@ ScoreBoardNumberDisplay::ScoreBoardNumberDisplay(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
 	loadMedia();
-	calculateColliderBox();
 }
 
 ScoreBoardNumberDisplay::~ScoreBoardNumberDisplay()
@@ -57,7 +56,7 @@ void ScoreBoardNumberDisplay::loadMedia()
 			textureVector.push_back(texture);
 		}
 	}
-	texture = textureVector.front();
+	//tRenderer->texture = textureVector.front();
 }
 
 void ScoreBoardNumberDisplay::setNumber(int score)
@@ -70,7 +69,7 @@ void ScoreBoardNumberDisplay::setNumber(int score)
 	if (score < textureVector.size())
 	{
 		//printf("Setting score to %i\n", score);
-		texture = textureVector.at(score);
+		tRenderer->texture = textureVector.at(score);
 	}
 	else
 	{
@@ -86,4 +85,12 @@ void ScoreBoardNumberDisplay::destroy()
 		texture.free();
 
 	textureVector.clear();
+}
+
+void ScoreBoardNumberDisplay::onStart()
+{
+	tRenderer = getComponent<TextureRenderer>();
+	collider = getComponent<Collider>();
+
+	loadMedia();
 }

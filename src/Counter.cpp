@@ -10,10 +10,6 @@ Counter::Counter(SDL_Renderer *renderer) : GameObject()
 	// Load
 	loadTextures();
 
-	// Set Flags
-	colliderEnabled = false;
-	renderEnabled = false;
-
 	// Init
 	initCycle();
 }

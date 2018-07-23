@@ -9,7 +9,7 @@ Button::Button()
 
 Button::Button(Texture texture) : GameObject(texture)
 {
-
+	setComponent(new Collider(texture));
 }
 
 Button::~Button()
@@ -41,13 +41,13 @@ const bool Button::isWithinBoundaries(int mousePosX, int mousePosY)
 	int x = mousePosX;
 	int y = mousePosY;
 
-	if (x < boundaries.left)
+	if (x < collider->cLeft)
 		return false;
-	else if (x > boundaries.right)
+	else if (x > collider->cRight)
 		return false;
-	else if (y < boundaries.top)
+	else if (y < collider->cTop)
 		return false;
-	else if (y > boundaries.bottom)
+	else if (y > collider->cBottom)
 		return false;
 	else
 		return true;
@@ -56,4 +56,13 @@ const bool Button::isWithinBoundaries(int mousePosX, int mousePosY)
 void Button::setOnClickListener(std::function<void()> callback)
 {
 	onClick = callback;
+}
+
+void Button::onStart()
+{
+	collider = getComponent<Collider>();
+	if (collider)
+	{
+		printf("Conseguí el collider\n");
+	}
 }

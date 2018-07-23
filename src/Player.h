@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "ScoreBoard.h"
+#include "Collider.h"
 
 class Player : public GameObject{
 
@@ -20,11 +21,15 @@ public:
 	int score;
 
 	// Player Scoreboard
-	ScoreBoard *scoreBoard;
+	ScoreBoard *scoreBoard = nullptr;
+
+	// Collider
+	Collider *collider = nullptr;
 
 	// Methods
-
 	void move(MoveDirection direction);
 	void addPoint();
 	void resetScore();
+
+	void onStart() override;
 };

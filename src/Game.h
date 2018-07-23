@@ -63,8 +63,8 @@ public:
 	Texture backgroundTexture;
 
 	// Scoreboard
-	ScoreBoard *scoreBoardOne;
-	ScoreBoard *scoreBoardTwo;
+	ScoreBoard *scoreBoardOne = nullptr;
+	ScoreBoard *scoreBoardTwo = nullptr;
 
 	// Renderer
 	SDL_Renderer *renderer;

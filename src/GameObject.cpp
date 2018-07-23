@@ -4,7 +4,12 @@
 
 GameObject::GameObject()
 {
+	// Add to the scene updater
 	SceneManager::scene->addGameObject(this);
+
+	// Add reference to self in transform component
+	transform = Transform();
+	transform.gameObject = this;
 }
 
 GameObject::~GameObject()
@@ -81,4 +86,20 @@ void GameObject::destroy()
 {
 	texture.free();
 	this->~GameObject();
+}
+
+void GameObject::setRelativePosition(Vector2 pos)
+{
+
+}
+
+void GameObject::setComponent(Component *component)
+{
+	component->gameObject = this;
+	components.push_back(component);
+}
+
+void GameObject::onColliderEnter(Collider *collider)
+{
+
 }

@@ -6,8 +6,13 @@
 class TextureRenderer : public Component
 {
 public:
+	
 	TextureRenderer();
 
+	// Attributes
 	Texture texture;
-	std::string path;
+	std::string tPath;
+
+	// methods
+	void update() override;
 };

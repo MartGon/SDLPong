@@ -5,6 +5,8 @@
 #include "NetworkServer.h"
 #include "NetworkClient.h"
 
+#include "TextureRenderer.h"
+
 Game::Game()
 {
 }
@@ -79,6 +81,7 @@ void Game::loadMedia()
 		thread = SDL_CreateThread(threadFunction, "defu", this);
 		SDL_DetachThread(thread);
 	}
+
 }
 
 void Game::startNewGame()
@@ -164,9 +167,9 @@ bool Game::isGameFinished()
 	if (gameState == GAME_FINISHED)
 		return true;
 
-	if (isFinished = player->score > 0)
+	if (isFinished = player->score > 3)
 		winAlert->setPlayerNumber(0);
-	else if (isFinished = playerTwo->score > 0)
+	else if (isFinished = playerTwo->score > 3)
 		winAlert->setPlayerNumber(1);
 
 	if (isFinished)

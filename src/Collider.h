@@ -1,10 +1,16 @@
 #pragma once
 #include "Component.h"
+#include "Vector2.h"
+#include <vector>
 
 class Collider : public Component
 {
 public:
 	Collider();
+	Collider(int width, int height);
+
+	// MeanWhile
+	static std::vector<Collider*> gColliders;
 
 	// Collider boundaries
 	int cTop = 0;
@@ -16,7 +22,14 @@ public:
 	int cWidth = 0;
 	int cHeight = 0;
 
+	// Collider offset
+	Vector2 offset;
+
 	// Methods
 	void calculateColliderBox();
 	void calculateColliderBoundaries();
+	Vector2 getCollisionCenter();
+	bool isCollidingWith(Collider *collider);
+
+	void update() override;
 };

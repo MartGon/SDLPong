@@ -24,11 +24,11 @@ void ScoreBoard::onStart()
 	ScoreBoardNumberDisplay *displayOne = new ScoreBoardNumberDisplay(renderer);
 
 	if (scoreboardType == PLAYER_ONE_SCOREBOARD)
-		displayOne->transform.position.x = WINDOW_WIDTH / 2 - 3 * displayOne->collider->cWidth / 2;
+		displayOne->transform.position.x = WINDOW_WIDTH / 2 - 3 * displayOne->collider->getDimensions().x/ 2;
 	else
-		displayOne->transform.position.x = WINDOW_WIDTH / 2 + displayOne->collider->cWidth / 2;
+		displayOne->transform.position.x = WINDOW_WIDTH / 2 + displayOne->collider->getDimensions().x / 2;
 
-	displayOne->transform.position.y = displayOne->collider->cHeight / 3;
+	displayOne->transform.position.y = WINDOW_HEIGHT / 16;
 
 	// Add to the list
 	scoreBoardNumberDisplayVector.push_back(displayOne);
@@ -53,7 +53,7 @@ void ScoreBoard::setScore(int score)
 
 			if (scoreboardType == PLAYER_ONE_SCOREBOARD)
 			{
-				scoreDisplay->transform.position.x = xPos - (scoreDisplay->collider->cWidth + scoreDisplay->collider->cWidth / 4);
+				scoreDisplay->transform.position.x = xPos - (scoreDisplay->collider->getDimensions().x + scoreDisplay->collider->getDimensions().x / 4);
 				scoreDisplay->transform.position.y = yPos;
 			}
 			else
@@ -66,7 +66,7 @@ void ScoreBoard::setScore(int score)
 				
 				for (auto display : scoreBoardNumberDisplayVector)
 				{
-					display->transform.position.x += (display->collider->cWidth + display->collider->cWidth / 4);
+					display->transform.position.x += (display->collider->getDimensions().x + display->collider->getDimensions().x / 4);
 				}
 				
 				//previousDisplay->position.x = xPos + (scoreDisplay->texture.mWidth + scoreDisplay->texture.mWidth / 4);

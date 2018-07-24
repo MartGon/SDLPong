@@ -61,8 +61,4 @@ void Button::setOnClickListener(std::function<void()> callback)
 void Button::onStart()
 {
 	collider = getComponent<Collider>();
-	if (collider)
-	{
-		printf("Conseguí el collider\n");
-	}
 }

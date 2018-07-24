@@ -19,6 +19,7 @@ GameObject::~GameObject()
 GameObject::GameObject(Texture texture) : GameObject()
 {
 	setComponent(new TextureRenderer(texture));
+	name = texture.path;
 }
 
 void GameObject::update()
@@ -36,17 +37,6 @@ void GameObject::update()
 	onUpdate();
 }
 
-/*
-void GameObject::drawCollisionBoundaries(SDL_Renderer *renderer)
-{
-	SDL_Rect rect;
-	rect.x = boundaries.left;
-	rect.w = boundaries.right - boundaries.left;
-	rect.y = boundaries.bottom;
-	rect.h = boundaries.top - boundaries.bottom;
-	SDL_RenderDrawRect(renderer, &rect);
-}*/
-
 void GameObject::setRelativePosition(Vector2 pos)
 {
 
@@ -54,7 +44,7 @@ void GameObject::setRelativePosition(Vector2 pos)
 
 void GameObject::setScale(Vector2 scale)
 {
-	//texture.scale = scale;
+	transform.scale = scale;
 }
 
 void GameObject::start()
@@ -77,6 +67,9 @@ void GameObject::onUpdate()
 void GameObject::destroy()
 {
 	//texture.free();
+	for (auto &component : components)
+		component->destroy();
+
 	this->~GameObject();
 }
 

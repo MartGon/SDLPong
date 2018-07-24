@@ -3,6 +3,7 @@
 #include "Vector2.h"
 #include "Transform.h"
 #include "Collider.h"
+#include <string>
 #include <vector>
 
 class Component;
@@ -12,6 +13,10 @@ public:
 	GameObject();
 	GameObject(Texture texture);
 	~GameObject();
+
+	// Name
+
+	std::string name = "";
 
 	// Active
 	bool isActive = true;
@@ -55,9 +60,6 @@ public:
 
 	// Collisions
 	virtual void onColliderEnter(Collider *collider);
-
-	// Debug
-	void drawCollisionBoundaries(SDL_Renderer *renderer);
 
 	// Scale 
 	void setScale(Vector2 scale);

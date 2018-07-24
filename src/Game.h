@@ -37,7 +37,7 @@ public:
 	~Game();
 
 	// NetworkManager
-	NetworkAgent * networkAgent;
+	NetworkAgent * networkAgent = nullptr;
 
 	// Game Mode
 	GameMode gameMode;
@@ -47,31 +47,28 @@ public:
 	GameState gameState;
 
 	// Win alert
-	WinAlert *winAlert;
+	WinAlert *winAlert = nullptr;
 
 	// Counter
-	Counter *counter;
+	Counter *counter = nullptr;
 
 	// Players
-	Player *player;
-	PlayerAI *playerTwo;
+	Player *player = nullptr;
+	PlayerAI *playerTwo = nullptr;
 
 	// Ball
-	Ball *ball;
-
-	// BackGround Texture
-	Texture backgroundTexture;
+	Ball *ball = nullptr;
 
 	// Scoreboard
 	ScoreBoard *scoreBoardOne = nullptr;
 	ScoreBoard *scoreBoardTwo = nullptr;
 
 	// Renderer
-	SDL_Renderer *renderer;
+	SDL_Renderer *renderer = nullptr;
 
 	// Thread
-	SDL_Thread *thread;
-	SDL_sem* sem;
+	SDL_Thread *thread = nullptr;
+	SDL_sem* sem = nullptr;
 
 	// Methods
 	virtual void loadMedia();

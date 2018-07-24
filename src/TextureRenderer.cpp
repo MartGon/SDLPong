@@ -24,5 +24,7 @@ void TextureRenderer::update()
 	int x = gameObject->transform.position.x;
 	int y = gameObject->transform.position.y;
 
+	texture.scale = gameObject->transform.scale;
+
 	texture.render(x, y);
 }

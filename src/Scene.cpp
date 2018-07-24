@@ -61,9 +61,11 @@ void Scene::update()
 		return;
 
 	// Update every object
-	for (auto gameObject : gameObjectList)
-		if(gameObject->isActive)
-			gameObject->update();
+	// TODO - Optimize; List size is being altered during loop
+	for (int i = 0; i < gameObjectList.size(); i++)
+		if(GameObject *gameObject = gameObjectList.at(i))
+			if(gameObject->isActive)
+				gameObject->update();
 
 	// Update hook
 	onUpdate();

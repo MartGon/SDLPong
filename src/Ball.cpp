@@ -13,7 +13,8 @@ Ball::Ball()
 Ball::Ball(Texture texture) : GameObject(texture)
 {
 	speed = 5;
-	collider = new Collider(texture);
+	collider = new Collider(42, 42);
+	collider->offset = Vector2(12, 12);
 	setComponent(collider);
 	tRenderer = getComponent<TextureRenderer>();
 }
@@ -28,9 +29,6 @@ Ball::~Ball()
 
 void Ball::move()
 {
-	// check collisions
-	// checkCollisions();
-
 	transform.position.x += (direction.x * speed);
 	transform.position.y += (direction.y * speed);
 
@@ -50,49 +48,6 @@ void Ball::setDirection(Vector2 vector2)
 }
 
 // Collisions
-/*
-void Ball::checkCollisions()
-{
-	bool collisionWithPlayer = checkCollisionWithPlayer(*player);
-	bool collisionWithPlayerTwo = checkCollisionWithPlayer(*playerTwo);
-
-	if (WallCollision collision = checkCollisionWithWalls())
-	{
-		switch (collision)
-		{
-			case TOP_WALL_COLLISION:
-			case BOTTOM_WALL_COLLISION:
-				direction.y = -direction.y;
-				break;
-
-			case LEFT_WALL_COLLISION:
-				playerTwo->addPoint();
-				game->startNewGame();
-				break;
-			case RIGTH_WALL_COLLISION:
-				player->addPoint();
-				game->startNewGame();
-				break;
-
-			default:
-				break;
-		}
-	}
-	else if (collisionWithPlayer && !bHasCollidedWithPlayer)
-	{
-		bHasCollidedWithPlayer = true;
-		modifyDirectionFromCollisionWithPlayer(*player);
-	}
-	else if (collisionWithPlayerTwo && !bHasCollidedWithPlayerTwo)
-	{
-		bHasCollidedWithPlayerTwo = true;
-		modifyDirectionFromCollisionWithPlayer(*playerTwo);
-	}
-
-	bHasCollidedWithPlayer = collisionWithPlayer;
-	bHasCollidedWithPlayerTwo = collisionWithPlayerTwo;
-}
-*/
 
 Ball::WallCollision Ball::checkCollisionWithWalls()
 {
@@ -164,11 +119,6 @@ void Ball::onColliderEnter(Collider *collider)
 	if (Player *player = dynamic_cast<Player*>(collider->gameObject))
 	{
 		modifyDirectionFromCollisionWithPlayer(*player);
-	}
-	else
-	{
-		printf("El collider no era de player\n");
-		return;
 	}
 }
 

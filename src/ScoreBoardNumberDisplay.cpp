@@ -17,7 +17,14 @@ ScoreBoardNumberDisplay::ScoreBoardNumberDisplay(Texture texture) : GameObject(t
 ScoreBoardNumberDisplay::ScoreBoardNumberDisplay(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
+	tRenderer = new TextureRenderer();
+	setComponent(tRenderer);
+
 	loadMedia();
+
+	collider = new Collider(tRenderer->texture);
+	setComponent(collider);
+	setScale(Vector2(0.5f, 0.5f));
 }
 
 ScoreBoardNumberDisplay::~ScoreBoardNumberDisplay()
@@ -52,11 +59,10 @@ void ScoreBoardNumberDisplay::loadMedia()
 		for (auto const &path : texturePathVector)
 		{
 			Texture texture(path, renderer);
-			texture.scale = Vector2(0.5f, 0.5f);
 			textureVector.push_back(texture);
 		}
 	}
-	//tRenderer->texture = textureVector.front();
+	tRenderer->texture = textureVector.front();
 }
 
 void ScoreBoardNumberDisplay::setNumber(int score)
@@ -91,6 +97,4 @@ void ScoreBoardNumberDisplay::onStart()
 {
 	tRenderer = getComponent<TextureRenderer>();
 	collider = getComponent<Collider>();
-
-	loadMedia();
 }

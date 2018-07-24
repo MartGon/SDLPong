@@ -26,7 +26,7 @@ public:
 	ClientState state;
 
 		// Client side
-	TCPsocket clientSocket;
+	TCPsocket clientSocket = nullptr;
 
 		// Server side
 	std::string serverIP;

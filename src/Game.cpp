@@ -26,7 +26,7 @@ void Game::loadMedia()
 {
 	// Load background
 	const char* backgroundPath = "PongBackGround.png";
-	backgroundTexture = Texture(backgroundPath, renderer);
+	Texture backgroundTexture = Texture(backgroundPath, renderer);
 	GameObject *background = new GameObject(backgroundTexture);
 
 	// Load player sprite
@@ -38,8 +38,8 @@ void Game::loadMedia()
 	Texture ballTexture(ballPath, renderer);
 
 	// Load ScoreBoard
-	//scoreBoardOne = new ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
-	//scoreBoardTwo = new ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
+	scoreBoardOne = new ScoreBoard(renderer, ScoreBoard::PLAYER_ONE_SCOREBOARD);
+	scoreBoardTwo = new ScoreBoard(renderer, ScoreBoard::PLAYER_TWO_SCOREBOARD);
 
 	// Create GameObjects
 	player = new Player(playerTexture);
@@ -52,6 +52,7 @@ void Game::loadMedia()
 	ball->game = this;
 
 	// Load WinAlert
+	
 	winAlert = new WinAlert(renderer);
 	Vector2 position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	winAlert->setRelativePosition(position);
@@ -103,7 +104,7 @@ void Game::startNewGame()
 			counter->initCycle();
 		}
 	}
-	else
+	else if(counter)
 		counter->initCycle();
 }
 
@@ -150,14 +151,7 @@ void Game::onUpdate()
 
 	// Debug Colliders
 
-	/*
-	Vector2 playerCentre = player->getCollisionCenter();
-	player->drawCollisionBoundaries(renderer);
-	playerTwo->drawCollisionBoundaries(renderer);
-	SDL_RenderDrawLine(renderer, player->boundaries.left, playerCentre.y, player->boundaries.right, playerCentre.y);
-	ball->drawCollisionBoundaries(renderer);
-	Vector2 ballCentre = ball->getCollisionCenter();
-	SDL_RenderDrawLine(renderer, ball->boundaries.left, ballCentre.y, ball->boundaries.right, ballCentre.y);*/
+	//ball->collider->drawCollisionBoundaries(renderer);
 }
 
 bool Game::isGameFinished()

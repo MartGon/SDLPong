@@ -1,5 +1,6 @@
 #include "Collider.h"
 #include "GameObject.h"
+#include <algorithm>
 
 // Attributes
 std::vector<Collider*> Collider::gColliders = std::vector<Collider*>();
@@ -23,23 +24,21 @@ Collider::Collider(int width, int height) : Component()
 	gColliders.push_back(this);
 }
 
-void Collider::calculateColliderBox()
-{
-	cWidth = cWidth * gameObject->transform.scale.x;
-	cHeight = cHeight * gameObject->transform.scale.y;
-}
-
 void Collider::calculateColliderBoundaries()
 {
-	// Calculate box
-	calculateColliderBox();
-
 	Vector2 position = gameObject->transform.position;
+	Vector2 dimensions = getDimensions();
+	Vector2 offsetVector = getOffsetVector();
 
-	cLeft = position.x + offset.x;
-	cRight = position.x + cWidth + offset.x;
-	cTop = position.y + offset.y;
-	cBottom = position.y + cHeight;
+	int fWidth = dimensions.x;
+	int fHeight = dimensions.y;
+	int xOffset = offsetVector.x;
+	int yOffset = offsetVector.y;
+
+	cLeft = position.x + xOffset;
+	cRight = position.x + fWidth + xOffset;
+	cTop = position.y + yOffset;
+	cBottom = position.y + fHeight + yOffset;
 }
 
 Vector2 Collider::getCollisionCenter()
@@ -55,10 +54,12 @@ void Collider::update()
 	calculateColliderBoundaries();
 
 	for (auto const& collider : gColliders)
-		if (this == collider)
+	{
+		if (this->gameObject == collider->gameObject)
 			continue;
 		else if (isCollidingWith(collider))
 			gameObject->onColliderEnter(collider);
+	}
 }
 
 bool Collider::isCollidingWith(Collider *collider)
@@ -76,4 +77,35 @@ bool Collider::isCollidingWith(Collider *collider)
 		return false;
 
 	return true;
+}
+
+void Collider::drawCollisionBoundaries(SDL_Renderer *renderer)
+{
+	SDL_Rect rect;
+	rect.x = cLeft;
+	rect.w = cRight - cLeft;
+	rect.y = cBottom;
+	rect.h = cTop - cBottom;
+	SDL_RenderDrawRect(renderer, &rect);
+}
+
+void Collider::destroy()
+{
+	gColliders.erase(std::remove(gColliders.begin(), gColliders.end(), this), gColliders.end());
+}
+
+Vector2 Collider::getDimensions()
+{
+	int fWidth = cWidth * gameObject->transform.scale.x;
+	int fHeight = cHeight * gameObject->transform.scale.y;
+
+	return Vector2(fWidth, fHeight);
+}
+
+Vector2 Collider::getOffsetVector()
+{
+	int xOffset = offset.x * gameObject->transform.scale.x;
+	int yOffset = offset.y * gameObject->transform.scale.y;
+
+	return Vector2(xOffset, yOffset);
 }

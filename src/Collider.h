@@ -28,10 +28,16 @@ public:
 	Vector2 offset;
 
 	// Methods
-	void calculateColliderBox();
 	void calculateColliderBoundaries();
 	Vector2 getCollisionCenter();
 	bool isCollidingWith(Collider *collider);
+	Vector2 getDimensions();
+	Vector2 getOffsetVector();
 
+	// Debug
+	void drawCollisionBoundaries(SDL_Renderer* renderer);
+
+	// Overrided
 	void update() override;
+	void destroy() override;
 };

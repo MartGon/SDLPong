@@ -36,7 +36,7 @@ void Player::move(Player::MoveDirection direction)
 	}
 	else
 	{
-		if(transform.position.y < 480 - collider->cHeight)
+		if(transform.position.y < 480 - collider->getDimensions().y)
 			transform.position.y += speed;
 	}
 }

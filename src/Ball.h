@@ -48,7 +48,7 @@ public:
 
 	// Collisions
 	Collider *collider = nullptr;
-	//void checkCollisions();
+
 	WallCollision checkCollisionWithWalls();
 	void handlePossibleWallCollision();
 	void modifyDirectionFromCollisionWithPlayer(Player player);

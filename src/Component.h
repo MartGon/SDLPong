@@ -16,5 +16,6 @@ public:
 
 	// Methods
 	virtual void update() override {};
+	virtual void destroy() {};
 };
 

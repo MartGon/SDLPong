@@ -158,7 +158,7 @@ void Game::handlePossibleFinishedGame()
 	counter->isActive = false;
 
 	// Killing networkAgent for avoiding issues when replay is pressed
-	//destroyNetworkAgent();
+	destroyNetworkAgent();
 
 	// Change game State
 	gameState = GAME_FINISHED;

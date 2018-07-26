@@ -26,11 +26,11 @@ public:
 	ServerState state;
 
 		// Server side
-	TCPsocket serverSocket;
+    TCPsocket serverSocket = nullptr;
 	Uint16 serverPort;
 
 		// Client side
-	TCPsocket clientSocket;
+	TCPsocket clientSocket = nullptr;
 
 	// Methods
 		// Uppper

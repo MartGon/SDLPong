@@ -164,9 +164,9 @@ bool Game::isGameFinished()
 	if (gameState == GAME_FINISHED)
 		return true;
 
-	if (isFinished = player->score > 0)
+	if (isFinished = player->score > 2)
 		winAlert->setPlayerNumber(0);
-	else if (isFinished = playerTwo->score > 0)
+	else if (isFinished = playerTwo->score > 2)
 		winAlert->setPlayerNumber(1);
 
 	if (isFinished)

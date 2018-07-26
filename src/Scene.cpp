@@ -108,53 +108,49 @@ void Scene::update()
 		}
 	}
 
-	// Update every object
-	for (auto &gameObjectPair : gameObjectMap)
-	{
-		if (GameObject *gameObject = gameObjectPair.second)
-		{
-			if (gameObject->isActive)
-			{
-				// Online measures
-				if(isOnline())
-				// Once connection is established
-				{
-					if (mode == ONLINE_SERVER)
-					{
-						// TODO - Substitute by a function
-						PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
-						if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-							packet->direction = ball->getDirection();
-						packet->id = gameObject->id;
-						networkAgent->sendPacket(packet);
-
-					//	printf("Enviado %i: %s\n", gameObject->id, gameObject->name.c_str());
-					}
-					else if (mode == ONLINE_CLIENT)
-					{
-						if (gameObject->updateFromClient)
-						{
-							PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
-							if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-								packet->direction = ball->getDirection();
-							packet->id = gameObject->id;
-							networkAgent->sendPacket(packet);
-						}
-					}
-				}
-
-				SDL_SemWait(sem);
-
-				// Update the object
-				gameObject->update();
-
-				SDL_SemPost(sem);
-			}
-		}
-	}
-
 	// Update hook
 	onUpdate();
+
+    // Update every object
+    for (auto &gameObjectPair : gameObjectMap)
+    {
+        if (GameObject *gameObject = gameObjectPair.second)
+        {
+            if (gameObject->isActive)
+            {
+                // Update the object
+                gameObject->update();
+
+                // Online measures
+                if (isOnline())
+                    // Once connection is established
+                {
+                    if (mode == ONLINE_SERVER)
+                    {
+                        // TODO - Substitute by a function
+                        PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
+                        if (Ball *ball = dynamic_cast<Ball*>(gameObject))
+                            packet->direction = ball->getDirection();
+                        packet->id = gameObject->id;
+                        networkAgent->sendPacket(packet);
+
+                        //	printf("Enviado %i: %s\n", gameObject->id, gameObject->name.c_str());
+                    }
+                    else if (mode == ONLINE_CLIENT)
+                    {
+                        if (gameObject->updateFromClient)
+                        {
+                            PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
+                            if (Ball *ball = dynamic_cast<Ball*>(gameObject))
+                                packet->direction = ball->getDirection();
+                            packet->id = gameObject->id;
+                            networkAgent->sendPacket(packet);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Scene::deactivateAllGameObjects()

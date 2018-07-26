@@ -109,6 +109,8 @@ void Game::onUpdate()
 			// Ball Movement
 
 			// Start - Critical Section
+            if (isOnline())
+                SDL_SemWait(sem);
 
 			if (disconnected)
 				loadMainMenu();
@@ -118,6 +120,9 @@ void Game::onUpdate()
 			// Handle movement
 			handlePlayersMovement();
 			// End - Critical Section
+            if (disconnected)
+                SDL_SemPost(sem);
+
 		}
 	}
 
@@ -136,6 +141,7 @@ void Game::addPointToPlayer(Player *player, Uint8 point)
 
 bool Game::isGameFinished()
 {
+    handlePossibleFinishedGame();
 	return gameState == GAME_FINISHED;
 }
 
@@ -152,7 +158,7 @@ void Game::handlePossibleFinishedGame()
 	counter->isActive = false;
 
 	// Killing networkAgent for avoiding issues when replay is pressed
-	destroyNetworkAgent();
+	//destroyNetworkAgent();
 
 	// Change game State
 	gameState = GAME_FINISHED;

@@ -29,6 +29,9 @@ Ball::~Ball()
 
 void Ball::move()
 {
+    // Check wall collisions
+    handlePossibleWallCollision();
+
 	transform.position.x += (direction.x * speed);
 	transform.position.y += (direction.y * speed);
 
@@ -84,11 +87,11 @@ void Ball::handlePossibleWallCollision()
 			break;
 
 		case LEFT_WALL_COLLISION:
-			game->addPointToPlayer(playerTwo);
+            playerTwo->addPoint();
 			game->startNewGame();
 			break;
 		case RIGTH_WALL_COLLISION:
-			game->addPointToPlayer(player);
+            player->addPoint();
 			game->startNewGame();
 			break;
 
@@ -121,14 +124,6 @@ void Ball::onColliderEnter(Collider *collider)
 		modifyDirectionFromCollisionWithPlayer(*player);
 	}
 }
-
-/*
-void Ball::calculateColliderBox()
-{
-mColliderBox.w = 42 * texture.scale.x;
-mColliderBox.h = 42 * texture.scale.y;
-}
-*/
 
 // Initializing and stuff
 
@@ -170,7 +165,6 @@ void Ball::onStart()
 
 void Ball::onUpdate()
 {
-	handlePossibleWallCollision();
 	renderMotionBlur();
 }
 

@@ -25,6 +25,7 @@ public:
 	// Overrided Methods
 	virtual void loadMedia();
 	virtual void start();
+	virtual void beforeUpdate();
 	virtual void onUpdate();
 	virtual void destroy();
 	virtual void handleEvent(SDL_Event event);

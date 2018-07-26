@@ -9,9 +9,6 @@ Counter::Counter(SDL_Renderer *renderer) : GameObject()
 	this->renderer = renderer;
 	// Load
 	loadTextures();
-
-	// Init
-	initCycle();
 }
 
 Counter::~Counter()
@@ -43,6 +40,9 @@ void Counter::setRelativePosition(Vector2 pos)
 
 void Counter::onUpdate()
 {
+	if (isPaused)
+		return;
+
 	updateAlpha(toRender, 6);
 	toRender.scale = Vector2(2, 2);
 	toRender.render(pos.x, pos.y);
@@ -57,7 +57,7 @@ void Counter::initCycle()
 	goCounter.setAlpha(255);
 
 	// Reset state
-	isActive = true;
+	isPaused = false;
 	toRender = threeCounter;
 	state = COUNTER_THREE;
 }
@@ -97,7 +97,7 @@ void Counter::changeToNextState()
 	case Counter::COUNTER_GO:
 		pos.x = pos.x + goCounter.mWidth - oneCounter.mWidth;
 		state = COUNTER_FINISHED;
-		isActive = false;
+		isPaused = true;
 		break;
 	default:
 		break;

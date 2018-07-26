@@ -41,9 +41,9 @@ void Player::move(Player::MoveDirection direction)
 	}
 }
 
-void Player::addPoint()
+void Player::addPoint(Uint8 point)
 {
-	score++;
+	score += point;
 	if(scoreBoard)
 		scoreBoard->setScore(score);
 }

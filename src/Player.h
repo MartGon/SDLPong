@@ -28,7 +28,7 @@ public:
 
 	// Methods
 	void move(MoveDirection direction);
-	void addPoint();
+	void addPoint(Uint8 point = 1);
 	void resetScore();
 
 	void onStart() override;

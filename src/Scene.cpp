@@ -28,6 +28,11 @@ void Scene::start()
 
 }
 
+void Scene::beforeUpdate()
+{
+
+}
+
 void Scene::onUpdate()
 {
 

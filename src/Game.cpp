@@ -62,7 +62,7 @@ void Game::loadMedia()
 	counter = new Counter(renderer);
 	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	counter->setRelativePosition(position);
-	counter->isActive = false;
+	counter->isActive = true;
 
 	// Set scoreboard
 	player->scoreBoard = scoreBoardOne;
@@ -133,8 +133,10 @@ void Game::onUpdate()
 			if (counter->hasAnimationFinished())
 			{
 				// Ball Movement
+
+				// Start - Critical Section
 				if(isOnline())
-				SDL_SemWait(sem);
+					SDL_SemWait(sem);
 
 				if (isDisconnected())
 					loadMainMenu();
@@ -143,8 +145,10 @@ void Game::onUpdate()
 
 				// Handle movement
 				handlePlayersMovement();
+
 				if(isOnline())
-				SDL_SemPost(sem);
+					SDL_SemPost(sem);
+				// End - Critical Section
 			}
 		}
 	}
@@ -154,32 +158,36 @@ void Game::onUpdate()
 	//ball->collider->drawCollisionBoundaries(renderer);
 }
 
-bool Game::isGameFinished()
+// Own Methods
+
+void Game::addPointToPlayer(Player *player, Uint8 point)
 {
-	bool isFinished = false;
-
-	if (gameState == GAME_FINISHED)
-		return true;
-
-	if (isFinished = player->score > 3)
-		winAlert->setPlayerNumber(0);
-	else if (isFinished = playerTwo->score > 3)
-		winAlert->setPlayerNumber(1);
-
-	if (isFinished)
-		handleFinishedGame();
-
-	return isFinished;
+	player->addPoint();
+	handlePossibleFinishedGame();
 }
 
-void Game::handleFinishedGame()
+bool Game::isGameFinished()
 {
-	gameState = GAME_FINISHED;
+	return gameState == GAME_FINISHED;
+}
+
+void Game::handlePossibleFinishedGame()
+{
+	// Check scores
+	if (player->score < maxScore && playerTwo->score < maxScore)
+		return;
+
+	// Activate win alert
 	winAlert->isActive = true;
+
+	// Disable counter
 	counter->isActive = false;
 
 	// Killing networkAgent for avoiding issues when replay is pressed
 	destroyNetworkAgent();
+
+	// Change game State
+	gameState = GAME_FINISHED;
 }
 
 void Game::handlePlayersMovement()
@@ -267,11 +275,6 @@ bool Game::isOnline()
 	return gameMode == ONLINE_SERVER || gameMode == ONLINE_CLIENT;
 }
 
-void Game::activateGameObjects()
-{
-	activateAllGameObjects();
-	winAlert->isActive = false;
-}
 
 // Networking
 

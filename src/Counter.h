@@ -37,6 +37,9 @@ public:
 	// Position
 	Vector2 pos;
 
+	// Flag
+	bool isPaused = true;
+
 	// Methods
 	void loadTextures();
 	void setRelativePosition(Vector2 pos);

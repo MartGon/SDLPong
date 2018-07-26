@@ -84,11 +84,11 @@ void Ball::handlePossibleWallCollision()
 			break;
 
 		case LEFT_WALL_COLLISION:
-			playerTwo->addPoint();
+			game->addPointToPlayer(playerTwo);
 			game->startNewGame();
 			break;
 		case RIGTH_WALL_COLLISION:
-			player->addPoint();
+			game->addPointToPlayer(player);
 			game->startNewGame();
 			break;
 

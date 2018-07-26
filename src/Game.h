@@ -68,7 +68,10 @@ public:
 
 	// Thread
 	SDL_Thread *thread = nullptr;
-	SDL_sem* sem = nullptr;
+	SDL_sem *sem = nullptr;
+
+	// Game Options
+	const Uint8 maxScore = 3;
 
 	// Methods
 	virtual void loadMedia();
@@ -79,9 +82,9 @@ public:
 	virtual void handleEvent(SDL_Event event);
 
 	// OwnMethods
-	void activateGameObjects();
+	void addPointToPlayer(Player* player, Uint8 point = 1);
 	bool isGameFinished();
-	void handleFinishedGame();
+	void handlePossibleFinishedGame();
 	void handlePlayersMovement();
 	void loadMainMenu();
 	void reloadGame();

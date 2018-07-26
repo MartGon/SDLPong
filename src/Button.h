@@ -12,7 +12,7 @@ public:
 	~Button();
 
 	// Attributes
-	Uint8 layer;
+	Uint8 layer = 0;
 
 	Collider *collider = nullptr;
 	TextureRenderer *tRenderer = nullptr;

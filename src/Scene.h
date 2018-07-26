@@ -19,6 +19,9 @@ public:
 	// GameObject list
 	std::vector<GameObject*> gameObjectList;
 
+	// GameObjects to initialize
+	std::vector<GameObject*> gameObjectsToInitialize;
+
 	// Overrided Methods
 	virtual void loadMedia();
 	virtual void start();
@@ -27,6 +30,7 @@ public:
 	virtual void handleEvent(SDL_Event event);
 
 	void addGameObject(GameObject *gameObject);
+	void initGameObject(GameObject *gameObject);
 	void update();
 	void deactivateAllGameObjects();
 	void activateAllGameObjects();

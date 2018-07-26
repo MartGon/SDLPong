@@ -24,10 +24,6 @@ GameObject::GameObject(Texture texture) : GameObject()
 
 void GameObject::update()
 {
-	// Hook for initializing
-	if (!isInitialized)
-		start();
-
 	// Update every component
 	for (auto &component : components)
 		if(component->isEnabled)

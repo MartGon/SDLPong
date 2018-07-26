@@ -164,7 +164,7 @@ void MainMenu::handleClickEvent()
 	}
 }
 
-void MainMenu::createGame(Game::GameMode mode)
+void MainMenu::createGame(SceneMode mode)
 {
 	Scene *scene = new Game(renderer, mode);
 	SceneManager::loadScene(*scene);
@@ -172,7 +172,7 @@ void MainMenu::createGame(Game::GameMode mode)
 
 void MainMenu::onClickNewGame()
 {
-	createGame(Game::SINGLE_PLAYER);
+	createGame(SINGLE_PLAYER);
 }
 
 void MainMenu::onClickExit()
@@ -182,7 +182,7 @@ void MainMenu::onClickExit()
 
 void MainMenu::onClickTwoPlayers()
 {
-	createGame(Game::TWO_PLAYERS);
+	createGame(LOCAL_MULTIPLAYER);
 }
 
 void MainMenu::onClickOnline()
@@ -193,13 +193,13 @@ void MainMenu::onClickOnline()
 void MainMenu::onClickServer()
 {
 	printf("You have chosen server Mode\n");
-	createGame(Game::ONLINE_SERVER);
+	createGame(ONLINE_SERVER);
 }
 
 void MainMenu::onClickClient()
 {
 	printf("You have chosen client Mode\n");
-	createGame(Game::ONLINE_CLIENT);
+	createGame(ONLINE_CLIENT);
 }
 
 void MainMenu::onClickBack()

@@ -36,7 +36,7 @@ public:
 	// Own methods
 	void activateButtonLayer(Uint8 layer);
 	void handleClickEvent();
-	void createGame(Game::GameMode mode);
+	void createGame(SceneMode mode);
 
 	// Button methods
 	void onClickNewGame();

@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "TextureRenderer.h"
 
+// Constructors
+
 GameObject::GameObject()
 {
 	// Add to the scene updater
@@ -10,6 +12,9 @@ GameObject::GameObject()
 	// Add reference to self in transform component
 	transform = Transform();
 	transform.gameObject = this;
+
+	// Set GameObject's id
+	id = Scene::lastGameObjectID++;
 }
 
 GameObject::~GameObject()

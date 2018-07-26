@@ -14,9 +14,14 @@ public:
 	GameObject(Texture texture);
 	~GameObject();
 
-	// Name
+	// Network Flag
+	bool updateFromClient = false;
 
+	// Name
 	std::string name = "";
+
+	// Id
+	Uint16 id = 0;
 
 	// Active
 	bool isActive = true;

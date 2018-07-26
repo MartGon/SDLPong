@@ -48,6 +48,7 @@ bool NetworkAgent::sendPacket(TCPsocket socket, PongPacket* packet)
 
 	int result;
 	int len = sizeof(PongPacket);
+	//printf("Longitud enviada %i\n", len);
 	result = SDLNet_TCP_Send(socket, packet, len);
 
 	if (result < len)
@@ -72,6 +73,8 @@ PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
 	int result;
 	int len = sizeof(PongPacket);
 	result = SDLNet_TCP_Recv(socket, packet, len);
+
+	//printf("Longitud recibida %i\n", len);
 
 	if (result <= 0)
 	{

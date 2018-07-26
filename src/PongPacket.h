@@ -1,10 +1,13 @@
 #include <string>
 #include "Vector2.h"
+#include "GameObject.h"
 #pragma once
 
 class PongPacket
 {
 public:
+
+	// TODO - Needs Serialization
 
 	// Packet Type
 	enum PacketType
@@ -22,9 +25,12 @@ public:
 
 	// Packet data
 	PacketType packetType;
+	Uint16 id = -1;
 	Vector2 position;
 	Vector2 direction;
+	//std::string data;
 
-	std::string data;
+	// New setup
+	//GameObject gameObject;
 };
 

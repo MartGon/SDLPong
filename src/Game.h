@@ -12,18 +12,20 @@
 #include <SDL_thread.h>
 #include <SDL.h>
 
-int threadFunction(void *data);
+//int threadFunction(void *data);
 
 class Game : public Scene
 {
 public:
 
+	/*
 	enum GameMode {
 		SINGLE_PLAYER,
 		TWO_PLAYERS,
 		ONLINE_CLIENT,
 		ONLINE_SERVER
 	};
+	*/
 
 	enum GameState {
 		GAME_RUNNING,
@@ -33,15 +35,8 @@ public:
 
 	// Constructors
 	Game();
-	Game(SDL_Renderer *renderer, GameMode mode = SINGLE_PLAYER);
+	Game(SDL_Renderer *renderer, SceneMode mode = SINGLE_PLAYER);
 	~Game();
-
-	// NetworkManager
-	NetworkAgent * networkAgent = nullptr;
-
-	// Game Mode
-	GameMode gameMode;
-	bool connectionEstablished = false;
 
 	// Game State
 	GameState gameState;
@@ -74,6 +69,7 @@ public:
 	const Uint8 maxScore = 3;
 
 	// Methods
+	void handleConnectionEstablished() override;
 	virtual void loadMedia();
 	virtual void start();
 	virtual void startNewGame();
@@ -88,10 +84,11 @@ public:
 	void handlePlayersMovement();
 	void loadMainMenu();
 	void reloadGame();
-	bool isOnline();
-	void destroyNetworkAgent();
+	//void destroyNetworkAgent();
 
 	// Network
+	//bool isOnline();
+	/*
 	void sendPlayerPositionPacket();
 	void sendBallDirection();
 	void sendServerData();
@@ -99,5 +96,6 @@ public:
 	bool handlePacket(PongPacket *packet);
 	void disconnect();
 	bool isDisconnected();
+	*/
 };
 

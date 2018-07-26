@@ -4,17 +4,15 @@
 #include "MainMenu.h"
 #include "NetworkServer.h"
 #include "NetworkClient.h"
-
 #include "TextureRenderer.h"
 
 Game::Game()
 {
 }
 
-Game::Game(SDL_Renderer *renderer, GameMode mode)
+Game::Game(SDL_Renderer *renderer, SceneMode mode) : Scene (mode)
 {
 	this->renderer = renderer;
-	this->gameMode = mode;
 	gameState = GAME_RUNNING;
 }
 
@@ -67,22 +65,9 @@ void Game::loadMedia()
 	// Set scoreboard
 	player->scoreBoard = scoreBoardOne;
 	playerTwo->scoreBoard = scoreBoardTwo;
-
-	// Online measures
-	if (isOnline())
-	{
-		// Creating networkAgents
-		if (gameMode == ONLINE_SERVER)
-			networkAgent = new NetworkServer();
-		else if (gameMode == ONLINE_CLIENT)
-			networkAgent = new NetworkClient();
-
-		// Threading
-		sem = SDL_CreateSemaphore(1);
-		thread = SDL_CreateThread(threadFunction, "defu", this);
-		SDL_DetachThread(thread);
-	}
-
+	
+	// Networking
+	playerTwo->updateFromClient = true;
 }
 
 void Game::startNewGame()
@@ -115,41 +100,24 @@ void Game::start()
 
 void Game::onUpdate()
 {
-	// Check if connection is established, in case of online game
-	if (isOnline() && !connectionEstablished)
+	// Check if match has endend
+	if (!isGameFinished())
 	{
-		if (connectionEstablished = networkAgent->establishConnection())
+		// Has counter animation finished
+		if (counter->hasAnimationFinished())
 		{
-			// Start match
-			startNewGame();
-		}
-	}
-	else
-	{
-		// Check if match has endend
-		if (!isGameFinished())
-		{
-			// Has counter animation finished
-			if (counter->hasAnimationFinished())
-			{
-				// Ball Movement
+			// Ball Movement
 
-				// Start - Critical Section
-				if(isOnline())
-					SDL_SemWait(sem);
+			// Start - Critical Section
 
-				if (isDisconnected())
-					loadMainMenu();
+			if (disconnected)
+				loadMainMenu();
 
-				ball->move();
+			ball->move();
 
-				// Handle movement
-				handlePlayersMovement();
-
-				if(isOnline())
-					SDL_SemPost(sem);
-				// End - Critical Section
-			}
+			// Handle movement
+			handlePlayersMovement();
+			// End - Critical Section
 		}
 	}
 
@@ -195,7 +163,7 @@ void Game::handlePlayersMovement()
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
 	// Player One movement
-	if (gameMode != ONLINE_CLIENT)
+	if (mode != ONLINE_CLIENT)
 	{
 		if (currentKeyStates[SDL_SCANCODE_W])
 			player->move(player->MOVE_UP);
@@ -211,19 +179,19 @@ void Game::handlePlayersMovement()
 			playerTwo->move(player->MOVE_DOWN);
 	}
 
-	switch (gameMode)
+	switch (mode)
 	{
-	case TWO_PLAYERS:
+	case LOCAL_MULTIPLAYER:
 		if (currentKeyStates[SDL_SCANCODE_UP])
 			playerTwo->move(player->MOVE_UP);
 		else if (currentKeyStates[SDL_SCANCODE_DOWN])
 			playerTwo->move(player->MOVE_DOWN);
 		break;
 	case ONLINE_CLIENT:
-		sendClientData();
+		//sendClientData();
 		break;
 	case ONLINE_SERVER:
-		sendServerData();
+		//sendServerData();
 		break;
 	default:
 		Vector2 ballPosition(ball->transform.position.x, ball->transform.position.y);
@@ -266,160 +234,17 @@ void Game::loadMainMenu()
 
 void Game::reloadGame()
 {
-	Scene *game = new Game(renderer, gameMode);
+	Scene *game = new Game(renderer, mode);
 	SceneManager::loadScene(*game);
-}
-
-bool Game::isOnline()
-{
-	return gameMode == ONLINE_SERVER || gameMode == ONLINE_CLIENT;
-}
-
-
-// Networking
-
-void Game::sendPlayerPositionPacket()
-{
-	PongPacket::PacketType type;
-	Vector2 playerPos;
-
-	if (gameMode == ONLINE_SERVER)
-	{
-		type = PongPacket::PACKET_PLAYER_1_POSITION;
-		playerPos = Vector2(player->transform.position.x, player->transform.position.y);
-	}
-	else
-	{
-		type = PongPacket::PACKET_PLAYER_2_POSITION;
-		playerPos = Vector2(playerTwo->transform.position.x, playerTwo->transform.position.y);
-	}
-
-	PongPacket* playerPacket = new PongPacket(type, playerPos);
-	networkAgent->sendPacket(playerPacket);
-}
-
-void Game::sendBallDirection()
-{
-	Vector2 ballPos(ball->transform.position.x, ball->transform.position.y);
-	PongPacket* ballPacket = new PongPacket(PongPacket::PACKET_BALL_POSITION, ballPos);
-	ballPacket->direction = ball->getDirection();
-	networkAgent->sendPacket(ballPacket);
-}
-
-void Game::sendServerData()
-{
-	sendPlayerPositionPacket();
-	sendBallDirection();
-}
-
-void Game::sendClientData()
-{
-	sendPlayerPositionPacket();
-}
-
-bool Game::handlePacket(PongPacket* packet)
-{
-	if (!packet)
-		return false;
-
-	//std::cout << "Handling packet\n";
-
-	switch (packet->packetType)
-	{
-	case PongPacket::PACKET_BALL_POSITION:
-		ball->setDirection(packet->direction);
-		ball->transform.position.x = packet->position.x;
-		ball->transform.position.y = packet->position.y;
-		break;
-	case PongPacket::PACKET_PLAYER_1_POSITION:
-		player->transform.position.y = packet->position.y;
-		break;
-	case PongPacket::PACKET_PLAYER_2_POSITION:
-		playerTwo->transform.position.y = packet->position.y;
-	default:
-		break;
-	}
-
-	return true;
 }
 
 void Game::destroy()
 {
-	destroyNetworkAgent();
-
 	Scene::destroy();
 }
 
-int threadFunction(void* data)
+void Game::handleConnectionEstablished()
 {
-	Game *game = (Game*)data;
-	PongPacket *packet = nullptr;
-	bool valid = false;
-
-	while (true)
-	{
-		if (game->isGameFinished() || game->isDisconnected())
-			break;
-
-		if (!game->connectionEstablished)
-			continue;
-
-		// Receive data
-		packet = game->networkAgent->recvPacket();
-
-		SDL_SemWait(game->sem);
-
-		if (!packet)
-		{
-			game->disconnect();
-			SDL_SemPost(game->sem);
-			break;
-		}
-
-		valid = game->handlePacket(packet);
-
-		if (!valid)
-		{
-			game->disconnect();
-			SDL_SemPost(game->sem);
-			break;
-		}
-
-		SDL_SemPost(game->sem);
-
-		//printf("Main Thread\n", game->player->score);
-	}
-
-	return 0;
+	counter->initCycle();
 }
-
-void Game::destroyNetworkAgent()
-{
-	if (!isOnline())
-		return;
-
-	if (sem)
-	{
-		SDL_DestroySemaphore(sem);
-		sem = nullptr;
-	}
-
-	networkAgent->destroy();
-}
-
-void Game::disconnect()
-{
-	if (!isOnline())
-		return;
-
-	std::cout << "Se perdió la conexión con el otro jugador\n";
-	gameState = Game::GAME_NETWORK_ERROR;
-}
-
-bool Game::isDisconnected()
-{
-	if (!isOnline())
-		return false;
-
-	return gameState == GAME_NETWORK_ERROR;
-}
+// Networking

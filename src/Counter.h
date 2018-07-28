@@ -35,14 +35,14 @@ public:
 	Texture toRender;
 
 	// Position
-	Vector2 pos;
+	Vector2<float> pos;
 
 	// Flag
 	bool isPaused = true;
 
 	// Methods
 	void loadTextures();
-	void setRelativePosition(Vector2 pos);
+	void setRelativePosition(Vector2<float> pos);
 	void initCycle();
 	void updateAlpha(Texture &texture, Uint8 step);
 	void changeToNextState();

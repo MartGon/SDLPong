@@ -24,7 +24,7 @@ public:
 	// Methods
 	void loadPlayerNumbersTextures(SDL_Renderer* renderer);
 	void setPlayerNumber(int number);
-	void setRelativePosition(Vector2 vector);
+	void setRelativePosition(Vector2<float> vector);
 
 	// Animating
 	bool decrementing;

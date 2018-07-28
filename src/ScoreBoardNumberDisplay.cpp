@@ -24,7 +24,7 @@ ScoreBoardNumberDisplay::ScoreBoardNumberDisplay(SDL_Renderer* renderer)
 
 	collider = new Collider(tRenderer->texture);
 	setComponent(collider);
-	setScale(Vector2(0.5f, 0.5f));
+	setScale(Vector2<float>(0.5f, 0.5f));
 }
 
 ScoreBoardNumberDisplay::~ScoreBoardNumberDisplay()

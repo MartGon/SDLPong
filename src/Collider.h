@@ -25,14 +25,14 @@ public:
 	int cHeight = 0;
 
 	// Collider offset
-	Vector2 offset;
+	Vector2<float> offset;
 
 	// Methods
 	void calculateColliderBoundaries();
-	Vector2 getCollisionCenter();
+	Vector2<float> getCollisionCenter();
 	bool isCollidingWith(Collider *collider);
-	Vector2 getDimensions();
-	Vector2 getOffsetVector();
+	Vector2<float> getDimensions();
+	Vector2<float> getOffsetVector();
 
 	// Debug
 	void drawCollisionBoundaries(SDL_Renderer* renderer);

@@ -23,7 +23,7 @@ public:
 	int mHeight = 0;
 
 	// Scale
-	Vector2 scale;
+	Vector2<float> scale;
 
 	// Other
 	char* path = nullptr;

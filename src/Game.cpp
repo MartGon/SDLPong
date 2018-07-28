@@ -51,15 +51,14 @@ void Game::loadMedia()
 	ball->game = this;
 
 	// Load WinAlert
-	
 	winAlert = new WinAlert(renderer);
-	Vector2 position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	Vector2<float> position = Vector2<float>(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	winAlert->setRelativePosition(position);
 	winAlert->isActive = false;
 
 	// Load Counter Animation
 	counter = new Counter(renderer);
-	position = Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	position = Vector2<float>(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	counter->setRelativePosition(position);
 	counter->isActive = true;
 
@@ -201,7 +200,7 @@ void Game::handlePlayersMovement()
 		//sendServerData();
 		break;
 	default:
-		Vector2 ballPosition(ball->transform.position.x, ball->transform.position.y);
+		Vector2<float> ballPosition(ball->transform.position.x, ball->transform.position.y);
 		Player::MoveDirection nextMove = playerTwo->getNextMoveDirection(ballPosition);
 		playerTwo->move(nextMove);
 		break;

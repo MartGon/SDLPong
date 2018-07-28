@@ -54,14 +54,14 @@ public:
 	}
 
 	// Position
-	void setRelativePosition(Vector2 pos);
+	void setRelativePosition(Vector2<float> pos);
 
 	// Update
 	virtual void onUpdate();
 	void update() override;
 
 	// Scale 
-	void setScale(Vector2 scale);
+	void setScale(Vector2<float> scale);
 
 	// Cleaning
 	virtual void destroy();

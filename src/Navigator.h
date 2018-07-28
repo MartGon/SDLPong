@@ -8,7 +8,7 @@ public:
 
 	// Constructors
 	Navigator();
-	Navigator(Vector2 direction, int speed);
+	Navigator(Vector2<float> direction, int speed);
 	~Navigator();
 
 	// Attributes
@@ -18,9 +18,9 @@ public:
 	void update() override;
 
 	// Own Methods
-	Vector2 getDirection();
-	void setDirection(Vector2 dir);
+	Vector2<float> getDirection();
+	void setDirection(Vector2<float> dir);
 
 private:
-	Vector2 direction;
+	Vector2<float> direction;
 };

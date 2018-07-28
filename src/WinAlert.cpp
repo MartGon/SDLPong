@@ -65,7 +65,7 @@ void WinAlert::onUpdate()
 	updatePrompt();
 }
 
-void WinAlert::setRelativePosition(Vector2 position)
+void WinAlert::setRelativePosition(Vector2<float> position)
 {
 	this->transform.position.x = position.x - playerMessage.mWidth / 2;
 	this->transform.position.y = position.y - playerMessage.mHeight - winsMessage.mHeight;

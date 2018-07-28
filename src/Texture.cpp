@@ -47,7 +47,7 @@ Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 			mWidth = imgSurface->w;
 			mHeight = imgSurface->h;
 			mRenderer = renderer;
-			scale = Vector2(1, 1);
+			scale = Vector2<float>(1, 1);
 		}
 
 		SDL_FreeSurface(imgSurface);

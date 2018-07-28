@@ -15,7 +15,7 @@ PlayerAI::~PlayerAI()
 {
 }
 
-Player::MoveDirection PlayerAI::getNextMoveDirection(Vector2 ballPosition)
+Player::MoveDirection PlayerAI::getNextMoveDirection(Vector2<float> ballPosition)
 {
 	if (transform.position.y > ballPosition.y)
 		return MOVE_UP;

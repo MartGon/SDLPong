@@ -8,8 +8,8 @@ class Transform : public Component
 public:
 	Transform();
 
-	Vector2 position;
-	Vector2 scale;
+	Vector2<float> position;
+	Vector2<float> scale;
 	double zRotation;
 	
 	void update() override {};

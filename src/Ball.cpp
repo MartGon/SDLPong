@@ -13,12 +13,12 @@ Ball::Ball()
 Ball::Ball(Texture texture) : GameObject(texture)
 {
 	collider = new Collider(42, 42);
-	collider->offset = Vector2(12, 12);
+	collider->offset = Vector2<float>(12, 12);
 	setComponent(collider);
 
 	tRenderer = getComponent<TextureRenderer>();
 
-	navigator = new Navigator(Vector2(), 6);
+	navigator = new Navigator(Vector2<float>(), 6);
 	setComponent(navigator);
 }
 
@@ -59,13 +59,13 @@ void Ball::handlePossibleWallCollision()
 {
 	if (WallCollision collision = checkCollisionWithWalls())
 	{
-		Vector2 dir;
+		Vector2<float> dir;
 		switch (collision)
 		{
 		case TOP_WALL_COLLISION:
 		case BOTTOM_WALL_COLLISION:
 			dir = navigator->getDirection();
-			navigator->setDirection(Vector2(dir.x, -dir.y));
+			navigator->setDirection(Vector2<float>(dir.x, -dir.y));
 			break;
 
 		case LEFT_WALL_COLLISION:
@@ -85,8 +85,8 @@ void Ball::handlePossibleWallCollision()
 
 void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 {
-	Vector2 ballCenter = collider->getCollisionCenter();
-	Vector2 padCenter = player.collider->getCollisionCenter();
+	Vector2<float> ballCenter = collider->getCollisionCenter();
+	Vector2<float> padCenter = player.collider->getCollisionCenter();
 
 	int ballRelativeYpos = ballCenter.y - padCenter.y;
 	float playerMaxValue = (player.collider->cHeight / 2) + collider->cHeight / 2;
@@ -95,7 +95,7 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	float xDir = -navigator->getDirection().x;
 	float yDir = centerRate;
 
-	navigator->setDirection(Vector2(xDir, yDir));
+	navigator->setDirection(Vector2<float>(xDir, yDir));
 	navigator->speed += 1;
 }
 
@@ -126,7 +126,7 @@ void Ball::reset()
 	srand(time(NULL));
 	int x = rand() % 100 - 50;
 	int y = rand() % 100 - 50;
-	Vector2 direction(x, y);
+	Vector2<float> direction(x, y);
 	direction.normalize();
 
 	//printf("La direcsión fue x= %f e y = %f\n", direction.x, direction.y);
@@ -152,7 +152,7 @@ void Ball::onUpdate()
 
 // Motion Blur
 
-void Ball::addMotionBlurPosition(Vector2 pos)
+void Ball::addMotionBlurPosition(Vector2<float> pos)
 {
 	motionBlurPositions.push_back(pos);
 
@@ -167,7 +167,7 @@ void Ball::renderMotionBlur()
 
 	for (int i = 0; i < motionBlurPositions.size(); i++)
 	{
-		Vector2 pos = motionBlurPositions.at(i);
+		Vector2<float> pos = motionBlurPositions.at(i);
 		tRenderer->texture.setAlpha(i * factor);
 		tRenderer->texture.render(pos.x, pos.y);
 	}
@@ -185,5 +185,5 @@ void Ball::beforeMove()
 void Ball::afterMove()
 {
 	// Add to motion blur vector
-	addMotionBlurPosition(Vector2(transform.position.x, transform.position.y));
+	addMotionBlurPosition(Vector2<float>(transform.position.x, transform.position.y));
 }

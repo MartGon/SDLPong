@@ -38,12 +38,12 @@ void GameObject::update()
 	onUpdate();
 }
 
-void GameObject::setRelativePosition(Vector2 pos)
+void GameObject::setRelativePosition(Vector2<float> pos)
 {
 
 }
 
-void GameObject::setScale(Vector2 scale)
+void GameObject::setScale(Vector2<float> scale)
 {
 	transform.scale = scale;
 }

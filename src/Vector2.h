@@ -1,31 +1,60 @@
 #pragma once
 #include <math.h>
 
+template <typename T>
 class Vector2
 {
 public:
-	Vector2();
-	Vector2(int x, int y);
-	Vector2(float x, float y);
-	~Vector2();
+	Vector2()
+	{
+		x = 0;
+		y = 0;
+	}
+
+	Vector2(T x, T y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	~Vector2()
+	{
+
+	}
 
 	// Coordinates
-	float x;
-	float y;
+	T x;
+	T y;
 
 	// Methods
-	void normalize();
-	float getModule();
+	void normalize()
+	{
+		float mod = getModule();
+		x /= mod;
+		y /= mod;
+	}
+
+	float getModule()
+	{
+		return sqrt(x * x + y * y);
+	}
+
+	friend Vector2<T>& operator+(const Vector2<T> &v1, const Vector2<T> &v2)
+	{
+		T fX = v1.x + v2.x;
+		T fY = v1.y + v2.y;
+
+		return Vector2(fX, fY);
+	}
+
+	template <typename L>
+	friend Vector2<L>& operator*(const Vector2<L> &vector, const T &value)
+	{
+		L sX = vector.x * value;
+		L sY = vector.y * value;
+
+		return Vector2(sX, sY);
+	}
 };
 
 // Operators
-template <typename T>
-Vector2 operator*(const Vector2 &vector, const T &value)
-{
-	int sX = vector.x * value;
-	int sY = vector.y * value;
-
-	return Vector2(sX, sY);
-}
-
-Vector2 operator+(const Vector2 &v1, const Vector2 &v2);

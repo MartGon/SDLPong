@@ -62,9 +62,9 @@ public:
 
 	// Motion Blur
 	TextureRenderer *tRenderer = nullptr;
-	std::vector<Vector2> motionBlurPositions;
+	std::vector<Vector2<float>> motionBlurPositions;
 	void renderMotionBlur();
-	void addMotionBlurPosition(Vector2 pos);
+	void addMotionBlurPosition(Vector2<float> pos);
 
 	// Hooks
 		// Movement

@@ -9,6 +9,6 @@ public:
 	PlayerAI(Texture texture);
 	~PlayerAI();
 
-	MoveDirection getNextMoveDirection(Vector2 ballPosition);
+	MoveDirection getNextMoveDirection(Vector2<float> ballPosition);
 };
 

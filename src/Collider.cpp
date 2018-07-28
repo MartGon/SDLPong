@@ -26,9 +26,9 @@ Collider::Collider(int width, int height) : Component()
 
 void Collider::calculateColliderBoundaries()
 {
-	Vector2 position = gameObject->transform.position;
-	Vector2 dimensions = getDimensions();
-	Vector2 offsetVector = getOffsetVector();
+	Vector2<float> position = gameObject->transform.position;
+	Vector2<float> dimensions = getDimensions();
+	Vector2<float> offsetVector = getOffsetVector();
 
 	int fWidth = dimensions.x;
 	int fHeight = dimensions.y;
@@ -41,12 +41,12 @@ void Collider::calculateColliderBoundaries()
 	cBottom = position.y + fHeight + yOffset;
 }
 
-Vector2 Collider::getCollisionCenter()
+Vector2<float> Collider::getCollisionCenter()
 {
 	int x = (float)(cLeft + cRight) / 2;
 	int y = (float)(cTop + cBottom) / 2;
 
-	return Vector2(x, y);
+	return Vector2<float>(x, y);
 }
 
 void Collider::update()
@@ -94,18 +94,18 @@ void Collider::destroy()
 	gColliders.erase(std::remove(gColliders.begin(), gColliders.end(), this), gColliders.end());
 }
 
-Vector2 Collider::getDimensions()
+Vector2<float> Collider::getDimensions()
 {
 	int fWidth = cWidth * gameObject->transform.scale.x;
 	int fHeight = cHeight * gameObject->transform.scale.y;
 
-	return Vector2(fWidth, fHeight);
+	return Vector2<float>(fWidth, fHeight);
 }
 
-Vector2 Collider::getOffsetVector()
+Vector2<float> Collider::getOffsetVector()
 {
 	int xOffset = offset.x * gameObject->transform.scale.x;
 	int yOffset = offset.y * gameObject->transform.scale.y;
 
-	return Vector2(xOffset, yOffset);
+	return Vector2<float>(xOffset, yOffset);
 }

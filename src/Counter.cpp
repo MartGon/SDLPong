@@ -32,7 +32,7 @@ void Counter::loadTextures()
 	goCounter = Texture(goPath, renderer);
 }
 
-void Counter::setRelativePosition(Vector2 pos)
+void Counter::setRelativePosition(Vector2<float> pos)
 {
 	this->pos.x = pos.x - oneCounter.mWidth;
 	this->pos.y = pos.y - oneCounter.mHeight * 3;
@@ -44,7 +44,7 @@ void Counter::onUpdate()
 		return;
 
 	updateAlpha(toRender, 6);
-	toRender.scale = Vector2(2, 2);
+	toRender.scale = Vector2<float>(2, 2);
 	toRender.render(pos.x, pos.y);
 }
 

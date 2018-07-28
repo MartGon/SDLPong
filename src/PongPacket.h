@@ -20,14 +20,14 @@ public:
 
 	// Constructors
 	PongPacket();
-	PongPacket(PacketType type, Vector2 pos);
+	PongPacket(PacketType type, Vector2<float> pos);
 	~PongPacket();
 
 	// Packet data
 	PacketType packetType;
 	Uint16 id = -1;
-	Vector2 position;
-	Vector2 direction;
+	Vector2<float> position;
+	Vector2<float> direction;
 	//std::string data;
 
 	// New setup

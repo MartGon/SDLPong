@@ -12,11 +12,14 @@ Ball::Ball()
 
 Ball::Ball(Texture texture) : GameObject(texture)
 {
-	speed = 5;
 	collider = new Collider(42, 42);
 	collider->offset = Vector2(12, 12);
 	setComponent(collider);
+
 	tRenderer = getComponent<TextureRenderer>();
+
+	navigator = new Navigator(Vector2(), 6);
+	setComponent(navigator);
 }
 
 Ball::~Ball()
@@ -26,29 +29,6 @@ Ball::~Ball()
 // Methods
 
 // Movement
-
-void Ball::move()
-{
-    // Check wall collisions
-    handlePossibleWallCollision();
-
-	transform.position.x += (direction.x * speed);
-	transform.position.y += (direction.y * speed);
-
-	// Add to motion blur vector
-	addMotionBlurPosition(Vector2(transform.position.x, transform.position.y));
-}
-
-Vector2 Ball::getDirection()
-{
-	return direction;
-}
-
-void Ball::setDirection(Vector2 vector2)
-{
-	vector2.normalize();
-	direction = vector2;
-}
 
 // Collisions
 
@@ -79,11 +59,13 @@ void Ball::handlePossibleWallCollision()
 {
 	if (WallCollision collision = checkCollisionWithWalls())
 	{
+		Vector2 dir;
 		switch (collision)
 		{
 		case TOP_WALL_COLLISION:
 		case BOTTOM_WALL_COLLISION:
-			direction.y = -direction.y;
+			dir = navigator->getDirection();
+			navigator->setDirection(Vector2(dir.x, -dir.y));
 			break;
 
 		case LEFT_WALL_COLLISION:
@@ -110,11 +92,11 @@ void Ball::modifyDirectionFromCollisionWithPlayer(Player player)
 	float playerMaxValue = (player.collider->cHeight / 2) + collider->cHeight / 2;
 	float centerRate = ballRelativeYpos / playerMaxValue;
 
-	direction.x = -direction.x;
-	direction.y = centerRate;
+	float xDir = -navigator->getDirection().x;
+	float yDir = centerRate;
 
-	direction.normalize();
-	speed += 1;
+	navigator->setDirection(Vector2(xDir, yDir));
+	navigator->speed += 1;
 }
 
 void Ball::onColliderEnter(Collider *collider)
@@ -130,7 +112,8 @@ void Ball::onColliderEnter(Collider *collider)
 void Ball::reset()
 {
 	//  Reset Speed
-	speed = 6;
+	navigator->isEnabled = false;
+	navigator->speed = 6;
 
 	// Reset Motion Blur
 	motionBlurPositions.clear();
@@ -152,9 +135,8 @@ void Ball::reset()
 	{
 		direction.y = 0.5;
 		direction.x = 0.5;
-		direction.normalize();
 	}
-	setDirection(direction);
+	navigator->setDirection(direction);
 }
 
 void Ball::onStart()
@@ -175,7 +157,7 @@ void Ball::addMotionBlurPosition(Vector2 pos)
 	motionBlurPositions.push_back(pos);
 
 	// We want just five positions to render 
-	if (motionBlurPositions.size() > speed)
+	if (motionBlurPositions.size() > navigator->speed)
 		motionBlurPositions.erase(motionBlurPositions.begin());
 }
 
@@ -190,4 +172,18 @@ void Ball::renderMotionBlur()
 		tRenderer->texture.render(pos.x, pos.y);
 	}
 	tRenderer->texture.setAlpha(255);
+}
+
+// Hooks
+
+void Ball::beforeMove()
+{
+	// Check wall collisions
+	handlePossibleWallCollision();
+}
+
+void Ball::afterMove()
+{
+	// Add to motion blur vector
+	addMotionBlurPosition(Vector2(transform.position.x, transform.position.y));
 }

@@ -38,3 +38,13 @@ float Vector2::getModule()
 {
 	return sqrt(x * x + y * y);
 }
+
+// Operator
+
+Vector2 operator+(const Vector2 &v1, const Vector2 &v2)
+{
+	int fX = v1.x + v2.x;
+	int fY = v1.y + v2.y;
+
+	return Vector2(fX, fY);
+}

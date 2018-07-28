@@ -5,6 +5,7 @@
 #include "NetworkServer.h"
 #include "NetworkClient.h"
 #include "TextureRenderer.h"
+#include "Navigator.h"
 
 Game::Game()
 {
@@ -115,7 +116,7 @@ void Game::onUpdate()
 			if (disconnected)
 				loadMainMenu();
 
-			ball->move();
+			ball->navigator->isEnabled = true;
 
 			// Handle movement
 			handlePlayersMovement();

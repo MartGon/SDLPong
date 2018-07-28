@@ -26,6 +26,9 @@ public:
 	// Collider
 	Collider *collider = nullptr;
 
+	// Movement
+	int speed = 5;
+
 	// Methods
 	void move(MoveDirection direction);
 	void addPoint(Uint8 point = 1);

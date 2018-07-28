@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Vector2.h"
 #include "MainGameLoop.h"
+#include "Navigator.h"
 #include <vector>
 #pragma once
 
@@ -42,9 +43,7 @@ public:
 	// Methods
 
 	// Movement
-	void move();
-	void setDirection(Vector2 vector2);
-	Vector2 getDirection();
+	Navigator *navigator = nullptr;
 
 	// Collisions
 	Collider *collider = nullptr;
@@ -67,9 +66,9 @@ public:
 	void renderMotionBlur();
 	void addMotionBlurPosition(Vector2 pos);
 
-private:
-	
-	// Movement
-	Vector2 direction;
+	// Hooks
+		// Movement
+	void beforeMove() override;
+	void afterMove() override;
 };
 

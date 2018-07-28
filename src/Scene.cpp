@@ -130,7 +130,7 @@ void Scene::update()
                         // TODO - Substitute by a function
                         PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
                         if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-                            packet->direction = ball->getDirection();
+                            packet->direction = ball->navigator->getDirection();
                         packet->id = gameObject->id;
                         networkAgent->sendPacket(packet);
 
@@ -142,7 +142,7 @@ void Scene::update()
                         {
                             PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
                             if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-                                packet->direction = ball->getDirection();
+                                packet->direction = ball->navigator->getDirection();
                             packet->id = gameObject->id;
                             networkAgent->sendPacket(packet);
                         }
@@ -247,7 +247,7 @@ bool Scene::handlePacket(PongPacket *packet)
 			gameObject->transform.position = packet->position;
 
 		if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-			ball->setDirection(packet->direction);
+			ball->navigator->setDirection(packet->direction);
 	}
 
 	return true;

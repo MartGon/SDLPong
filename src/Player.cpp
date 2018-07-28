@@ -9,7 +9,6 @@ Player::Player()
 
 Player::Player(Texture texture) : GameObject(texture)
 {
-	speed = 5;
 	score = 0;
 	collider = new Collider(texture);
 	setComponent(collider);

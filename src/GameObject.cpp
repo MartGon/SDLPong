@@ -84,3 +84,13 @@ void GameObject::onColliderEnter(Collider *collider)
 {
 
 }
+
+void GameObject::beforeMove()
+{
+
+}
+
+void GameObject::afterMove()
+{
+
+}

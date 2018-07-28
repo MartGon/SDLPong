@@ -18,3 +18,14 @@ public:
 	float getModule();
 };
 
+// Operators
+template <typename T>
+Vector2 operator*(const Vector2 &vector, const T &value)
+{
+	int sX = vector.x * value;
+	int sY = vector.y * value;
+
+	return Vector2(sX, sY);
+}
+
+Vector2 operator+(const Vector2 &v1, const Vector2 &v2);

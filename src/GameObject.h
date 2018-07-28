@@ -29,9 +29,6 @@ public:
 	// Transform
 	Transform transform;
 
-	// Movement
-	int speed = 5;
-
 	// Methods
 
 	// Init
@@ -63,14 +60,18 @@ public:
 	virtual void onUpdate();
 	void update() override;
 
-	// Collisions
-	virtual void onColliderEnter(Collider *collider);
-
 	// Scale 
 	void setScale(Vector2 scale);
 
 	// Cleaning
 	virtual void destroy();
+
+	// Hooks
+		// Collisions
+	virtual void onColliderEnter(Collider *collider);
+		// Movement
+	virtual void beforeMove();
+	virtual void afterMove();
 
 private:
 

@@ -1,16 +1,12 @@
 # Add files in this folder
-add_library(lib Ball.cpp
-				Counter.cpp
-				Game.cpp
-				MainMenu.cpp
-				Player.cpp
-				PlayerAI.cpp
-				Scoreboard.cpp
-				ScoreBoardNumberDisplay.cpp
-				WinAlert.cpp)
-target_include_directories (lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 
 # Add subfolder
 add_subdirectory(Engine)
 
+file(GLOB sdlpong_SRC "*.h" "*.cpp")
 
+add_executable(SDLPong ${sdlpong_SRC})
+
+# Libraries to be linked
+target_link_libraries(SDLPong ${SDL2_LIBRARIES} ${SDL2_IMG_LIBRARIES} ${SDL2_NET_LIBRARIES} lib2 lib3 lib4 lib5 lib6 lib7)

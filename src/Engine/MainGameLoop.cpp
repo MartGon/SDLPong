@@ -1,5 +1,4 @@
 #include "MainGameLoop.h"
-#include "MainMenu.h"
 #include "SceneManager.h"
 #include "RendererManager.h"
 
@@ -53,7 +52,7 @@ int main(int argc, char* args[])
 		// Game initialization
 		RendererManager::renderer = renderer;
 
-		Scene *scene = new MainMenu(renderer);
+		Scene *scene = new Scene();
 		SceneManager::loadScene(*scene);
 
 		SDL_Event e;

@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "Ball.h"
+#include "Navigator.h"
 #include <stdio.h>
 
 // Attributes
@@ -127,24 +127,15 @@ void Scene::update()
                 {
                     if (mode == ONLINE_SERVER)
                     {
-                        // TODO - Substitute by a function
-                        PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
-                        if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-                            packet->direction = ball->navigator->getDirection();
-                        packet->id = gameObject->id;
+                        Packet *packet = new Packet(*gameObject);
                         networkAgent->sendPacket(packet);
-
-                        //	printf("Enviado %i: %s\n", gameObject->id, gameObject->name.c_str());
                     }
                     else if (mode == ONLINE_CLIENT)
                     {
                         if (gameObject->updateFromClient)
                         {
-                            PongPacket *packet = new PongPacket(PongPacket::PACKET_BALL_POSITION, gameObject->transform.position);
-                            if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-                                packet->direction = ball->navigator->getDirection();
-                            packet->id = gameObject->id;
-                            networkAgent->sendPacket(packet);
+							Packet *packet = new Packet(*gameObject);
+							networkAgent->sendPacket(packet);
                         }
                     }
                 }
@@ -225,7 +216,7 @@ void Scene::disconnect()
 	disconnected = true;
 }
 
-bool Scene::handlePacket(PongPacket *packet)
+bool Scene::handlePacket(Packet *packet)
 {
 	// TODO
 
@@ -246,8 +237,8 @@ bool Scene::handlePacket(PongPacket *packet)
 		if (!gameObject->updateFromClient)
 			gameObject->transform.position = packet->position;
 
-		if (Ball *ball = dynamic_cast<Ball*>(gameObject))
-			ball->navigator->setDirection(packet->direction);
+		if (Navigator *nav = gameObject->getComponent<Navigator>())
+			nav->setDirection(packet->direction);
 	}
 
 	return true;
@@ -256,7 +247,7 @@ bool Scene::handlePacket(PongPacket *packet)
 int recvPacketThread(void* data)
 {
 	Scene *scene = (Scene*)data;
-	PongPacket *packet = nullptr;
+	Packet *packet = nullptr;
 	bool valid = false;
 
 	while (true)

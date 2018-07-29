@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "PongPacket.h"
+#include "Packet.h"
 #pragma once
 class NetworkAgent
 {
@@ -21,8 +21,8 @@ public:
 	virtual bool establishConnection();
 
 	// Communication
-	virtual bool sendPacket(PongPacket* packet);
-	virtual PongPacket* recvPacket();
+	virtual bool sendPacket(Packet* packet);
+	virtual Packet* recvPacket();
 
 	// Other
 	void destroy();
@@ -30,7 +30,7 @@ public:
 
 protected:
 		// Communication
-	bool sendPacket(TCPsocket socket, PongPacket* packet);
-	PongPacket* recvPacket(TCPsocket socket);
+	bool sendPacket(TCPsocket socket, Packet* packet);
+	Packet* recvPacket(TCPsocket socket);
 };
 

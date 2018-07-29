@@ -38,8 +38,8 @@ public:
 	virtual bool establishConnection();
 
 			// Communication
-	virtual bool sendPacket(PongPacket* packet);
-	virtual PongPacket* recvPacket();
+	virtual bool sendPacket(Packet* packet);
+	virtual Packet* recvPacket();
 
 		// Own
 	bool openClientSocket();

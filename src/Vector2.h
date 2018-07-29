@@ -53,7 +53,7 @@ public:
 		L sX = vector.x * value;
 		L sY = vector.y * value;
 
-		return Vector2(sX, sY);
+		return Vector2<L>(sX, sY);
 	}
 };
 

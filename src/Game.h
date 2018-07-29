@@ -8,7 +8,7 @@
 #include "WinAlert.h"
 #include "Counter.h"
 #include "NetworkAgent.h"
-#include "PongPacket.h"
+#include "Packet.h"
 #include <SDL_thread.h>
 #include <SDL.h>
 
@@ -93,7 +93,7 @@ public:
 	void sendBallDirection();
 	void sendServerData();
 	void sendClientData();
-	bool handlePacket(PongPacket *packet);
+	bool handlePacket(Packet *packet);
 	void disconnect();
 	bool isDisconnected();
 	*/

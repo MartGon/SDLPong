@@ -98,7 +98,7 @@ bool NetworkServer::establishConnection()
 			state = SERVER_STATE_SENDING;
 		break;
 	case SERVER_STATE_SENDING:
-		if (sendPacket(new PongPacket()))
+		if (sendPacket(new Packet()))
 			state = SERVER_STATE_RECEIVING;
 		break;
 	case SERVER_STATE_RECEIVING:
@@ -114,12 +114,12 @@ bool NetworkServer::establishConnection()
 	return false;
 }
 
-bool NetworkServer::sendPacket(PongPacket *packet)
+bool NetworkServer::sendPacket(Packet *packet)
 {
 	return NetworkAgent::sendPacket(clientSocket, packet);
 }
 
-PongPacket* NetworkServer::recvPacket()
+Packet* NetworkServer::recvPacket()
 {
 	return NetworkAgent::recvPacket(clientSocket);
 }

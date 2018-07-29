@@ -72,7 +72,7 @@ bool NetworkClient::establishConnection()
 			state = CLIENT_SENDING;
 		break;
 	case CLIENT_SENDING:
-		if (sendPacket(new PongPacket()))
+		if (sendPacket(new Packet()))
 			state = CLIENT_RECEIVING;
 		break;
 	case CLIENT_RECEIVING:
@@ -88,12 +88,12 @@ bool NetworkClient::establishConnection()
 	return false;
 }
 
-bool NetworkClient::sendPacket(PongPacket* packet)
+bool NetworkClient::sendPacket(Packet* packet)
 {
 	return NetworkAgent::sendPacket(clientSocket, packet);
 }
 
-PongPacket* NetworkClient::recvPacket()
+Packet* NetworkClient::recvPacket()
 {
 	return NetworkAgent::recvPacket(clientSocket);
 }

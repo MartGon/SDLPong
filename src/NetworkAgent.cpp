@@ -38,7 +38,7 @@ bool NetworkAgent::establishConnection()
 	return false;
 }
 
-bool NetworkAgent::sendPacket(TCPsocket socket, PongPacket* packet)
+bool NetworkAgent::sendPacket(TCPsocket socket, Packet* packet)
 {
 	if (!socket)
 	{
@@ -47,7 +47,7 @@ bool NetworkAgent::sendPacket(TCPsocket socket, PongPacket* packet)
 	}
 
 	int result;
-	int len = sizeof(PongPacket);
+	int len = sizeof(Packet);
 	//printf("Longitud enviada %i\n", len);
 	result = SDLNet_TCP_Send(socket, packet, len);
 
@@ -61,7 +61,7 @@ bool NetworkAgent::sendPacket(TCPsocket socket, PongPacket* packet)
 	return true;
 }
 
-PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
+Packet* NetworkAgent::recvPacket(TCPsocket socket)
 {
 	if (!socket)
 	{
@@ -69,9 +69,9 @@ PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
 		return nullptr;
 	}
 
-	PongPacket *packet = new PongPacket();
+	Packet *packet = new Packet();
 	int result;
-	int len = sizeof(PongPacket);
+	int len = sizeof(Packet);
 	result = SDLNet_TCP_Recv(socket, packet, len);
 
 	//printf("Longitud recibida %i\n", len);
@@ -86,12 +86,12 @@ PongPacket* NetworkAgent::recvPacket(TCPsocket socket)
 	return packet;
 }
 
-bool NetworkAgent::sendPacket(PongPacket *packet)
+bool NetworkAgent::sendPacket(Packet * packet)
 {
 	return false;
 }
 
-PongPacket* NetworkAgent::recvPacket()
+Packet* NetworkAgent::recvPacket()
 {
 	return nullptr;
 }

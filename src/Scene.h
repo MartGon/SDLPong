@@ -23,7 +23,6 @@ public:
 	};
 
 	// Constructors
-
 	Scene();
 	Scene(SDL_Renderer* renderer);
 	Scene(SceneMode mode);
@@ -38,7 +37,6 @@ public:
 	// Thread
 	SDL_Thread *thread = nullptr;
 	SDL_sem *sem = nullptr;
-
 
 	// Static last  gameObject id
 	static Uint16 lastGameObjectID;
@@ -62,7 +60,7 @@ public:
 	virtual void onDisconnect() {};
 	virtual void handleConnectionEstablished() {};
 	bool isOnline();
-	bool handlePacket(PongPacket *packet);
+	bool handlePacket(Packet *packet);
 
 	// Overrided Methods
 	virtual void loadMedia();

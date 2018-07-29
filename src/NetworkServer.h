@@ -42,8 +42,8 @@ public:
 	bool pairWithClient();
 
 		// Communication
-	virtual bool sendPacket(PongPacket* packet);
-	virtual PongPacket* recvPacket();
+	virtual bool sendPacket(Packet* packet);
+	virtual Packet* recvPacket();
 
 	// Other
 	virtual void beforeDestroy();

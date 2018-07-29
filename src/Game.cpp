@@ -5,6 +5,7 @@
 #include "NetworkServer.h"
 #include "NetworkClient.h"
 #include "TextureRenderer.h"
+#include "MainGameLoop.h"
 #include "Navigator.h"
 
 Game::Game()

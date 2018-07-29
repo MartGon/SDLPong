@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Collider.h"
 #include "TextureRenderer.h"
+#include "MainGameLoop.h"
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>

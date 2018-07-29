@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Vector2.h"
-#include "MainGameLoop.h"
 #include "Navigator.h"
 #include <vector>
 #pragma once

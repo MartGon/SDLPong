@@ -1,9 +1,10 @@
 #include "MainGameLoop.h"
-#include "SceneManager.h"
 #include "RendererManager.h"
+#include "SceneManager.h"
 
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
+Scene *gFirstScene = nullptr;
 
 bool initGameWindow(SDL_Window* &window, SDL_Renderer* &renderer)
 {
@@ -37,7 +38,7 @@ bool initGameWindow(SDL_Window* &window, SDL_Renderer* &renderer)
 	return true;
 }
 
-int main(int argc, char* args[])
+int engine_main()
 {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -52,7 +53,8 @@ int main(int argc, char* args[])
 		// Game initialization
 		RendererManager::renderer = renderer;
 
-		Scene *scene = new Scene();
+		Scene *scene = gFirstScene;
+		gFirstScene->renderer = renderer;
 		SceneManager::loadScene(*scene);
 
 		SDL_Event e;

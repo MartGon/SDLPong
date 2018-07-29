@@ -2,6 +2,7 @@
 #include "MainGameLoop.h"
 #include "Button.h"
 #include "SceneManager.h"
+#include "RendererManager.h"
 
 MainMenu::MainMenu()
 {
@@ -19,6 +20,7 @@ MainMenu::~MainMenu()
 void MainMenu::loadMedia()
 {
 	printf("Laoding media\n");
+	renderer = RendererManager::renderer;
 	
 	// Load background
 	const char* backgroundPath = "MenuBackGround.png";

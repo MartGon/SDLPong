@@ -18,20 +18,13 @@ find_package(SDL2_NET REQUIRED)
 # Directories to be included
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_NET_INCLUDE_DIRS} ${SDL2_IMG_INCLUDE_DIRS})
 
-# SDL Extensions directories to be included
-#include_directories(${SDL2_NET_INCLUDE_DIRS})
-#include_directories(${SDL2_IMG_INCLUDE_DIRS})
-
 # Add all files
-file(GLOB sdlpong_SRC "src/*.h" "src/*.cpp")
+#file(GLOB sdlpong_SRC "src/*.h" "src/*.cpp")
+add_subdirectory(src)
 
 # Files to compile
-add_executable(SDLPong ${sdlpong_SRC})
+#add_executable(SDLPong ${sdlpong_SRC})
 
 # Libraries to be linked
-target_link_libraries(SDLPong ${SDL2_LIBRARIES} ${SDL2_IMG_LIBRARIES} ${SDL2_NET_LIBRARIES})
-
-# Extension libraries to be linked
-#target_link_libraries(SDLPong ${SDL2_IMG_LIBRARIES})
-#target_link_libraries(SDLPong ${SDL2_NET_LIBRARIES})
+#target_link_libraries(SDLPong ${SDL2_LIBRARIES} ${SDL2_IMG_LIBRARIES} ${SDL2_NET_LIBRARIES})
 

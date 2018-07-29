@@ -1,0 +1,10 @@
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/CMakeFiles/ALL_BUILD.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/CMakeFiles/ZERO_CHECK.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/CMakeFiles/lib.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/CMakeFiles/lib2.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/CMakeFiles/SDLPong.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/Components/CMakeFiles/lib3.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/GUI/CMakeFiles/lib4.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/Managers/CMakeFiles/lib5.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/Networking/CMakeFiles/lib6.dir
+D:/Proyectos/SDL-Pong/SDL-Pong/build2/src/Engine/Util/CMakeFiles/lib7.dir

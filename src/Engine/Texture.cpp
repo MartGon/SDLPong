@@ -105,6 +105,5 @@ std::string Texture::getPathFromResourceFolder(const char* localPath)
 {
 	std::string strResourcePath(localPath);
 	std::string lFolder(folder);
-	//std::string boloTemp = ;
 	return lFolder + strResourcePath;
 }

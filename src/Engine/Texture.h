@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <string>
 #include "Vector2.h"
 
 class Texture
@@ -26,7 +27,8 @@ public:
 	Vector2<float> scale;
 
 	// Other
-	char* path = nullptr;
+	const char* folder = "resources/";
+	const char* path = nullptr;
 
 	// Methods
 
@@ -34,5 +36,6 @@ public:
 	void setAlpha(Uint8 alpha);
 	Uint8 getAlpha();
 	void free();
+	std::string getPathFromResourceFolder(const char* localPath);
 };
 

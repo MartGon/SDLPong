@@ -6,11 +6,12 @@ Texture::Texture()
 
 Texture::Texture(const char* resourcePath, SDL_Surface* screenSurface)
 {
-
-	SDL_Surface *imgSurface = IMG_Load(resourcePath);
+	path = getPathFromResourceFolder(resourcePath).c_str();
+	printf("%s\n", path);
+	SDL_Surface *imgSurface = IMG_Load(path);
 	if (!imgSurface)
 	{
-		printf("Unable to load png file from %s! SDL Error: %s \n", resourcePath, SDL_GetError());
+		printf("Unable to load png file from %s! SDL Error: %s \n", path, SDL_GetError());
 	}
 	else
 	{
@@ -18,7 +19,7 @@ Texture::Texture(const char* resourcePath, SDL_Surface* screenSurface)
 
 		if (!optimizedSurface)
 		{
-			printf("Unable to optimize surface from %s! SDL Error : %s \n", resourcePath, SDL_GetError());
+			printf("Unable to optimize surface from %s! SDL Error : %s \n", path, SDL_GetError());
 		}
 
 		SDL_FreeSurface(imgSurface);
@@ -27,12 +28,13 @@ Texture::Texture(const char* resourcePath, SDL_Surface* screenSurface)
 
 Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 {
-	path = (char *)resourcePath;
-
-	SDL_Surface *imgSurface = IMG_Load(resourcePath);
+	const std::string& tempRet = getPathFromResourceFolder(resourcePath).c_str();
+	path = tempRet.c_str();
+	printf("%s\n", path);
+	SDL_Surface *imgSurface = IMG_Load(path);
 	if (!imgSurface)
 	{
-		printf("Unable to load png file from %s! SDL Error: %s \n", resourcePath, SDL_GetError());
+		printf("Unable to load png file from %s! SDL Error: %s \n", path, SDL_GetError());
 	}
 	else
 	{
@@ -40,7 +42,7 @@ Texture::Texture(const char* resourcePath, SDL_Renderer* renderer)
 
 		if (!mTexture)
 		{
-			printf("Unable to optimize surface from %s! SDL Error : %s \n", resourcePath, SDL_GetError());
+			printf("Unable to optimize surface from %s! SDL Error : %s \n", path, SDL_GetError());
 		}
 		else
 		{
@@ -72,7 +74,6 @@ void Texture::render(int x, int y)
 		printf("SDL_RenderCopy: %s\n", SDL_GetError());
 		return;
 	}
-
 }
 
 void Texture::setAlpha(Uint8 alpha)
@@ -98,4 +99,12 @@ void Texture::free()
 		mWidth = 0;
 		mHeight = 0;
 	}
+}
+
+std::string Texture::getPathFromResourceFolder(const char* localPath)
+{
+	std::string strResourcePath(localPath);
+	std::string lFolder(folder);
+	//std::string boloTemp = ;
+	return lFolder + strResourcePath;
 }
